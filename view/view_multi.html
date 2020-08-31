@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Testing the Resolution view script</title>
+        <script src="view.js" type='text/javascript'></script>  
+        <script type='text/javascript'>
+            window.addEventListener('load', () => {
+                display_resolutions('resolutions_regular', '../assets/resolutions.json', 3, 'did');
+                display_resolutions('resolutions_topic', '../assets/resolutions.json', 3, 'did-topic');
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Testing the Resolution view script</h1>
+        <p>This is just to test the mechanism in general, without any regard for CSS, aesthetics, or anything similar...</p>
+
+        <h2>Resolutions of the Regular Working Group Calls</h2>
+
+        <div id='resolutions_regular'>
+
+        </div>
+
+        <h2>Resolutions of the Working Group Topic Calls</h2>
+
+        <div id='resolutions_topic'>
+
+        </div>
+    </body>
+</html>

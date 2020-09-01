@@ -71,34 +71,9 @@
         "2020-08-13-did-topic.md",
         "2020-08-18-did-topic.md",
         "2020-08-18-did.md",
-        "2020-08-25-did.md",
-        "2020-08-27-did-topic.md"
+        "2020-08-25-did.md"
     ],
     "resolutions": [
-        {
-            "year": 2020,
-            "date": "2020-08-27",
-            "number": 1,
-            "text": "Discuss in a non-normative appendix how one might model Service Endpoints that preserve privacy.",
-            "url": "https://www.w3.org/2019/did-wg/Meetings/Minutes/2020-08-27-did-topic#resolution1",
-            "call": "did-topic"
-        },
-        {
-            "year": 2020,
-            "date": "2020-08-27",
-            "number": 2,
-            "text": "Define an abstract data model for serviceEndpoints in normative text, like we have done with verification methods.",
-            "url": "https://www.w3.org/2019/did-wg/Meetings/Minutes/2020-08-27-did-topic#resolution2",
-            "call": "did-topic"
-        },
-        {
-            "year": 2020,
-            "date": "2020-08-27",
-            "number": 3,
-            "text": "Define how you do service endpoint extensions using the DID Spec Registry.",
-            "url": "https://www.w3.org/2019/did-wg/Meetings/Minutes/2020-08-27-did-topic#resolution3",
-            "call": "did-topic"
-        },
         {
             "year": 2020,
             "date": "2020-08-18",

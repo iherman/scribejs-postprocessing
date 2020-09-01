@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "fs": "0.0.1-security",
+    "octocat": "^1.2.1",
     "showdown": "^1.9.1"
   }
 }

@@ -10,9 +10,9 @@ const MINUTE_REPOS = [
     }
 ]
 
-const DEBUG            = true;
+const DEBUG            = false;
+const LOG              = true;
 const USER_CONFIG_NAME = ".ghid.json";
-const ASSET_NAME       = 'assets/resolutions.json';
 
 
 /* ------------------------------------------------------------------------------------------------- */
@@ -23,6 +23,21 @@ const path    = require('path');
 const Octokat = require('octokat');
 const { filter_resolutions, collect_resolutions } = require('./lib/resolutions');
 
+const debug = (preamble, obj = {}) => { 
+    if (DEBUG) console.log(`${preamble}: ${JSON.stringify(obj, null, 4)}`);
+};
+
+const log   = (preamble, obj = undefined) => { 
+    if (LOG) {
+        if (obj)
+            console.log(`---Scribejs resolutions--- ${preamble} ${JSON.stringify(obj)}`)
+        else 
+            console.log(`---Scribejs resolutions--- ${preamble}`)
+    }
+};
+
+const base64_to_string = (data) => Buffer.from(data,'base64').toString('utf-8');
+const string_to_base64 = (string) => Buffer.from(string).toString('base64');
 
 /**
  * The main processing: for each repo in [[minute_repos]] get the current list of resolution from the repo,
@@ -30,11 +45,7 @@ const { filter_resolutions, collect_resolutions } = require('./lib/resolutions')
  * set of resolutions, and return the updated list.
  */
 async function main() {
-    /* Used for debugging... */
-    const print = (preamble, obj) => console.log(`${preamble}: ${JSON.stringify(obj, null, 4)}`);
-    const base64_to_string = (data) => Buffer.from(data,'base64').toString('utf-8');
-
-    //1. Get hold of the github credential
+    // Get hold of the github credentials
     let github_credentials = {};
     try {
         const fname          = path.join(process.env.HOME, USER_CONFIG_NAME);
@@ -44,53 +55,74 @@ async function main() {
         console.log(`Could not get hold of the github credentials: ${e}`);
         process.exit(-1);
     }
-    // if (DEBUG) print('Credentials:', github_credentials);
+    debug('Credentials:', github_credentials);
 
     // Do what is necessary for each github repositories
     MINUTE_REPOS.forEach(async (repo) => {
+        const now = (new Date()).toISOString();
+        const repo_log = {owner : repo.owner, repo: repo.repo};
         try {
-            // if (DEBUG) print('Repo: ', repo);
+            log(`=== ${now}`);
+            log('Updating', repo_log);
             const the_repo = (new Octokat({ token: github_credentials.ghtoken })).repos(repo.owner, repo.repo);
 
             // Get hold of the asset file to see what is there...
-            let current;
+            let current_asset;
+            let current_sha;
             try {
-                const current_assets_wrapper = await the_repo.contents(repo.current).fetch();
-                current                      = JSON.parse(base64_to_string(current_assets_wrapper.content));    
+                const current_gh_data = await the_repo.contents(repo.current).fetch();
+                current_asset         = JSON.parse(base64_to_string(current_gh_data.content));
+                current_sha           = current_gh_data.sha;    
             } catch(e) {
-                current = {
+                current_asset = {
                     short_names : [],
                     resolutions : []
-                }        
+                }
+                current_sha   = undefined;
             }
-            // if (DEBUG) print('Current assets', current);  
+            debug('Current assets', current_asset);  
 
             // Get hold of the list of minute files
             const list_of_minutes_wrappers = await the_repo.contents(repo.minutes).fetch({ per_page: 400 });
             const list_of_minutes          = list_of_minutes_wrappers.items.map((item) => item.downloadUrl.split('/').pop());
-            // if (DEBUG) print('Current listing', list_of_minutes);
+            debug('Current listing', list_of_minutes);
 
-            const missing_files = filter_resolutions(list_of_minutes, current);
-            // if (DEBUG) print('To be used for new resolutions', missing_files);
+            // See if any new minutes have been added to the system since the last run
+            const missing_files = filter_resolutions(list_of_minutes, current_asset);
+            debug('To be used for new resolutions', missing_files);
 
-            const new_resolutions = await collect_resolutions(missing_files, (file_name) => 
-                the_repo.contents(repo.minutes, file_name).read()
-            );
-            // if (DEBUG) print('New set of resolutions', new_resolutions);
+            if (missing_files.length === 0) {
+                log('No new minutes to process')
+            } else {
+                // Get the new resolutions, as well as the lists of minute files that are parsed
+                const new_resolutions = await collect_resolutions(
+                    missing_files, 
+                    (file_name) => the_repo.contents(repo.minutes, file_name).read()
+                );
+                
+                const new_asset       = {
+                    date        : now,
+                    short_names : [...current_asset.short_names, ...new_resolutions.short_names],
+                    resolutions : [...new_resolutions.resolutions, ...current_asset.resolutions]
+                } 
+                debug('New asset:', new_asset);
 
-            const new_asset       = {
-                short_names : [...current.short_names, ...new_resolutions.short_names],
-                resolutions : [...new_resolutions.resolutions, ...current.resolutions]
-            } 
-            if (DEBUG) print('New asset', new_asset);
-            
+                // Update/commit the new set of resolutions
+                const new_gh_data = {
+                    message: `Updated resolution list for ${now}`,
+                    content: string_to_base64(JSON.stringify(new_asset,null,4))
+                }
+                if (current_sha !== undefined) new_gh_data.sha = current_sha;
+                await the_repo.contents(repo.current).add(new_gh_data);
+                log('Updated');
+            }
         } catch(e) {
-            console.log(`Problems with repo ${repo}: ${e}`)
+            log(`Problems: ${e} with`, repo_log)
+        } finally {
+            log('===')
         }
     });
 }
-
-
 
 // Let's go
 main();

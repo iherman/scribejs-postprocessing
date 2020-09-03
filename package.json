@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "github": "node main.js",
-    "local": "node main.js --local"
+    "local": "node main.js --local",
+    "docs": "documentation build main.js -o docs -f html"
   },
   "author": {
     "name": "Ivan Herman",

@@ -12,13 +12,11 @@
         "baseUrl": ".",
         "paths": {
             "*": [
-                "node_modules/*",
-                "lib/*"
+                "node_modules/*"
             ]
         }
     },
     "typesRoots": [
-        "./typings",
         "../node_modules/@types"
     ],
     "include": [

@@ -24,11 +24,13 @@
   ],
   "license": "W3C-20150513",
   "devDependencies": {
+    "@types/node": "^14.6.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3"
   },
   "dependencies": {
+    "@types/showdown": "^1.9.3",
     "fs": "0.0.1-security",
     "octocat": "^1.2.1",
     "showdown": "^1.9.1"

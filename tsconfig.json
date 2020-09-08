@@ -23,7 +23,8 @@
         "src/**/*"
     ],
     "exclude": [
-        "dist/**/*"
+        "dist/**/*",
+        "lib/**/*"
     ],
     "typedocOptions" : {
         "out" : "docs/",

@@ -1,4 +1,4 @@
-#!/usr/local/bin/ts-node
+#!/usr/bin/env node
 /**
  * ## Main entry point
  * 

@@ -27,15 +27,21 @@
         "lib/**/*"
     ],
     "typedocOptions" : {
-        "out" : "docs/",
-        "disableOutputCheck": false,
-        "hideGenerator": true,
-        "listInvalidSymbolLinks": true,
-        "ignoreCompilerErrors": true,
-        "gitRemote": "origin",
-        "includeVersion": true,
+        "mode": "module",
+        "includeDeclarations": true,
         "excludeExternals": true,
         "excludePrivate" : true,
-        "name" : "Collecting WG resolutions from scribejs generated minutes"
+        "excludeProtected" : false,
+        "stripInternal" : true,
+        "ignoreCompilerErrors": true,
+
+        "out" : "docs/",
+        "theme": "default",
+        "name" : "Collecting WG resolutions from scribejs generated minutes",
+        "includeVersion": true,
+        "categorizeByGroup": true,
+        "gitRemote": "origin",
+        "hideGenerator": true,
+        "disableOutputCheck": false,
     }
 }

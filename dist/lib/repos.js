@@ -1,8 +1,10 @@
 "use strict";
 /**
- * ## Handling repositories, collecting the resolutions for all (new) minutes and update resolution file for each.
+ * ## Handling repositories.
  *
- * The module has two entry points
+ * The module handles each repository, by collecting the resolutions for all (new) minutes and update resolution file for each.
+ *
+ * The module has two entry points:
  *
  * 1. [[github_repos]] to handle repositories directly from GitHub
  * 2. [[local_repos]] to handle locally cloned repositories

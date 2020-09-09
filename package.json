@@ -6,8 +6,8 @@
   "scripts": {
     "github": "ts-node src/main.ts",
     "local": "ts-node src/main.ts --local",
-    "docs": "typedoc src/*",
-    "dist": "tsc; typedoc src/*"
+    "docs": "./node_modules/typedoc/bin/typedoc",
+    "dist": "tsc; ./node_modules/typedoc/bin/typedoc"
   },
   "author": {
     "name": "Ivan Herman",

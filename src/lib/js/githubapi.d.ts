@@ -1,5 +1,17 @@
 #!/usr/bin/env node
 /**
+ * ## Minimal Interfacing the GitHub API
+ * 
+ * This is not a complete API mapping, rather than the minimal configuration needed and implemented as a wrapper around the octocat JavaScript module.
+ * 
+ * (I wish there was a full TypeScript type definition for octocat, which would make this wrapper unnecessary...)
+ *
+ * @packageDocumentation
+*/
+
+
+
+/**
  * Wrapper around a the Github API using the more generic octocat library.
  *
  */
@@ -11,7 +23,7 @@ export class Github {
      * @param {string} repo - Repository
      */
     constructor(token: string, owner: string, repo: string);
-    repo: any;
+    private repo: any;
     /**
      * Get the JSON content of a repository content
      * @param {string} path - Path to the content

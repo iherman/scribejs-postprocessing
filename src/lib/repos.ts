@@ -15,6 +15,7 @@
 
 import * as path from 'path';
 import * as fs from 'fs';
+/** @internal */
 const fsp = fs.promises;
 
 import { Github }                                                   from "./js/githubapi";

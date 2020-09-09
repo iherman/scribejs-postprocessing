@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Github_Credentials | Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
+	<title>JSONContent | Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
 	<meta name="description" content="Documentation for Collecting WG resolutions from scribejs generated minutes - v1.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,33 +54,27 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_src_lib_types_.html">&quot;src/lib/types&quot;</a>
+					<a href="../modules/_src_lib_js_githubapi_d_.html">&quot;src/lib/js/githubapi.d&quot;</a>
 				</li>
 				<li>
-					<a href="_src_lib_types_.github_credentials.html">Github_Credentials</a>
+					<a href="../classes/_src_lib_js_githubapi_d_.github.html">Github</a>
+				</li>
+				<li>
+					<a href="_src_lib_js_githubapi_d_.github.jsoncontent.html">JSONContent</a>
 				</li>
 			</ul>
-			<h1>Interface Github_Credentials</h1>
+			<h1>Interface JSONContent</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Github credential information. This is typically stored in a user configuration file
-							and is used by the script. Note that it contains more data than what is used by the
-						script; the reason is that the same configuration file can be reused by other scripts, too.</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Github_Credentials</span>
+						<span class="target">JSONContent</span>
 					</li>
 				</ul>
 			</section>
@@ -91,9 +85,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.github_credentials.html#ghemail" class="tsd-kind-icon">ghemail</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.github_credentials.html#ghname" class="tsd-kind-icon">ghname</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.github_credentials.html#ghtoken" class="tsd-kind-icon">ghtoken</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_js_githubapi_d_.github.jsoncontent.html#content" class="tsd-kind-icon">content</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_js_githubapi_d_.github.jsoncontent.html#sha" class="tsd-kind-icon">sha</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,49 +95,24 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ghemail" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ghemail</h3>
-					<div class="tsd-signature tsd-kind-icon">ghemail<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="content" class="tsd-anchor"></a>
+					<h3>content</h3>
+					<div class="tsd-signature tsd-kind-icon">content<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/637934c/src/lib/types.ts#L114">src/lib/types.ts:114</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/637934c/src/lib/js/githubapi.d.ts#L69">src/lib/js/githubapi.d.ts:69</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>User&#39;s email</p>
-						</div>
-					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ghname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ghname</h3>
-					<div class="tsd-signature tsd-kind-icon">ghname<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="sha" class="tsd-anchor"></a>
+					<h3>sha</h3>
+					<div class="tsd-signature tsd-kind-icon">sha<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/637934c/src/lib/types.ts#L110">src/lib/types.ts:110</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/637934c/src/lib/js/githubapi.d.ts#L70">src/lib/js/githubapi.d.ts:70</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>User name</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="ghtoken" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> ghtoken</h3>
-					<div class="tsd-signature tsd-kind-icon">ghtoken<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/637934c/src/lib/types.ts#L118">src/lib/types.ts:118</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>User&#39;s GitHub api token</p>
-						</div>
-					</div>
 				</section>
 			</section>
 		</div>
@@ -157,7 +125,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_src_lib_config_.html">&quot;src/lib/config&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/_src_lib_js_githubapi_d_.html">&quot;src/lib/js/githubapi.d&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -166,7 +134,7 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/_src_lib_resolutions_.html">&quot;src/lib/resolutions&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="../modules/_src_lib_types_.html">&quot;src/lib/types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -178,40 +146,39 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.github_credentials.html" class="tsd-kind-icon">Github_<wbr><wbr>Credentials</a>
+					<li class="current tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/_src_lib_js_githubapi_d_.github.html" class="tsd-kind-icon">Github</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.github_credentials.html#ghemail" class="tsd-kind-icon">ghemail</a>
+							<li class="current tsd-kind-interface tsd-parent-kind-class">
+								<a href="_src_lib_js_githubapi_d_.github.jsoncontent.html" class="tsd-kind-icon">JSONContent</a>
+								<ul>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="_src_lib_js_githubapi_d_.github.jsoncontent.html#content" class="tsd-kind-icon">content</a>
+									</li>
+									<li class=" tsd-kind-property tsd-parent-kind-interface">
+										<a href="_src_lib_js_githubapi_d_.github.jsoncontent.html#sha" class="tsd-kind-icon">sha</a>
+									</li>
+								</ul>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.github_credentials.html#ghname" class="tsd-kind-icon">ghname</a>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class">
+								<a href="../classes/_src_lib_js_githubapi_d_.github.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.github_credentials.html#ghtoken" class="tsd-kind-icon">ghtoken</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="../classes/_src_lib_js_githubapi_d_.github.html#get_file" class="tsd-kind-icon">get_<wbr>file</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="../classes/_src_lib_js_githubapi_d_.github.html#get_json" class="tsd-kind-icon">get_<wbr>json</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="../classes/_src_lib_js_githubapi_d_.github.html#get_listing" class="tsd-kind-icon">get_<wbr>listing</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="../classes/_src_lib_js_githubapi_d_.github.html#update" class="tsd-kind-icon">update</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.github_repo.html" class="tsd-kind-icon">Github_<wbr><wbr>Repo</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.local_repo.html" class="tsd-kind-icon">Local_<wbr><wbr>Repo</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_src_lib_types_.repo.html" class="tsd-kind-icon">Repo</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.resolution.html" class="tsd-kind-icon">Resolution</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.resolutions.html" class="tsd-kind-icon">Resolutions</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/_src_lib_types_.html#getdatacallback" class="tsd-kind-icon">Get<wbr>Data<wbr>Callback</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

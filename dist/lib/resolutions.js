@@ -1,6 +1,8 @@
 "use strict";
 /**
- * ## Gathering the resolutions themselves. See [[collect_resolutions]] for the essential entry point.
+ * ## Gathering the resolutions
+ *
+ * See [[collect_resolutions]] for the essential entry point.
  *
  * @packageDocumentation
 */
@@ -87,9 +89,9 @@ exports.filter_resolutions = filter_resolutions;
  * Get the resolution for a minute text (in markdown) of one call.
  * The function relies upon the scribejs format. It:
  *
- * * extracts the URL and the date of the minutes from the preambles in JSON-LD
- * * extracts the resolution summary lines
- * * creates an array of [[Resolution]]
+ * * extracts the URL and the date of the minutes from the preambles in JSON-LD;
+ * * extracts the resolution summary lines;
+ * * creates an array of [[Resolution]];
  *
  * @param minutes - the minutes for a call, in markdown
  * @returns - resolution data for one call
@@ -143,7 +145,7 @@ function get_resolutions(minutes) {
 }
 /**
  *
- * Collect all the resolutions. The function calls out, for each minute file, to the [[get_resolutions] function,
+ * Collect all the resolutions. The function calls out, for each minute file, to the [[get_resolutions]] function,
  * and flattens all such resolutions into a single large resolution. The set of resolution is also sorted (using [[sort_resolutions]]).
  *
  * @param file_names - List of the minute file names, i.e., the base name of the minute file in its repository

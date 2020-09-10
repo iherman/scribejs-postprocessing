@@ -1,0 +1,50 @@
+{
+    "compilerOptions": {
+        "alwaysStrict": true,
+        "baseUrl": ".",
+        "esModuleInterop": false,
+        "lib": ["ES2017", "dom"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "outDir": "dist",
+        "paths": {
+            "*": [
+                "node_modules/*"
+            ]
+        },
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "target": "ES2017",
+    },
+    "typesRoots": [
+        "../node_modules/@types"
+    ],
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "dist/**/*",
+        "lib/**/*"
+    ],
+    "typedocOptions" : {
+        "mode": "module",
+        "includeDeclarations": true,
+        "excludeExternals": true,
+        "excludePrivate" : true,
+        "excludeProtected" : false,
+        "stripInternal" : true,
+        "ignoreCompilerErrors": true,
+
+        "out" : "docs/",
+        "theme": "default",
+        "name" : "Collecting WG resolutions from scribejs generated minutes",
+        "includeVersion": true,
+        "categorizeByGroup": true,
+        "gitRemote": "origin",
+        "hideGenerator": true,
+        "disableOutputCheck": false,
+    }
+}

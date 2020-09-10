@@ -61,42 +61,29 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#extract-wg-resolutions" id="extract-wg-resolutions" style="color: inherit; text-decoration: none;">
-					<h1>Extract WG resolutions</h1>
-				</a>
-				<p>The goal is to extract the resolutions from meeting minutes generated as markdown files by <a href="https://github.com/w3c/scribejs">scribejs</a>, and to create a JSON file in the repository (typically in the <code>assets</code> directory, but that can be configured) listing the resolutions and the pointers to the minutes. This is done by the</p>
-				<pre><code><span class="hljs-keyword">node</span> <span class="hljs-title">dist</span>/main.js</code></pre>
-				<p>command, using the list of repositories in <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a>. An example for the generated JSON file is
-				<a href="https://github.com/iherman/scribejs-resolutions/assets/resolutions.js"><code>assets/resolutions.js</code></a>. Its structure is as follows:</p>
-				<pre><code class="language-text">{
-    &quot;date&quot; : // Date of the last generation,
-    &quot;short_names&quot; : [
-        // Array of the file names for the minutes that have already been processed
-    ],
-    &quot;resolutions&quot; : [
-        {
-            &quot;year&quot;   : // year of the meeting,
-            &quot;date&quot;   : // date of the meeting,
-            &quot;number&quot; : // index of the resolution for that meeting
-            &quot;text&quot;   : // text of the resolution, formatted in HTML
-            &quot;url&quot;    : // pointer to the minutes where the resolution was discussed
-            &quot;call&quot;   : // the name, i.e., the IRC channel name, for that meeting
-        }
-        ... // etc. (and entry for each resolution)
-    ]
-}</code></pre>
-				<p>The script avoids unnecessary network access by only generating the entries for <em>new</em> (i.e., not yet processed) meetings.</p>
-				<p>The <a href="https://github.com/iherman/scribejs-resolutions/assets/resolutions.js"><code>assets/resolutions.js</code></a> file can be used by a client-side script to display the list of resolutions. See, for example, the <a href="https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html"><code>browser_view/resolutions.html</code></a> file, with the corresponding <a href="(https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html)"><code>browser_view/resolution_view.js</code></a> script.</p>
-				<p>(The local <code>_minutes</code> and <code>_assets</code> directories in the repository are only for testing purposes. See also the <a href="https://iherman.github.io/scribejs-resolutions/modules/_src_main_.html">API documentation</a> for further details.)</p>
-				<hr>
-				<p>Maintainer: <a href="https://github.com/iherman">@iherman</a></p>
-			</div>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Modules</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-module"><a href="modules/_src_lib_config_.html" class="tsd-kind-icon">&quot;src/lib/config&quot;</a></li>
+								<li class="tsd-kind-module"><a href="modules/_src_lib_js_githubapi_d_.html" class="tsd-kind-icon">&quot;src/lib/js/githubapi.d&quot;</a></li>
+								<li class="tsd-kind-module"><a href="modules/_src_lib_repos_.html" class="tsd-kind-icon">&quot;src/lib/repos&quot;</a></li>
+								<li class="tsd-kind-module"><a href="modules/_src_lib_resolutions_.html" class="tsd-kind-icon">&quot;src/lib/resolutions&quot;</a></li>
+								<li class="tsd-kind-module"><a href="modules/_src_lib_types_.html" class="tsd-kind-icon">&quot;src/lib/types&quot;</a></li>
+								<li class="tsd-kind-module"><a href="modules/_src_main_.html" class="tsd-kind-icon">&quot;src/main&quot;</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals  ">
+					<li class="globals current ">
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-module">

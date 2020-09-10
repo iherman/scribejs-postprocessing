@@ -1,20 +1,23 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
-        "esModuleInterop": true,
-        "resolveJsonModule": true,
-        "target": "ES2017",
-        "lib": ["es7", "dom"],
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
+        "alwaysStrict": true,
         "baseUrl": ".",
+        "esModuleInterop": false,
+        "lib": ["ES2017", "dom"],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "outDir": "dist",
         "paths": {
             "*": [
                 "node_modules/*"
             ]
-        }
+        },
+        "resolveJsonModule": true,
+        "sourceMap": true,
+        "target": "ES2017",
     },
     "typesRoots": [
         "../node_modules/@types"

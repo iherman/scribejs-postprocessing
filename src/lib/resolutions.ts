@@ -45,12 +45,10 @@ function sort_resolutions(a: Resolution,b: Resolution): number {
     if (a.year === b.year) {
         if (a.date === b.date) {
             return a.number - b.number;
+        } else if (a.date < b.date) {
+            return 1;
         } else {
-            if (a.date < b.date) {
-                return 1;
-            } else if (a.date > b.date) {
-                return -1;
-            } 
+            return -1;
         }
     } else {
         return b.year - a.year;

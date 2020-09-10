@@ -7,7 +7,7 @@
     "github": "ts-node src/main.ts",
     "local": "ts-node src/main.ts --local",
     "docs": "./node_modules/typedoc/bin/typedoc",
-    "dist": "tsc; ./node_modules/typedoc/bin/typedoc"
+    "dist": "tsc; (cd browser_view; tsc resolution_view.ts) ; ./node_modules/typedoc/bin/typedoc"
   },
   "author": {
     "name": "Ivan Herman",

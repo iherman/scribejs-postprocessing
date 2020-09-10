@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ts-node-script
 "use strict";
 /**
  * ## Main entry point

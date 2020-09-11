@@ -35,13 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var REMOTE_YEAR = 3000;
+var Ms_a_day = 86400000;
+var Resolution_days = 7;
+var PROVISIONAL_LIMIT = Ms_a_day * Resolution_days;
 function display_resolutions(target_id, resolution_asset, header_level, call) {
     if (call === void 0) { call = null; }
     return __awaiter(this, void 0, void 0, function () {
-        var sort_resolutions, retrieve_html, target, resolution_structures, resolutions;
+        var today, sort_resolutions, retrieve_html, target, resolution_structures, resolutions;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    today = new Date();
                     sort_resolutions = function (a, b) {
                         if (a.year === b.year) {
                             if (a.date === b.date) {
@@ -75,7 +79,14 @@ function display_resolutions(target_id, resolution_asset, header_level, call) {
                                     retval = retval + "\n<h" + header_level + ">" + resolution.year + "</h" + header_level + ">\n<ul>\n";
                                     year = resolution.year;
                                 }
-                                retval = retval + "<li><a href=\"" + resolution.url + "\">Resolution #" + resolution.number + " on " + resolution.date + "</a>: " + resolution.text + "</li>\n";
+                                // See if the resolution is final or still provisional
+                                var res_date = new Date(resolution.date);
+                                var provisional = (today.valueOf() - res_date.valueOf()) < PROVISIONAL_LIMIT;
+                                retval = retval + "<li><a href=\"" + resolution.url + "\">Resolution #" + resolution.number + " on " + resolution.date + "</a>: " + resolution.text;
+                                if (provisional) {
+                                    retval = retval + " <span class='provisional'>(Provisional)</span>";
+                                }
+                                retval = retval + "</li>\n";
                             });
                             return retval + "</ul>\n</div>";
                         }

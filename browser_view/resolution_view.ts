@@ -56,9 +56,15 @@ interface Resolutions_Structure {
 }
 
 
-const REMOTE_YEAR: number = 3000;
+const REMOTE_YEAR: number    = 3000;
+
+const Ms_a_day: number          = 86400000;
+const Resolution_days: number   = 7;
+const PROVISIONAL_LIMIT: number = Ms_a_day * Resolution_days;
 
 async function display_resolutions(target_id: string, resolution_asset: string, header_level: number, call: string = null) {
+    const today: Date = new Date();
+
     /**
      * Compare resolution objects; to be used in a “sort” method on the array of Resolutions.
      * 
@@ -101,7 +107,15 @@ async function display_resolutions(target_id: string, resolution_asset: string, 
                     retval = `${retval}\n<h${header_level}>${resolution.year}</h${header_level}>\n<ul>\n`
                     year = resolution.year;
                 }
-                retval = `${retval}<li><a href="${resolution.url}">Resolution #${resolution.number} on ${resolution.date}</a>: ${resolution.text}</li>\n`;
+                // See if the resolution is final or still provisional
+                const res_date: Date = new Date(resolution.date);
+                const provisional = (today.valueOf() - res_date.valueOf()) < PROVISIONAL_LIMIT;
+                retval = `${retval}<li><a href="${resolution.url}">Resolution #${resolution.number} on ${resolution.date}</a>: ${resolution.text}`;
+
+                if (provisional) {
+                    retval = `${retval} <span class='provisional'>(Provisional)</span>`;
+                }
+                retval = `${retval}</li>\n`;
             });
             return `${retval}</ul>\n</div>`;    
         }

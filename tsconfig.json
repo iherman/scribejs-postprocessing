@@ -4,9 +4,10 @@
         "alwaysStrict": true,
         "baseUrl": ".",
         "esModuleInterop": false,
-        "lib": ["ES2017", "dom"],
+        "lib": ["ES2019", "dom"],
         "module": "commonjs",
         "moduleResolution": "node",
+        "noEmitHelpers": true,
         "noImplicitAny": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
@@ -18,7 +19,7 @@
         },
         "resolveJsonModule": true,
         "sourceMap": true,
-        "target": "ES2017",
+        "target": "ES2019",
     },
     "typesRoots": [
         "../node_modules/@types"

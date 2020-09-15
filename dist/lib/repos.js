@@ -64,7 +64,6 @@ async function github_repos() {
                 };
                 current_sha = undefined;
             }
-            config_1.DEBUG('Current assets', current_asset);
             // Get hold of the list of minute files
             let missing_files = [];
             let list_of_minutes = [];

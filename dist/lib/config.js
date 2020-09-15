@@ -21,6 +21,13 @@ exports.LOCAL_REPOS = [
         current: 'assets/resolutions.json'
     }
 ];
+// export const LOCAL_REPOS: Local_Repo[] = [
+//     {
+//         dir     : '/Users/ivan/W3C/github/Tools/scribejs-resolutions',
+//         minutes : '_minutes',
+//         current : 'assets/resolutions.json'
+//     }
+// ]
 /**
  * List of github repos to process when running the {@link github_repos} function: each object has a field for the repository (`owner` and `repo`), the folder used for the minutes themselves (`minutes`) and the reference to the current resolution file (`current`).
  */

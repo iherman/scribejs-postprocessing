@@ -69,7 +69,6 @@ export async function github_repos(): Promise<void> {
                 }
                 current_sha   = undefined;
             }
-            DEBUG('Current assets', current_asset);  
 
             // Get hold of the list of minute files
             let missing_files: string[]   = [];

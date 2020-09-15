@@ -24,13 +24,37 @@ const converter = new showdown.Converter({
 converter.setFlavor('github');
 
 
-const url_regexp = /^\s*"url"\s*:\s*"([a-z:\-#@.\/0-9A-Z]*)/;
-// This one relies on the data in the JSON-LD header part
-// const date_regexp = /^\s*"dateCreated"\s*:\s*"([0-9]{4}-[0-9]{2}-[0-9]{2})/;
+/**
+ * Extract the schema.org data from the minutes' preamble, and turn it into a bona fide 
+ * Javascript object.
+ * 
+ * @param lines - The minutes, broken into an array of individual strings
+ */
+function get_schema(lines: string[]): any {
+    // try to get the start of the json-ld part
+    let index = -1;
+    for (let i = 0; i < lines.length; i++) {
+        if (lines[i].startsWith('json-ld: |')) {
+            index = i + 1;
+            break;
+        }
+    } 
+    if (index > 0) {
+        // we found the start section!
+        let json_data: string = '';
+        for ( ; index < lines.length; index++) {
+            if (lines[index].startsWith('---')) {
+                break;
+            } else {
+                json_data = `${json_data}\n${lines[index]}`;
+            }
+        }
+        return JSON.parse(json_data);
+    } else {
+        return null;
+    }
+}
 
-// This one relies on the date statement in the markdown itself.
-// Better use this: if the date is not set properly in the IRC log, this value is still set
-const date_regexp = /^\s*\*\*Date:\*\*\s*([0-9]{4}-[0-9]{2}-[0-9]{2})/;
 
 /**
  * Compare resolution objects; to be used in a “sort” method on the array of Resolutions.
@@ -41,7 +65,7 @@ const date_regexp = /^\s*\*\*Date:\*\*\s*([0-9]{4}-[0-9]{2}-[0-9]{2})/;
  * @param  b - Right operand
  * @returns - negative, zero, or positive, depending on the comparison result (see the Javascript “sort” method for details) 
  */
-function sort_resolutions(a: Resolution,b: Resolution): number {
+function sort_resolutions(a: Resolution, b: Resolution): number {
     if (a.year === b.year) {
         if (a.date === b.date) {
             return a.number - b.number;
@@ -83,27 +107,20 @@ export function filter_resolutions(refs: string[], current: Resolutions): string
  * 
  */
 function get_resolutions(minutes: string): Resolution[] {
-    const get_match = (line: string, regexp: RegExp): string => {
-        const result = line.match(regexp);
-        return (result === null) ? undefined : result[1];
-    };
-
-    const find_match = (lines: string[], regexp: RegExp): string => {
-        for (let i = 0; i < lines.length; i++) {
-            const url = get_match(lines[i], regexp);
-            if (url) {
-                return url;
-            }
-        }
-        return undefined;
-    };
-
     try {
         const lines: string[] = minutes.split('\n');
-        const url: string     = find_match(lines, url_regexp);
-        const date: string    = find_match(lines, date_regexp);
+        const schema: any  = get_schema(lines);
+        if (schema === null) {
+            DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
+            return [];
+        }
+        DEBUG("schema: ", schema);
+
+        const url: string  = schema.url;
+        const date: string = schema.dateCreated;
+
         if (date === undefined) {
-            DEBUG(`For some reasons the date is missing in ${minutes}`)
+            DEBUG(`For some reasons the date is missing`)
             return [];
         }
         const year: string = date.split('-')[0];
@@ -125,7 +142,7 @@ function get_resolutions(minutes: string): Resolution[] {
             });
         return resolutions;    
     } catch(e) {
-        console.error(`${e}`);
+        DEBUG("Exception: ",e)
         return [];
     }
 }

@@ -1,39 +1,39 @@
-module.exports = {
-    parser        : '@typescript-eslint/parser',
-    parserOptions : {
-        ecmaVersion : 2018,
-        sourceType  : 'module',
+{
+    "parser"        : "@typescript-eslint/parser",
+    "parserOptions" : {
+        "ecmaVersion" : 2018,
+        "sourceType"  : "module"
     },
-    plugins : ['@typescript-eslint'],
-    env     : {
-        browser : true,
-        node    : true,
+    "plugins" : ["@typescript-eslint"],
+    "env"     : {
+        "browser" : true,
+        "node"    : true
     },
-    extends : [
-        'eslint:recommended',
+    "extends" : [
+        "eslint:recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended"
     ],
-    rules : {
-        "no-console"                         : 0, // set it to 0 if it is o.k. to have console.log
+    "rules" : {
+        "no-console"                         : 0, 
         "@typescript-eslint/no-explicit-any" : 0,
         "no-constant-condition"              : [
             "error",
             {
-                "checkLoops" : false,
-            },
+                "checkLoops" : false
+            }
         ],
         "indent" : [
-            "error", 4,
+            "error", 4
         ],
         "no-multi-spaces" : [
             "error",
             {
                 "exceptions" : {
                     "VariableDeclarator" : true,
-                    "ImportDeclaration"  : true,
-                },
-            },
+                    "ImportDeclaration"  : true
+                }
+            }
         ],
         "no-else-return" : 0,
         "max-len"        : [
@@ -44,8 +44,8 @@ module.exports = {
                 "ignoreUrls"             : true,
                 "ignoreStrings"          : true,
                 "ignoreTemplateLiterals" : true,
-                "ignoreRegExpLiterals"   : true,
-            },
+                "ignoreRegExpLiterals"   : true
+            }
         ],
         "key-spacing" : [
             "error",
@@ -53,36 +53,36 @@ module.exports = {
                 "align" : {
                     "beforeColon" : true,
                     "afterColon"  : true,
-                    "on"          : "colon",
+                    "on"          : "colon"
                 },
                 "multiLine" : {
                     "beforeColon" : true,
-                    "afterColon"  : true,
-                },
-            },
+                    "afterColon"  : true
+                }
+            }
         ],
         "comma-dangle" : [
             "error",
             "always-multiline",
             {
-                "functions" : "never",
-            },
+                "functions" : "never"
+            }
         ],
         "arrow-parens" : [
             "error",
-            "always",
+            "always"
         ],
         "no-plusplus" : [
             "error",
             {
-                "allowForLoopAfterthoughts" : true,
-            },
+                "allowForLoopAfterthoughts" : true
+            }
         ],
         "no-param-reassign" : [
             "error",
             {
-                "props" : false,
-            },
+                "props" : false
+            }
         ],
         "prefer-destructuring" : 0,
         "consistent-return"    : 2,
@@ -93,7 +93,7 @@ module.exports = {
 
         "eqeqeq" : [
             "error",
-            "smart",
+            "smart"
         ],
 
         "no-label-var"       : 2,
@@ -104,8 +104,8 @@ module.exports = {
             "error",
             {
                 "before" : true,
-                "after"  : true,
-            },
+                "after"  : true
+            }
         ],
 
         "max-lines-per-function" : [
@@ -113,8 +113,8 @@ module.exports = {
             {
                 "max"            : 80,
                 "skipBlankLines" : true,
-                "skipComments"   : true,
-            },
-        ],
-    },
-};
+                "skipComments"   : true
+            }
+        ]
+    }
+}

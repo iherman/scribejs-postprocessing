@@ -49,7 +49,7 @@ export async function github_repos(): Promise<void> {
         // nice if a proper Typescript definition was available for those but, alas!, I did not see any and
         // I did not define them
         const now: string = (new Date()).toISOString();
-        const repo_log = {owner : repo.owner, repo: repo.repo};
+        const repo_log = {owner: repo.owner, repo: repo.repo};
         try {
             LOG(`=== ${now} (run on github repos)`);
             LOG('Updating', repo_log);
@@ -61,13 +61,13 @@ export async function github_repos(): Promise<void> {
             try {
                 const gh_data: Github.JSONContent = await the_repo.get_json(repo.current);
                 current_asset = gh_data.content as Resolutions;
-                current_sha   = gh_data.sha;
-            } catch(e) {
+                current_sha = gh_data.sha;
+            } catch (e) {
                 current_asset = {
                     short_names : [],
-                    resolutions : []
+                    resolutions : [],
                 }
-                current_sha   = undefined;
+                current_sha = undefined;
             }
 
             // Get hold of the list of minute files
@@ -75,13 +75,13 @@ export async function github_repos(): Promise<void> {
             let list_of_minutes: string[] = [];
             try {
                 const list_of_minutes_wrappers = await the_repo.get_listing(repo.minutes, 400);
-                list_of_minutes  = list_of_minutes_wrappers.items.map((item: any): string => item.downloadUrl.split('/').pop());
+                list_of_minutes = list_of_minutes_wrappers.items.map((item: any): string => item.downloadUrl.split('/').pop());
                 DEBUG('Current listing', list_of_minutes);
     
                 // See if any new minutes have been added to the system since the last run
                 missing_files = filter_resolutions(list_of_minutes, current_asset);
                 DEBUG('To be used for new resolutions', missing_files);    
-            } catch(e) {
+            } catch (e) {
                 LOG('No minutes to process')
                 return;
             }
@@ -93,13 +93,14 @@ export async function github_repos(): Promise<void> {
                 // Get the new resolutions, as well as the lists of minute files that are parsed
                 const new_resolutions: Resolutions = await collect_resolutions(
                     missing_files, 
+                    // eslint-disable-next-line comma-dangle
                     (file_name) => the_repo.get_file(repo.minutes, file_name)
                 );
                 
                 const new_asset: Resolutions = {
                     date        : now,
                     short_names : [...current_asset.short_names, ...new_resolutions.short_names],
-                    resolutions : [...new_resolutions.resolutions, ...current_asset.resolutions]
+                    resolutions : [...new_resolutions.resolutions, ...current_asset.resolutions],
                 } 
                 DEBUG('New asset:', new_asset);
 
@@ -107,7 +108,7 @@ export async function github_repos(): Promise<void> {
                 await the_repo.update(repo.current, `Updated resolution list for ${now}`, new_asset, current_sha);
                 LOG('Updated');
             }
-        } catch(e) {
+        } catch (e) {
             LOG(`Problems: ${e} with`, repo_log)
         } finally {
             LOG('===')
@@ -118,8 +119,8 @@ export async function github_repos(): Promise<void> {
     try {
         const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
         const config_content: string = await fsp.readFile(fname, 'utf-8');
-        github_credentials           = JSON.parse(config_content) as Github_Credentials;
-    } catch(e) {
+        github_credentials = JSON.parse(config_content) as Github_Credentials;
+    } catch (e) {
         console.log(`Could not get hold of the github credentials: ${e}`);
         process.exit(-1);
     }
@@ -145,7 +146,7 @@ export async function github_repos(): Promise<void> {
  * 
  * @async
  */
-export async function local_repos() {
+export async function local_repos() :Promise<void> {
     const handle_one_repo = async (local_repo: Local_Repo) => {
         const now      = (new Date()).toISOString();
         const repo_log = local_repo.dir;
@@ -156,11 +157,11 @@ export async function local_repos() {
             let current: Resolutions;
             try {
                 const current_data = await fsp.readFile(path.join(local_repo.dir, local_repo.current),'utf-8');
-                current            = JSON.parse(current_data) as Resolutions;    
-            } catch(e) {
+                current = JSON.parse(current_data) as Resolutions;    
+            } catch (e) {
                 current = {
                     short_names : [],
-                    resolutions : []
+                    resolutions : [],
                 }
             }
             DEBUG('Current assets', current); 
@@ -178,6 +179,7 @@ export async function local_repos() {
                 const minutes_full_path: string = path.join(local_repo.dir, local_repo.minutes);
                 const new_resolutions: Resolutions = await collect_resolutions(
                     missing_files, 
+                    // eslint-disable-next-line comma-dangle
                     (file_name) => fsp.readFile(path.join(minutes_full_path, file_name),'utf-8')
                 );
                 DEBUG('New set of resolutions', new_resolutions);
@@ -185,14 +187,14 @@ export async function local_repos() {
                 const new_asset: Resolutions  = {
                     date        : now,
                     short_names : [...current.short_names, ...new_resolutions.short_names],
-                    resolutions : [...new_resolutions.resolutions, ...current.resolutions]
+                    resolutions : [...new_resolutions.resolutions, ...current.resolutions],
                 }
                 DEBUG('New asset:', new_asset);
 
                 await fsp.writeFile(path.join(local_repo.dir, local_repo.current), JSON.stringify(new_asset, null, 4), 'utf-8');
                 LOG('Updated');
             }
-        } catch(e) {
+        } catch (e) {
             LOG(`Problems: ${e} with`, repo_log)
         } finally {
             LOG('===')

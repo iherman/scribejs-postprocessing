@@ -66,6 +66,7 @@ const sort_resolutions = (a, b) => {
  * @param check_provisional - check whether a resolution is to be checked against the 7 days limit
  * @param call - the type of call (as stored in the [[Resolution]] object) to filter the resolutions (important if task force calls have their own calls and resolutions)
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function display_resolutions(target_id, resolution_asset, header_level, check_provisional = true, call = null) {
     const today = new Date();
     /*
@@ -101,6 +102,7 @@ async function display_resolutions(target_id, resolution_asset, header_level, ch
     };
     const target = document.getElementById(target_id);
     const resolution_structures = (await (await fetch(resolution_asset)).json());
+    // eslint-disable-next-line max-len
     const resolutions = (call !== null) ? resolution_structures.resolutions.filter((resolution) => resolution.call === call) : resolution_structures.resolutions;
     target.innerHTML = retrieve_html(resolutions.sort(sort_resolutions));
 }

@@ -131,7 +131,7 @@ function get_resolutions(minutes) {
                 number: Number.parseInt(number),
                 text: converter.makeHtml(text).replace('<p>', '').replace('</p>', ''),
                 url: `${url}#resolution${number}`,
-                call: '' // to be set in in the callee of this function!
+                call: '',
             };
         });
         return resolutions;

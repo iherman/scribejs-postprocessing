@@ -60,7 +60,7 @@ async function github_repos() {
             catch (e) {
                 current_asset = {
                     short_names: [],
-                    resolutions: []
+                    resolutions: [],
                 };
                 current_sha = undefined;
             }
@@ -85,11 +85,13 @@ async function github_repos() {
             else {
                 missing_files.forEach((fname) => config_1.LOG(`Processing ${fname}`));
                 // Get the new resolutions, as well as the lists of minute files that are parsed
-                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, (file_name) => the_repo.get_file(repo.minutes, file_name));
+                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, 
+                // eslint-disable-next-line comma-dangle
+                (file_name) => the_repo.get_file(repo.minutes, file_name));
                 const new_asset = {
                     date: now,
                     short_names: [...current_asset.short_names, ...new_resolutions.short_names],
-                    resolutions: [...new_resolutions.resolutions, ...current_asset.resolutions]
+                    resolutions: [...new_resolutions.resolutions, ...current_asset.resolutions],
                 };
                 config_1.DEBUG('New asset:', new_asset);
                 // Update/commit the new set of resolutions
@@ -148,7 +150,7 @@ async function local_repos() {
             catch (e) {
                 current = {
                     short_names: [],
-                    resolutions: []
+                    resolutions: [],
                 };
             }
             config_1.DEBUG('Current assets', current);
@@ -162,12 +164,14 @@ async function local_repos() {
             else {
                 missing_files.forEach((fname) => config_1.LOG(`Processing ${fname}`));
                 const minutes_full_path = path.join(local_repo.dir, local_repo.minutes);
-                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, (file_name) => fsp.readFile(path.join(minutes_full_path, file_name), 'utf-8'));
+                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, 
+                // eslint-disable-next-line comma-dangle
+                (file_name) => fsp.readFile(path.join(minutes_full_path, file_name), 'utf-8'));
                 config_1.DEBUG('New set of resolutions', new_resolutions);
                 const new_asset = {
                     date: now,
                     short_names: [...current.short_names, ...new_resolutions.short_names],
-                    resolutions: [...new_resolutions.resolutions, ...current.resolutions]
+                    resolutions: [...new_resolutions.resolutions, ...current.resolutions],
                 };
                 config_1.DEBUG('New asset:', new_asset);
                 await fsp.writeFile(path.join(local_repo.dir, local_repo.current), JSON.stringify(new_asset, null, 4), 'utf-8');

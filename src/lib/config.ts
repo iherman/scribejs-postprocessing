@@ -14,13 +14,13 @@ export const LOCAL_REPOS: Local_Repo[] = [
     {
         dir     : '/Users/ivan/W3C/github/DID/did-wg',
         minutes : '_minutes',
-        current : 'assets/resolutions.json'
+        current : 'assets/resolutions.json',
     },
     {
         dir     : '/Users/ivan/W3C/github/EPUB/epub-wg',
         minutes : '_minutes',
-        current : 'assets/resolutions.json'
-    }
+        current : 'assets/resolutions.json',
+    },
 ]
 
 // export const LOCAL_REPOS: Local_Repo[] = [
@@ -40,24 +40,24 @@ export const GITHUB_REPOS: Github_Repo[] = [
         owner   : 'w3c',
         repo    : 'did-wg',
         minutes : '_minutes',
-        current : 'assets/resolutions.json'
+        current : 'assets/resolutions.json',
     },
     {
         owner   : 'w3c',
         repo    : 'epub-wg',
         minutes : '_minutes',
-        current : 'assets/resolutions.json'
-    }
+        current : 'assets/resolutions.json',
+    },
 ]
 
 /**
  * The name of the configuration file in the user’s home directory. It contains the user’s github API token (`ghtoken`), 
  * necessary for committing the results on the github repository.
  */
-export const USER_CONFIG_NAME: string = ".ghid.json";
+export const USER_CONFIG_NAME = ".ghid.json";
 
-const DO_DEBUG: boolean  = false;
-const DO_LOG: boolean    = true;
+const DO_DEBUG  = false;
+const DO_LOG    = true;
 
 /**
  * Print a debug statement if the [[DO_DEBUG]] flag is set to `true`.
@@ -72,7 +72,7 @@ export function DEBUG(preamble: string, obj: any = undefined): void {
         else 
             console.error(`${preamble}`)
     }
-};
+}
 
 /**
  * Print a log statement if the [[DO_LOG]] flag is set to `true`.
@@ -87,7 +87,7 @@ export function LOG(preamble: string, obj: any = undefined): void {
         else 
             console.log(`---Scribejs resolutions--- ${preamble}`)
     }
-};
+}
 
 /* ------------------------------------------------------------------------------------------------- */
 

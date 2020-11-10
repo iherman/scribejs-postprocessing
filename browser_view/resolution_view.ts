@@ -52,14 +52,14 @@ interface Resolutions_Structure {
     /**
      * Date of the generation of the current resolution list
      */
-    date?:       string;    
+    date?: string;    
 }
 
 
-const REMOTE_YEAR: number    = 3000;
+const REMOTE_YEAR    = 3000;
 
 const Ms_a_day: number          = 1000*60*60*24;
-const PROVISIONAL_LIMIT: number = 7;
+const PROVISIONAL_LIMIT = 7;
 
 /**
 *   Get the number of days between two dates - not inclusive.
@@ -127,13 +127,14 @@ const sort_resolutions = (a: Resolution, b: Resolution): number => {
  * @param check_provisional - check whether a resolution is to be checked against the 7 days limit
  * @param call - the type of call (as stored in the [[Resolution]] object) to filter the resolutions (important if task force calls have their own calls and resolutions)
  */
-async function display_resolutions(target_id: string, resolution_asset: string, header_level: number, check_provisional: boolean = true, call: string = null) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function display_resolutions(target_id: string, resolution_asset: string, header_level: number, check_provisional = true, call: string = null) {
     const today: Date = new Date();
     /*
     * Generate the HTML listing of all the resolutions
     */
     const retrieve_html = (resolutions: Resolution[]): string => {
-        let retval: string = '';
+        let retval = '';
         // y2k problem for the future:-)
         let year: number   = REMOTE_YEAR;
         if (resolutions.length === 0) {
@@ -162,6 +163,7 @@ async function display_resolutions(target_id: string, resolution_asset: string, 
 
     const target: HTMLElement   = document.getElementById(target_id);
     const resolution_structures: Resolutions_Structure = (await (await fetch(resolution_asset)).json()) as Resolutions_Structure;
+    // eslint-disable-next-line max-len
     const resolutions: Resolution[] = (call !== null) ? resolution_structures.resolutions.filter((resolution: Resolution): boolean => resolution.call === call) : resolution_structures.resolutions;
  
     target.innerHTML = retrieve_html(resolutions.sort(sort_resolutions));

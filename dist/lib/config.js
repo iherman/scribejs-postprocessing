@@ -13,13 +13,13 @@ exports.LOCAL_REPOS = [
     {
         dir: '/Users/ivan/W3C/github/DID/did-wg',
         minutes: '_minutes',
-        current: 'assets/resolutions.json'
+        current: 'assets/resolutions.json',
     },
     {
         dir: '/Users/ivan/W3C/github/EPUB/epub-wg',
         minutes: '_minutes',
-        current: 'assets/resolutions.json'
-    }
+        current: 'assets/resolutions.json',
+    },
 ];
 // export const LOCAL_REPOS: Local_Repo[] = [
 //     {
@@ -36,14 +36,14 @@ exports.GITHUB_REPOS = [
         owner: 'w3c',
         repo: 'did-wg',
         minutes: '_minutes',
-        current: 'assets/resolutions.json'
+        current: 'assets/resolutions.json',
     },
     {
         owner: 'w3c',
         repo: 'epub-wg',
         minutes: '_minutes',
-        current: 'assets/resolutions.json'
-    }
+        current: 'assets/resolutions.json',
+    },
 ];
 /**
  * The name of the configuration file in the user’s home directory. It contains the user’s github API token (`ghtoken`),
@@ -67,7 +67,6 @@ function DEBUG(preamble, obj = undefined) {
     }
 }
 exports.DEBUG = DEBUG;
-;
 /**
  * Print a log statement if the [[DO_LOG]] flag is set to `true`.
  *
@@ -83,6 +82,5 @@ function LOG(preamble, obj = undefined) {
     }
 }
 exports.LOG = LOG;
-;
 /* ------------------------------------------------------------------------------------------------- */
 //# sourceMappingURL=config.js.map

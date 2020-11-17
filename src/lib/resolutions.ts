@@ -41,7 +41,7 @@ function get_schema(lines: string[]): any {
     } 
     if (index > 0) {
         // we found the start section!
-        let json_data: string = '';
+        let json_data = '';
         for ( ; index < lines.length; index++) {
             if (lines[index].startsWith('---')) {
                 break;
@@ -127,7 +127,7 @@ function get_resolutions(minutes: string): Resolution[] {
         // eslint-disable-next-line no-multi-spaces
         const resolutions = lines
             .filter((line: string): boolean => line.startsWith('* [Resolution'))
-            .map((line:string ): string => line.slice(2))  // remove the markdown list character
+            .map((line:string ): string => line.slice(2)) // remove the markdown list character
             .map((line: string): Resolution => {
                 const number: string = line.split('](')[0].substring("Resolution #".length + 1);
                 const text: string   = line.replace(/\[Resolution #[0-9]+\]\(#resolution[0-9]+\):/, '').trim();
@@ -137,11 +137,11 @@ function get_resolutions(minutes: string): Resolution[] {
                     number : Number.parseInt(number),
                     text   : converter.makeHtml(text).replace('<p>','').replace('</p>',''), // the converter puts the text into a paragraph, hence the replace... 
                     url    : `${url}#resolution${number}`,
-                    call   : ''  // to be set in in the callee of this function!
+                    call   : '', // to be set in in the callee of this function!
                 }
             });
         return resolutions;    
-    } catch(e) {
+    } catch (e) {
         DEBUG("Exception: ",e)
         return [];
     }

@@ -57,6 +57,7 @@ export class Github {
      * @param {any} new_content - New content
      * @param {string} sha - SHA value if this is an update, undefined if this is a new content
      */
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     update(path: string, message: string, new_content: any, sha?: string): Promise<void>;
 }
 

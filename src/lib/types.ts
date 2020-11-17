@@ -87,7 +87,7 @@ export interface Resolutions {
     /**
      * Date of the generation of the current resolution list
      */
-    date?:       string;    
+    date?: string;    
 }
 
 /**

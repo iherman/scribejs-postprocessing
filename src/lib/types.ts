@@ -8,11 +8,13 @@
 /**
  * Base class for representing a repository (both local and on Github)
  */
-interface Repo {
+export interface Repo {
     /** Directory storing the minutes within the repository */
     minutes: string;
     /** File name of the current list or resolutions in the repository  */
     current: string;
+    /** Whether the issues should also be treated and commented upon */
+    handle_issues: boolean;
 }
 
 /**
@@ -71,9 +73,9 @@ export interface Resolution {
 }
 
 /**
- * The collection of all the Resolutions, as stored as an asset on the repository
+ * The collection of all the Minute actions that need saving, like Resolutions; as stored as an asset on the repository
  */
-export interface Resolutions {
+export interface MinuteProcessing {
     /**
      * List of minutes that have been processed (the items are simply the base names of the full URLs or path names)
      */
@@ -97,6 +99,13 @@ export interface Resolutions {
  * (Note that this function returns a _Promise_ for the retrieval, not the result itself!)
  */
 export type GetDataCallback = (file_name: string) => Promise<string>;
+
+/**
+ * Callback function to write the final process files (either via a Github repo or to the
+ * local file system).
+ * 
+ */
+export type WriteDataCallback = (content: MinuteProcessing) => Promise<void>;
 
 /**
  * Github credential information. This is typically stored in a user configuration file

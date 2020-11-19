@@ -7,8 +7,7 @@
  * @packageDocumentation
 */
 
-
-import { github_repos, local_repos } from './lib/repos';
+import { process_minutes } from './lib/repos';
 
 /**
  * Entry point: a simple switch between handling local repos (see [[local_repos]]) and github repos (see [[github_repos]]).
@@ -19,7 +18,7 @@ import { github_repos, local_repos } from './lib/repos';
  */
 async function main() {
     const flag: string = process.argv.pop();
-    flag === '-l' || flag === '--local' ? local_repos() : github_repos();
+    await process_minutes(flag === '-l' || flag === '--local');
 }
 
 main();

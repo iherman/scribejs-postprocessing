@@ -22,7 +22,7 @@ const now: string = (new Date()).toISOString();
 abstract class Repo_Processing {
     /** The repository being managed. Set at initialization time */
     repo: Repo;
-    /** Github credentials, necessary for some steps. Set at initialization time             */
+    /** Github credentials, necessary for some steps. Set at initialization time */
     gh_credentials: Github_Credentials;
     /** List of minute file names. This is set in the relevant subclasses. */
     list_of_minutes: string[] = [];
@@ -47,6 +47,7 @@ abstract class Repo_Processing {
      * @param write_data - callback function used to store the new content on the repository
      */
     async process_minutes(current: MinuteProcessing, get_data: GetDataCallback, write_data: WriteDataCallback): Promise<void> {
+        // Filter out minutes files that have already been treated in a previous run
         const missing_files = filter_resolutions(this.list_of_minutes, current);
         DEBUG('To be used for new processing', missing_files);    
         if (missing_files.length === 0) {
@@ -54,19 +55,32 @@ abstract class Repo_Processing {
         } else {
             missing_files.forEach((fname) => LOG(`Processing ${fname}`));
     
+            // This is the external method that gathers the resolution for all minutes. It returns a new
+            // MinuteProcessing structure, including the list of files that have been treated and the corresponding
+            // resolutions.
+            // Because this asset is used to display the resolution when jekyll runs, both content must go 'back' to
+            // the repository (see below)
             const new_resolutions: MinuteProcessing = await collect_resolutions(
                 missing_files, 
                 get_data,
             );
             DEBUG('New set of resolutions', new_resolutions);
         
-            const new_asset: MinuteProcessing  = {
-                date        : now,
-                short_names : [...current.short_names, ...new_resolutions.short_names],
-                resolutions : [...new_resolutions.resolutions, ...current.resolutions],
+            // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
+            // before uploading it
+            let new_asset: MinuteProcessing;
+            try {
+                new_asset = {
+                    date        : now,
+                    file_names  : [...current.file_names, ...new_resolutions.file_names],
+                    resolutions : [...new_resolutions.resolutions, ...current.resolutions],
+                }
+            } catch {
+                new_resolutions.date = now;
+                new_asset = new_resolutions;
             }
-            DEBUG('New asset:', new_asset);
             await write_data(new_asset);
+            DEBUG('New asset:', new_asset);
             LOG('Updated');    
         }
     }
@@ -120,7 +134,7 @@ class Github_Repo_Processing extends Repo_Processing {
                 current_sha = gh_data.sha;
             } catch (e) {
                 current_asset = {
-                    short_names : [],
+                    file_names  : [],
                     resolutions : [],
                 }
                 current_sha = undefined;
@@ -145,6 +159,7 @@ class Github_Repo_Processing extends Repo_Processing {
             );
         } catch (e) {
             LOG(`Problems: ${e} with`, repo_log)
+            DEBUG(e.stack);
         } finally {
             LOG('===')
         }
@@ -176,7 +191,7 @@ class Local_Repo_Processing extends Repo_Processing {
                 current = JSON.parse(current_data) as MinuteProcessing;    
             } catch (e) {
                 current = {
-                    short_names : [],
+                    file_names  : [],
                     resolutions : [],
                 }
             }
@@ -198,7 +213,8 @@ class Local_Repo_Processing extends Repo_Processing {
                 (content) => fsp.writeFile(path.join(local_repo.dir, local_repo.current), JSON.stringify(content, null, 4), 'utf-8')
             );
         } catch (e) {
-            LOG(`Problems: ${e} with`, repo_log)
+            LOG(`Problems: ${e} with`, repo_log);
+            DEBUG(e.stack);
         } finally {
             LOG('===')
         }

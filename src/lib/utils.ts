@@ -18,9 +18,13 @@ import { DO_DEBUG, DO_LOG } from './config';
  * @return - Array of minute references that must be handled
  */
 export function filter_resolutions(refs: string[], current: MinuteProcessing): string[] {
-    return refs.filter((ref) => {
-        return !current.short_names.includes(ref);
-    });
+    try {
+        return refs.filter((ref) => {
+            return !current.file_names.includes(ref);
+        });
+    } catch {
+        return refs;
+    } 
 }
 
 

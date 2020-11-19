@@ -132,7 +132,7 @@ export async function collect_resolutions(file_names: string[], get_data: GetDat
         .sort(sort_resolutions);
 
     return {
-        short_names : file_names,
+        file_names : file_names,
         resolutions,
     }
 }

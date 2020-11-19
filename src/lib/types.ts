@@ -79,7 +79,7 @@ export interface MinuteProcessing {
     /**
      * List of minutes that have been processed (the items are simply the base names of the full URLs or path names)
      */
-    short_names: string[];
+    file_names: string[];
 
     /**
      * List of all the resolutions

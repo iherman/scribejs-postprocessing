@@ -93,13 +93,6 @@ class Github {
     }
 }
 
-
-// async function test() {
-//     const gh = new Github('dfe02f80c8bacded5abecddc24653f7eb6bf8cd9','iherman','mprocessing_tests');
-//     await gh.comment(1, "This is a test with octokat");
-// }
-// test();
-
 /* ------------------------------------------------------------ */
 module.exports = { Github };
 

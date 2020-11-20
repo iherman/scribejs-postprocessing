@@ -3,11 +3,12 @@ import * as fs from 'fs';
 /** @internal */
 const fsp = fs.promises;
 
-import { Github }                                                                                                  from "./js/githubapi";
-import { MinuteProcessing, Github_Credentials, Repo, Github_Repo, Local_Repo, GetDataCallback, WriteDataCallback } from './types';
-import { USER_CONFIG_NAME, LOCAL_REPOS, GITHUB_REPOS }                                                             from './config';
-import { collect_resolutions }                                                                                     from './resolutions';
-import { filter_resolutions, LOG, DEBUG }                                                                          from './utils';
+import { Github }                                                                                               from "./js/githubapi";
+import { MinuteProcessing, GithubCredentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
+import { USER_CONFIG_NAME, LOCAL_REPOS, GITHUB_REPOS }                                                          from './config';
+import { collect_resolutions }                                                                                  from './resolutions';
+import { collect_issue_comments }                                                                               from './issues';
+import { filter_resolutions, LOG, DEBUG }                                                                       from './utils';
 
 /**
  * Current date, used to annotate the generated minute processing logs
@@ -19,15 +20,15 @@ const now: string = (new Date()).toISOString();
  * managing the information for one repository.
  * 
  */
-abstract class Repo_Processing {
+abstract class RepoProcessing {
     /** The repository being managed. Set at initialization time */
     repo: Repo;
     /** Github credentials, necessary for some steps. Set at initialization time */
-    gh_credentials: Github_Credentials;
+    gh_credentials: GithubCredentials;
     /** List of minute file names. This is set in the relevant subclasses. */
     list_of_minutes: string[] = [];
 
-    constructor(the_repo: Repo, credentials: Github_Credentials) {
+    constructor(the_repo: Repo, credentials: GithubCredentials) {
         this.repo = the_repo;
         this.gh_credentials = credentials;
     }
@@ -60,11 +61,11 @@ abstract class Repo_Processing {
             // resolutions.
             // Because this asset is used to display the resolution when jekyll runs, both content must go 'back' to
             // the repository (see below)
-            const new_resolutions: MinuteProcessing = await collect_resolutions(
-                missing_files, 
-                get_data,
-            );
+            const new_resolutions: MinuteProcessing = await collect_resolutions(missing_files, get_data);
             DEBUG('New set of resolutions', new_resolutions);
+
+            await collect_issue_comments(missing_files, get_data);
+            DEBUG('Collected the issue comments');
         
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
             // before uploading it
@@ -106,8 +107,8 @@ abstract class Repo_Processing {
 /**
  * Repository management for a (remote) github repository. The necessary information are gathered via the Github API.
  */
-class Github_Repo_Processing extends Repo_Processing {
-    constructor(the_repo: Github_Repo, credentials: Github_Credentials) {
+class GithubRepoProcessing extends RepoProcessing {
+    constructor(the_repo: GithubRepo, credentials: GithubCredentials) {
         super(the_repo, credentials);
     }
 
@@ -118,7 +119,7 @@ class Github_Repo_Processing extends Repo_Processing {
         // Note that the JSON based structures returned from the Github API are all typed as "any". It would be
         // nice if a proper Typescript definition was available for those but, alas!, I did not see any and
         // I did not define them
-        const repo = this.repo as Github_Repo;
+        const repo = this.repo as GithubRepo;
         const repo_log = {owner: repo.owner, repo: repo.repo};
         try {
             LOG(`=== ${now} (run on github repos)`);
@@ -170,8 +171,8 @@ class Github_Repo_Processing extends Repo_Processing {
  * Repository management for a local copy of a repository. The necessary information are gathered via the filesystem API of node.js.
  */
 
-class Local_Repo_Processing extends Repo_Processing {
-    constructor(the_repo: Local_Repo, credentials: Github_Credentials) {
+class LocalRepoProcessing extends RepoProcessing {
+    constructor(the_repo: LocalRepo, credentials: GithubCredentials) {
         super(the_repo, credentials);
     }
 
@@ -179,7 +180,7 @@ class Local_Repo_Processing extends Repo_Processing {
      * Concrete implementation of the abstract method. Access to the local repository clone is based on the filesystem API of node.js.
      */
     async handle_one_repo(): Promise<void> {
-        const local_repo = this.repo as Local_Repo;
+        const local_repo = this.repo as LocalRepo;
         const repo_log = local_repo.dir;
         try {
             LOG(`=== ${now} (run on local repos)`);
@@ -228,11 +229,11 @@ class Local_Repo_Processing extends Repo_Processing {
  * @param local - whether the local clones or the Github repository should be used.
  */
 export async function process_minutes(local: boolean): Promise<void> {
-    let github_credentials: Github_Credentials;
+    let github_credentials: GithubCredentials;
     try {
         const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
         const config_content: string = await fsp.readFile(fname, 'utf-8');
-        github_credentials = JSON.parse(config_content) as Github_Credentials;
+        github_credentials = JSON.parse(config_content) as GithubCredentials;
     } catch (e) {
         console.log(`Could not get hold of the github credentials: ${e}`);
         process.exit(-1);
@@ -241,13 +242,13 @@ export async function process_minutes(local: boolean): Promise<void> {
     if (local) {
         // It is necessary to do it this way to ensure a non-overlapping set of logs.
         for (let i = 0; i < LOCAL_REPOS.length; i++) {
-            const processing = new Local_Repo_Processing(LOCAL_REPOS[i], github_credentials);
+            const processing = new LocalRepoProcessing(LOCAL_REPOS[i], github_credentials);
             await processing.handle_one_repo();
         }
     } else {        
         // It is necessary to do it this way to ensure a non-overlapping set of logs
         for (let i = 0; i < GITHUB_REPOS.length; i++) {
-            const processing = new Github_Repo_Processing(GITHUB_REPOS[i], github_credentials);
+            const processing = new GithubRepoProcessing(GITHUB_REPOS[i], github_credentials);
             await processing.handle_one_repo();
         }
     }

@@ -61,7 +61,7 @@ function sort_resolutions(a: Resolution, b: Resolution): number {
 function get_resolutions(minutes: string): Resolution[] {
     try {
         const lines: string[] = minutes.split('\n');
-        const schema: any  = get_schema(lines);
+        const schema: any     = get_schema(lines);
         if (schema === null) {
             DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
@@ -94,7 +94,7 @@ function get_resolutions(minutes: string): Resolution[] {
             });
         return resolutions;    
     } catch (e) {
-        DEBUG("Exception: ",e)
+        DEBUG("Exception in resolution extraction: ",e)
         return [];
     }
 }
@@ -106,7 +106,7 @@ function get_resolutions(minutes: string): Resolution[] {
  * and flattens all such resolutions into a single large resolution. The set of resolution is also sorted (using [[sort_resolutions]]).
  * 
  * @param file_names - List of the minute file names, i.e., the base name of the minute file in its repository
- * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called from [[local_repos]] or [[github_repos]], respectively.
+ * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.
  * @returns  - List of resolutions 
  * 
  * @async

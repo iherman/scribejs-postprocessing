@@ -11,8 +11,10 @@
 export interface Repo {
     /** Directory storing the minutes within the repository */
     minutes: string;
+
     /** File name of the current list or resolutions in the repository  */
     current: string;
+
     /** Whether the issues should also be treated and commented upon */
     handle_issues: boolean;
 }
@@ -20,7 +22,7 @@ export interface Repo {
 /**
  * A locally stored, cloned repository data
  */
-export interface Local_Repo extends Repo {
+export interface LocalRepo extends Repo {
     /** Path to the local directory for the repo */
     dir: string;
 }
@@ -28,7 +30,7 @@ export interface Local_Repo extends Repo {
 /**
  * Github Repository data
  */
-export interface Github_Repo extends Repo {
+export interface GithubRepo extends Repo {
     /** "Owner" of the repository, in Github jargon  */
     owner: string;
     /** "Repo", ie, repository name, in Github jargon */
@@ -112,17 +114,54 @@ export type WriteDataCallback = (content: MinuteProcessing) => Promise<void>;
  * and is used by the script. Note that it contains more data than what is used by the
  * script; the reason is that the same configuration file can be reused by other scripts, too.
  */
-export interface Github_Credentials {
+export interface GithubCredentials {
     /**
      * User name
      */
     ghname?: string;
+
     /**
      * User's email
      */
     ghemail?: string;
+
     /**
      * User's GitHub api token
      */
     ghtoken?: string
+}
+
+/**
+ * Comments on specific issues, extracted from the minutes and used to add comments to specific issues
+ */
+export interface IssueComments {
+    /**
+     * List of relevant issues (URL-s)
+     */
+    issues: string[];
+
+    /**
+     * List of corresponding resolutions (list of markdown text)
+     */
+    resolutions: string[];
+
+    /**
+     * URL of the relevant section (to create a full URL to the minutes)
+     */
+    section: string;
+
+    /**
+     * Date of the minutes to add to the final comment
+     */
+    date: string;
+
+    /**
+     * Extract of the minutes: the list of markdown statements
+     */
+    minute_extract: string[];
+
+    /**
+     * Function to turn the content for the minutes into the code to be added to the issue comment
+     */
+    create_comment(): string;
 }

@@ -5,7 +5,7 @@
  * @packageDocumentation
 */
 
-import {Local_Repo, Github_Repo} from './types';
+import {LocalRepo, GithubRepo} from './types';
 
 /**
  * List of local repos to process when running the {@link local_repos} function: each object has a field for the directory (`dir`), the folder used for the minutes themselves (`minutes`) and the reference to the current resolution file (`current`).
@@ -25,7 +25,7 @@ import {Local_Repo, Github_Repo} from './types';
 //     },
 // ]
 
-export const LOCAL_REPOS: Local_Repo[] = [
+export const LOCAL_REPOS: LocalRepo[] = [
     {
         dir           : '/Users/ivan/W3C/github/Tools/mprocessing_tests',
         minutes       : '_minutes',
@@ -55,7 +55,7 @@ export const LOCAL_REPOS: Local_Repo[] = [
 //     },
 // ]
 
-export const GITHUB_REPOS: Github_Repo[] = [
+export const GITHUB_REPOS: GithubRepo[] = [
     {
         owner         : 'iherman',
         repo          : 'mprocessing_tests',

@@ -23,7 +23,11 @@ export class Github {
      * @param {string} repo - Repository
      */
     constructor(token: string, owner: string, repo: string);
-    private repo: any;
+
+    private repo_access: any;
+    private repo: string;
+    private owner: string;
+
     /**
      * Get the JSON content of a repository content
      * @param {string} path - Path to the content
@@ -31,6 +35,7 @@ export class Github {
      * @async
      */
     get_json(path: string): Promise<Github.JSONContent>;
+
     /**
      * Get the listing of a directory in the repository
      *
@@ -40,6 +45,7 @@ export class Github {
      * @async
      */
     get_listing(path: string, page_size?: number): Promise<any>;
+
     /**
      * Get (markdown) file
      *
@@ -49,6 +55,7 @@ export class Github {
      * @async
      */
     get_file(path: string, file_name: string): Promise<string>;
+
     /**
      * Update a (JSON) content
      *
@@ -59,6 +66,14 @@ export class Github {
      */
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     update(path: string, message: string, new_content: any, sha?: string): Promise<void>;
+
+    /**
+     * Add a comment to an issue
+     * 
+     * @param issue_number - Issue number on the repository
+     * @param body - The comment text itself
+     */
+    comment(issue_number: number, body: string): Promise<void>;
 }
 
 /**

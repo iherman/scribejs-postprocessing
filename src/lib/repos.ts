@@ -5,7 +5,7 @@ const fsp = fs.promises;
 
 import { Github }                                                                                               from "./js/githubapi";
 import { MinuteProcessing, GithubCredentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
-import { USER_CONFIG_NAME, LOCAL_REPOS, GITHUB_REPOS }                                                          from './config';
+import { USER_CONFIG_NAME, LOCAL_REPOS, GITHUB_REPOS, DO_UPDATE }                                               from './config';
 import { collect_resolutions }                                                                                  from './resolutions';
 import { collect_issue_comments }                                                                               from './issues';
 import { filter_resolutions, LOG, DEBUG }                                                                       from './utils';
@@ -64,7 +64,7 @@ abstract class RepoProcessing {
             const new_resolutions: MinuteProcessing = await collect_resolutions(missing_files, get_data);
             DEBUG('New set of resolutions', new_resolutions);
 
-            await collect_issue_comments(missing_files, get_data);
+            await collect_issue_comments(this.gh_credentials, missing_files, get_data);
             DEBUG('Collected the issue comments');
         
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
@@ -80,7 +80,8 @@ abstract class RepoProcessing {
                 new_resolutions.date = now;
                 new_asset = new_resolutions;
             }
-            await write_data(new_asset);
+
+            if (DO_UPDATE) await write_data(new_asset);
             DEBUG('New asset:', new_asset);
             LOG('Updated');    
         }

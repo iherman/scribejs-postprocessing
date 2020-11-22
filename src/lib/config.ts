@@ -78,5 +78,8 @@ export const DO_DEBUG  = false;
 /** @internal */
 export const DO_LOG    = true;
 
+/** @internal */
+export const DO_UPDATE = false;
+
 /* ------------------------------------------------------------------------------------------------- */
 

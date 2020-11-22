@@ -4,6 +4,7 @@
  * @packageDocumentation
 */
 
+import { Github } from "./js/githubapi";
 
 /**
  * Base class for representing a repository (both local and on Github)
@@ -132,13 +133,33 @@ export interface GithubCredentials {
 }
 
 /**
+ * Issue handling: the relevant github access and the issue number
+ */
+export interface IssueData {
+    /**
+     * Issue number
+     */
+    issue: number;
+
+    /**
+     * The github access structure for the relevant repository
+     */
+    github_access: Github;
+
+    /**
+     * Raise the relevant comment
+     */
+    add_comment(comment: string): Promise<void>;
+}
+
+/**
  * Comments on specific issues, extracted from the minutes and used to add comments to specific issues
  */
 export interface IssueComments {
     /**
      * List of relevant issues (URL-s)
      */
-    issues: string[];
+    issues: IssueData[];
 
     /**
      * List of corresponding resolutions (list of markdown text)

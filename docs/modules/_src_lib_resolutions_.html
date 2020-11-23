@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/lib/resolutions&quot; | Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
-	<meta name="description" content="Documentation for Collecting WG resolutions from scribejs generated minutes - v1.0.0">
+	<title>&quot;src/lib/resolutions&quot; | Post-processing scribejs generated minutes - v2.0.0</title>
+	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Collecting WG resolutions from scribejs generated minutes - v1.0.0</a>
+					<a href="../index.html" class="title">Post-processing scribejs generated minutes - v2.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -88,9 +88,7 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_resolutions_.html#collect_resolutions" class="tsd-kind-icon">collect_<wbr>resolutions</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_resolutions_.html#filter_resolutions" class="tsd-kind-icon">filter_<wbr>resolutions</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_resolutions_.html#get_resolutions" class="tsd-kind-icon">get_<wbr>resolutions</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_resolutions_.html#get_schema" class="tsd-kind-icon">get_<wbr>schema</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_resolutions_.html#sort_resolutions" class="tsd-kind-icon">sort_<wbr>resolutions</a></li>
 							</ul>
 						</section>
@@ -105,7 +103,7 @@
 					<div class="tsd-signature tsd-kind-icon">converter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Converter</span><span class="tsd-signature-symbol"> = new showdown.Converter({omitExtraWLInCodeBlocks            : true,simplifiedAutoLink                 : true,excludeTrailingPunctuationFromURLs : true,literalMidWordUnderscores          : true,literalMidWordAsterisks            : true,strikethrough                      : true,ghMentions                         : true,})</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L14">src/lib/resolutions.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/resolutions.ts#L13">src/lib/resolutions.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -116,13 +114,13 @@
 					<a name="collect_resolutions" class="tsd-anchor"></a>
 					<h3>collect_<wbr>resolutions</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">collect_<wbr>resolutions<span class="tsd-signature-symbol">(</span>file_names<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, get_data<span class="tsd-signature-symbol">: </span><a href="_src_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_src_lib_types_.resolutions.html" class="tsd-signature-type">Resolutions</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">collect_<wbr>resolutions<span class="tsd-signature-symbol">(</span>file_names<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, get_data<span class="tsd-signature-symbol">: </span><a href="_src_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_src_lib_types_.minuteprocessing.html" class="tsd-signature-type">MinuteProcessing</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L162">src/lib/resolutions.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/resolutions.ts#L114">src/lib/resolutions.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -146,53 +144,13 @@
 								<li>
 									<h5>get_data: <a href="_src_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called from <a href="_src_lib_repos_.html#local_repos">local_repos</a> or <a href="_src_lib_repos_.html#github_repos">github_repos</a>, respectively.</p>
+										<p>A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_src_lib_types_.resolutions.html" class="tsd-signature-type">Resolutions</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/_src_lib_types_.minuteprocessing.html" class="tsd-signature-type">MinuteProcessing</a><span class="tsd-signature-symbol">&gt;</span></h4>
 							<ul>
 								<li>List of resolutions</li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="filter_resolutions" class="tsd-anchor"></a>
-					<h3>filter_<wbr>resolutions</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">filter_<wbr>resolutions<span class="tsd-signature-symbol">(</span>refs<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, current<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_types_.resolutions.html" class="tsd-signature-type">Resolutions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L90">src/lib/resolutions.ts:90</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Check whether the resolutions for minutes have already been handled in a previous run. Used to avoid unnecessary regeneration of data.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>refs: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Array of minute references (i.e., file names)</p>
-									</div>
-								</li>
-								<li>
-									<h5>current: <a href="../interfaces/_src_lib_types_.resolutions.html" class="tsd-signature-type">Resolutions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>Array of current resolution data objects</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-							<ul>
-								<li>Array of minute references that must be handled</li>
 							</ul>
 						</li>
 					</ul>
@@ -207,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L109">src/lib/resolutions.ts:109</a></li>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/resolutions.ts#L61">src/lib/resolutions.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -238,38 +196,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
-					<a name="get_schema" class="tsd-anchor"></a>
-					<h3>get_<wbr>schema</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get_<wbr>schema<span class="tsd-signature-symbol">(</span>lines<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L33">src/lib/resolutions.ts:33</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Extract the schema.org data from the minutes&#39; preamble, and turn it into a bona fide
-									Javascript object.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>lines: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The minutes, broken into an array of individual strings</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 					<a name="sort_resolutions" class="tsd-anchor"></a>
 					<h3>sort_<wbr>resolutions</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
@@ -279,7 +205,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/resolutions.ts#L68">src/lib/resolutions.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/resolutions.ts#L34">src/lib/resolutions.ts:34</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -322,6 +248,9 @@
 						<a href="_src_lib_config_.html">&quot;src/lib/config&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_src_lib_issues_.html">&quot;src/lib/issues&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_src_lib_js_githubapi_.html">&quot;src/lib/js/githubapi&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -337,6 +266,9 @@
 						<a href="_src_lib_types_.html">&quot;src/lib/types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_src_main_.html">&quot;src/main&quot;</a>
 					</li>
 				</ul>
@@ -349,14 +281,8 @@
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="_src_lib_resolutions_.html#collect_resolutions" class="tsd-kind-icon">collect_<wbr>resolutions</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_lib_resolutions_.html#filter_resolutions" class="tsd-kind-icon">filter_<wbr>resolutions</a>
-					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_src_lib_resolutions_.html#get_resolutions" class="tsd-kind-icon">get_<wbr>resolutions</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_src_lib_resolutions_.html#get_schema" class="tsd-kind-icon">get_<wbr>schema</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
 						<a href="_src_lib_resolutions_.html#sort_resolutions" class="tsd-kind-icon">sort_<wbr>resolutions</a>
@@ -373,6 +299,7 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">

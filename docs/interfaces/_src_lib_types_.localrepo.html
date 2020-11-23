@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Resolution | Post-processing scribejs generated minutes - v2.0.0</title>
+	<title>LocalRepo | Post-processing scribejs generated minutes - v2.0.0</title>
 	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -57,10 +57,10 @@
 					<a href="../modules/_src_lib_types_.html">&quot;src/lib/types&quot;</a>
 				</li>
 				<li>
-					<a href="_src_lib_types_.resolution.html">Resolution</a>
+					<a href="_src_lib_types_.localrepo.html">LocalRepo</a>
 				</li>
 			</ul>
-			<h1>Interface Resolution</h1>
+			<h1>Interface LocalRepo</h1>
 		</div>
 	</div>
 </header>
@@ -70,7 +70,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Data describing a single resolution</p>
+						<p>A locally stored, cloned repository data</p>
 					</div>
 				</div>
 			</section>
@@ -78,7 +78,12 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Resolution</span>
+						<a href="_src_lib_types_.repo.html" class="tsd-signature-type">Repo</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">LocalRepo</span>
+							</li>
+						</ul>
 					</li>
 				</ul>
 			</section>
@@ -89,12 +94,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#call" class="tsd-kind-icon">call</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#date" class="tsd-kind-icon">date</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#number" class="tsd-kind-icon">number</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#text" class="tsd-kind-icon">text</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#url" class="tsd-kind-icon">url</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.resolution.html#year" class="tsd-kind-icon">year</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_src_lib_types_.localrepo.html#current" class="tsd-kind-icon">current</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.localrepo.html#dir" class="tsd-kind-icon">dir</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_src_lib_types_.localrepo.html#handle_issues" class="tsd-kind-icon">handle_<wbr>issues</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited"><a href="_src_lib_types_.localrepo.html#minutes" class="tsd-kind-icon">minutes</a></li>
 							</ul>
 						</section>
 					</div>
@@ -102,94 +105,66 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="call" class="tsd-anchor"></a>
-					<h3>call</h3>
-					<div class="tsd-signature tsd-kind-icon">call<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="current" class="tsd-anchor"></a>
+					<h3>current</h3>
+					<div class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_src_lib_types_.repo.html">Repo</a>.<a href="_src_lib_types_.repo.html#current">current</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L75">src/lib/types.ts:75</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L17">src/lib/types.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>The short name of the Group&#39;s call. This corresponds, usually, to the IRC channel name
-							used for the call.</p>
+							<p>File name of the current list or resolutions in the repository</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="date" class="tsd-anchor"></a>
-					<h3>date</h3>
-					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="dir" class="tsd-anchor"></a>
+					<h3>dir</h3>
+					<div class="tsd-signature tsd-kind-icon">dir<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L53">src/lib/types.ts:53</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L28">src/lib/types.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Date of the resolution (in ISO format)</p>
+							<p>Path to the local directory for the repo</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="number" class="tsd-anchor"></a>
-					<h3>number</h3>
-					<div class="tsd-signature tsd-kind-icon">number<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="handle_issues" class="tsd-anchor"></a>
+					<h3>handle_<wbr>issues</h3>
+					<div class="tsd-signature tsd-kind-icon">handle_<wbr>issues<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_src_lib_types_.repo.html">Repo</a>.<a href="_src_lib_types_.repo.html#handle_issues">handle_issues</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L58">src/lib/types.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L20">src/lib/types.ts:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>&quot;Number&quot; of the resolution (resolutions are numbered for a single call)</p>
+							<p>Whether the issues should also be treated and commented upon</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="text" class="tsd-anchor"></a>
-					<h3>text</h3>
-					<div class="tsd-signature tsd-kind-icon">text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+					<a name="minutes" class="tsd-anchor"></a>
+					<h3>minutes</h3>
+					<div class="tsd-signature tsd-kind-icon">minutes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
+						<p>Inherited from <a href="_src_lib_types_.repo.html">Repo</a>.<a href="_src_lib_types_.repo.html#minutes">minutes</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L63">src/lib/types.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L14">src/lib/types.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Text of the resolution; this is an HTML fragment</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="url" class="tsd-anchor"></a>
-					<h3>url</h3>
-					<div class="tsd-signature tsd-kind-icon">url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L68">src/lib/types.ts:68</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>URL for the resolution (ie, the URL of the minutes with the relevant fragment ID)</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="year" class="tsd-anchor"></a>
-					<h3>year</h3>
-					<div class="tsd-signature tsd-kind-icon">year<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L48">src/lib/types.ts:48</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Year of the resolution</p>
+							<p>Directory storing the minutes within the repository</p>
 						</div>
 					</div>
 				</section>
@@ -244,42 +219,36 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.issuehandler.html" class="tsd-kind-icon">Issue<wbr>Handler</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.localrepo.html" class="tsd-kind-icon">Local<wbr>Repo</a>
+						<ul>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_src_lib_types_.localrepo.html#current" class="tsd-kind-icon">current</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_src_lib_types_.localrepo.html#dir" class="tsd-kind-icon">dir</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_src_lib_types_.localrepo.html#handle_issues" class="tsd-kind-icon">handle_<wbr>issues</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited">
+								<a href="_src_lib_types_.localrepo.html#minutes" class="tsd-kind-icon">minutes</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.minuteprocessing.html" class="tsd-kind-icon">Minute<wbr>Processing</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.repo.html" class="tsd-kind-icon">Repo</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.resolution.html" class="tsd-kind-icon">Resolution</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#call" class="tsd-kind-icon">call</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#date" class="tsd-kind-icon">date</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#number" class="tsd-kind-icon">number</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#text" class="tsd-kind-icon">text</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#url" class="tsd-kind-icon">url</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_src_lib_types_.resolution.html#year" class="tsd-kind-icon">year</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_src_lib_types_.html#getdatacallback" class="tsd-kind-icon">Get<wbr>Data<wbr>Callback</a>
 					</li>

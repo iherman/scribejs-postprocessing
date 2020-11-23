@@ -42,7 +42,7 @@
 
         "out" : "docs/",
         "theme": "default",
-        "name" : "Collecting WG resolutions from scribejs generated minutes",
+        "name" : "Post-processing scribejs generated minutes",
         "includeVersion": true,
         "categorizeByGroup": true,
         "gitRemote": "origin",

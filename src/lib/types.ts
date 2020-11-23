@@ -153,7 +153,7 @@ export interface IssueHandler {
 }
 
 /**
- * Discussion on specific issues, extracted from the minutes and used to add comments to specific issues
+ * Discussion on specific issues, extracted from the minutes and used to add comments to specific issues.
  */
 export interface IssueDiscussion {
     /**

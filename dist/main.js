@@ -18,7 +18,7 @@ const repos_1 = require("./lib/repos");
  */
 async function main() {
     const flag = process.argv.pop();
-    flag === '-l' || flag === '--local' ? repos_1.local_repos() : repos_1.github_repos();
+    await repos_1.process_minutes(flag === '-l' || flag === '--local');
 }
 main();
 //# sourceMappingURL=main.js.map

@@ -1,20 +1,6 @@
 "use strict";
-/**
- * ## Handling repositories.
- *
- * The module handles each repository, by collecting the resolutions for all (new) minutes and update resolution file for each.
- *
- * The module has two entry points:
- *
- * 1. [[github_repos]] to handle repositories directly from GitHub
- * 2. [[local_repos]] to handle locally cloned repositories
- *
- * The data about the repositories to be updated are defined in [[GITHUB_REPOS]] and [[LOCAL_REPOS]], respectively.
- *
- * @packageDocumentation
-*/
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.local_repos = exports.github_repos = void 0;
+exports.process_minutes = void 0;
 const path = require("path");
 const fs = require("fs");
 /** @internal */
@@ -22,33 +8,101 @@ const fsp = fs.promises;
 const githubapi_1 = require("./js/githubapi");
 const config_1 = require("./config");
 const resolutions_1 = require("./resolutions");
-/* ------------------------------------------------------------------------------------------------- */
+const issues_1 = require("./issues");
+const utils_1 = require("./utils");
 /**
- * The main processing for github repositories: for each repo in [[GITHUB_REPOS]]:
- *
- * 1. get the “current” list of resolution from the repo,
- * 2. compare them to the list of minutes in the folder marked to contain the minutes
- * 3. generate the missing set of resolutions by invoking [[collect_resolutions]] function on the list of minute references
- * 4. merge the results with the “current” list
- * 5. commit a new “current” list of resolution on the repo (making use of the user’s API token)
- *
- * Access to the github repository (i.e., step 5 above) is based on the user’s API token, stored in the local configuration file (see [[USER_CONFIG_NAME]])
- *
- * @async
+ * Current date, used to annotate the generated minute processing logs
  */
-async function github_repos() {
-    let github_credentials = {};
-    // Do what is necessary for a single github repository
-    const handle_one_repo = async (repo) => {
+const now = (new Date()).toISOString();
+/**
+ * Generic class for managing minutes. The real work is done in other modules, this just provides the general framework of
+ * managing the information for one repository.
+ *
+ */
+class RepoProcessing {
+    constructor(the_repo, credentials) {
+        /** List of minute file names. This is set in the relevant subclasses. */
+        this.list_of_minutes = [];
+        this.repo = the_repo;
+        this.gh_credentials = credentials;
+    }
+    /**
+     * Processing the information for a single repository. This is mostly a shell around the real work done in other modules.
+     * The function
+     *
+     * 1. filters out the minutes that have not yet been handled (this information is part of [[current]])
+     * 2. goes through the processing (resolution gathering, issues, etc)
+     * 3. updates the value of [[current]] and uploads it to the repository
+     *
+     * The two callback functions are instantiated in the subclasses to either read/write from/to a local directory or the (remove) github repository.
+     *
+     * @param current - collection of information related to the current status for the repository
+     * @param get_data - callback function used to get to the content of the minute for a single file
+     * @param write_data - callback function used to store the new content on the repository
+     */
+    async process_minutes(current, get_data, write_data) {
+        // Filter out minutes files that have already been treated in a previous run
+        const missing_files = utils_1.filter_resolutions(this.list_of_minutes, current);
+        utils_1.DEBUG('To be used for new processing', missing_files);
+        if (missing_files.length === 0) {
+            utils_1.LOG('No new minutes to process');
+        }
+        else {
+            missing_files.forEach((fname) => utils_1.LOG(`Processing ${fname}`));
+            // This is the external method that gathers the resolution for all minutes. It returns a new
+            // MinuteProcessing structure, including the list of files that have been treated and the corresponding
+            // resolutions.
+            // Because this asset is used to display the resolution when jekyll runs, both content must go 'back' to
+            // the repository (see below)
+            const new_resolutions = await resolutions_1.collect_resolutions(missing_files, get_data);
+            utils_1.DEBUG('New set of resolutions', new_resolutions);
+            await issues_1.collect_issue_comments(this.gh_credentials, missing_files, get_data);
+            utils_1.DEBUG('Collected the issue comments');
+            // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
+            // before uploading it
+            let new_asset;
+            try {
+                new_asset = {
+                    date: now,
+                    file_names: [...current.file_names, ...new_resolutions.file_names],
+                    resolutions: [...new_resolutions.resolutions, ...current.resolutions],
+                };
+            }
+            catch {
+                new_resolutions.date = now;
+                new_asset = new_resolutions;
+            }
+            utils_1.DEBUG('New asset:', new_asset);
+            if (config_1.DO_UPDATE) {
+                await write_data(new_asset);
+                utils_1.LOG('Updated');
+            }
+            else {
+                utils_1.LOG('Update skipped to ease debugging!');
+            }
+        }
+    }
+}
+/**
+ * Repository management for a (remote) github repository. The necessary information are gathered via the Github API.
+ */
+class GithubRepoProcessing extends RepoProcessing {
+    constructor(the_repo, credentials) {
+        super(the_repo, credentials);
+    }
+    /**
+     * Concrete implementation of the abstract method. Access to the github repository is based on the user’s API token, stored in the local configuration file (see [[USER_CONFIG_NAME]])
+     */
+    async handle_one_repo() {
         // Note that the JSON based structures returned from the Github API are all typed as "any". It would be
         // nice if a proper Typescript definition was available for those but, alas!, I did not see any and
         // I did not define them
-        const now = (new Date()).toISOString();
+        const repo = this.repo;
         const repo_log = { owner: repo.owner, repo: repo.repo };
         try {
-            config_1.LOG(`=== ${now} (run on github repos)`);
-            config_1.LOG('Updating', repo_log);
-            const the_repo = new githubapi_1.Github(github_credentials.ghtoken, repo.owner, repo.repo);
+            utils_1.LOG(`=== ${now} (run on github repos)`);
+            utils_1.LOG('Updating', repo_log);
+            const the_repo = new githubapi_1.Github(this.gh_credentials.ghtoken, repo.owner, repo.repo);
             // Get hold of the asset file to see what is there...
             let current_asset;
             let current_sha;
@@ -59,54 +113,93 @@ async function github_repos() {
             }
             catch (e) {
                 current_asset = {
-                    short_names: [],
+                    file_names: [],
                     resolutions: [],
                 };
                 current_sha = undefined;
             }
             // Get hold of the list of minute files
-            let missing_files = [];
-            let list_of_minutes = [];
             try {
                 const list_of_minutes_wrappers = await the_repo.get_listing(repo.minutes, 400);
-                list_of_minutes = list_of_minutes_wrappers.items.map((item) => item.downloadUrl.split('/').pop());
-                config_1.DEBUG('Current listing', list_of_minutes);
-                // See if any new minutes have been added to the system since the last run
-                missing_files = resolutions_1.filter_resolutions(list_of_minutes, current_asset);
-                config_1.DEBUG('To be used for new resolutions', missing_files);
+                this.list_of_minutes = list_of_minutes_wrappers.items.map((item) => item.downloadUrl.split('/').pop());
+                utils_1.DEBUG('Current listing', this.list_of_minutes);
             }
             catch (e) {
-                config_1.LOG('No minutes to process');
+                utils_1.LOG('No minutes to process');
                 return;
             }
-            if (missing_files.length === 0) {
-                config_1.LOG('No new minutes to process');
-            }
-            else {
-                missing_files.forEach((fname) => config_1.LOG(`Processing ${fname}`));
-                // Get the new resolutions, as well as the lists of minute files that are parsed
-                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, 
-                // eslint-disable-next-line comma-dangle
-                (file_name) => the_repo.get_file(repo.minutes, file_name));
-                const new_asset = {
-                    date: now,
-                    short_names: [...current_asset.short_names, ...new_resolutions.short_names],
-                    resolutions: [...new_resolutions.resolutions, ...current_asset.resolutions],
-                };
-                config_1.DEBUG('New asset:', new_asset);
-                // Update/commit the new set of resolutions
-                await the_repo.update(repo.current, `Updated resolution list for ${now}`, new_asset, current_sha);
-                config_1.LOG('Updated');
-            }
+            // Get the new resolutions, as well as the lists of minute files that are parsed
+            await this.process_minutes(current_asset, (file_name) => the_repo.get_file(repo.minutes, file_name), 
+            // eslint-disable-next-line comma-dangle
+            (content) => the_repo.update(repo.current, `Updated process list for ${now}`, content, current_sha));
         }
         catch (e) {
-            config_1.LOG(`Problems: ${e} with`, repo_log);
+            utils_1.LOG(`Problems: ${e} with`, repo_log);
+            utils_1.DEBUG(e.stack);
         }
         finally {
-            config_1.LOG('===');
+            utils_1.LOG('===');
         }
-    };
-    // Get hold of the github credentials
+    }
+}
+/**
+ * Repository management for a local copy of a repository. The necessary information are gathered via the filesystem API of node.js.
+ */
+class LocalRepoProcessing extends RepoProcessing {
+    constructor(the_repo, credentials) {
+        super(the_repo, credentials);
+    }
+    /**
+     * Concrete implementation of the abstract method. Access to the local repository clone is based on the filesystem API of node.js.
+     */
+    async handle_one_repo() {
+        const local_repo = this.repo;
+        const repo_log = local_repo.dir;
+        try {
+            utils_1.LOG(`=== ${now} (run on local repos)`);
+            utils_1.LOG('Updating', repo_log);
+            let current;
+            try {
+                const current_data = await fsp.readFile(path.join(local_repo.dir, local_repo.current), 'utf-8');
+                current = JSON.parse(current_data);
+            }
+            catch (e) {
+                current = {
+                    file_names: [],
+                    resolutions: [],
+                };
+            }
+            utils_1.DEBUG('Current assets', current);
+            try {
+                this.list_of_minutes = await fsp.readdir(path.join(local_repo.dir, local_repo.minutes), 'utf-8');
+                utils_1.DEBUG('Current listing', this.list_of_minutes);
+            }
+            catch (e) {
+                utils_1.LOG('No minutes to process');
+                return;
+            }
+            const minutes_full_path = path.join(local_repo.dir, local_repo.minutes);
+            await this.process_minutes(current, (file_name) => fsp.readFile(path.join(minutes_full_path, file_name), 'utf-8'), 
+            // eslint-disable-next-line comma-dangle
+            (content) => fsp.writeFile(path.join(local_repo.dir, local_repo.current), JSON.stringify(content, null, 4), 'utf-8'));
+        }
+        catch (e) {
+            utils_1.LOG(`Problems: ${e} with`, repo_log);
+            utils_1.DEBUG(e.stack);
+        }
+        finally {
+            utils_1.LOG('===');
+        }
+    }
+}
+/**
+ * Control the minute postprocessing cycle. Depending on the value of [[local]], either the repos in [[LOCAL_REPOS]] or [[GITHUB_REPOS]] are handled, by
+ * creating an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ *
+ * @param local - whether the local clones or the Github repository should be used.
+ */
+async function process_minutes(local) {
+    let github_credentials;
     try {
         const fname = path.join(process.env.HOME, config_1.USER_CONFIG_NAME);
         const config_content = await fsp.readFile(fname, 'utf-8');
@@ -116,79 +209,20 @@ async function github_repos() {
         console.log(`Could not get hold of the github credentials: ${e}`);
         process.exit(-1);
     }
-    config_1.DEBUG('Credentials:', github_credentials);
-    // It is necessary to do it this way to ensure a non-overlapping set of logs
-    for (let i = 0; i < config_1.GITHUB_REPOS.length; i++) {
-        await handle_one_repo(config_1.GITHUB_REPOS[i]);
+    if (local) {
+        // It is necessary to do it this way to ensure a non-overlapping set of logs.
+        for (let i = 0; i < config_1.LOCAL_REPOS.length; i++) {
+            const processing = new LocalRepoProcessing(config_1.LOCAL_REPOS[i], github_credentials);
+            await processing.handle_one_repo();
+        }
+    }
+    else {
+        // It is necessary to do it this way to ensure a non-overlapping set of logs
+        for (let i = 0; i < config_1.GITHUB_REPOS.length; i++) {
+            const processing = new GithubRepoProcessing(config_1.GITHUB_REPOS[i], github_credentials);
+            await processing.handle_one_repo();
+        }
     }
 }
-exports.github_repos = github_repos;
-/* ------------------------------------------------------------------------------------------------- */
-/**
- * The main processing for local repositories: for each repo in [[LOCAL_REPOS]]:
- *
- * 1. get the “current” list of resolution from the local repo,
- * 2. compare them to the list of minutes in the folder marked to contain the minutes
- * 3. generate the missing set of resolutions by invoking [[collect_resolutions]] function on the list of minute references
- * 4. merge the results with the “current” list
- * 5. overwrite the “current” list of resolution with the new content
- *
- * @async
- */
-async function local_repos() {
-    const handle_one_repo = async (local_repo) => {
-        const now = (new Date()).toISOString();
-        const repo_log = local_repo.dir;
-        try {
-            config_1.LOG(`=== ${now} (run on local repos)`);
-            config_1.LOG('Updating', repo_log);
-            let current;
-            try {
-                const current_data = await fsp.readFile(path.join(local_repo.dir, local_repo.current), 'utf-8');
-                current = JSON.parse(current_data);
-            }
-            catch (e) {
-                current = {
-                    short_names: [],
-                    resolutions: [],
-                };
-            }
-            config_1.DEBUG('Current assets', current);
-            const list_of_minutes = await fsp.readdir(path.join(local_repo.dir, local_repo.minutes), 'utf-8');
-            config_1.DEBUG('Current listing', list_of_minutes);
-            const missing_files = resolutions_1.filter_resolutions(list_of_minutes, current);
-            config_1.DEBUG('To be used for new resolutions', missing_files);
-            if (missing_files.length === 0) {
-                config_1.LOG('No new minutes to process');
-            }
-            else {
-                missing_files.forEach((fname) => config_1.LOG(`Processing ${fname}`));
-                const minutes_full_path = path.join(local_repo.dir, local_repo.minutes);
-                const new_resolutions = await resolutions_1.collect_resolutions(missing_files, 
-                // eslint-disable-next-line comma-dangle
-                (file_name) => fsp.readFile(path.join(minutes_full_path, file_name), 'utf-8'));
-                config_1.DEBUG('New set of resolutions', new_resolutions);
-                const new_asset = {
-                    date: now,
-                    short_names: [...current.short_names, ...new_resolutions.short_names],
-                    resolutions: [...new_resolutions.resolutions, ...current.resolutions],
-                };
-                config_1.DEBUG('New asset:', new_asset);
-                await fsp.writeFile(path.join(local_repo.dir, local_repo.current), JSON.stringify(new_asset, null, 4), 'utf-8');
-                config_1.LOG('Updated');
-            }
-        }
-        catch (e) {
-            config_1.LOG(`Problems: ${e} with`, repo_log);
-        }
-        finally {
-            config_1.LOG('===');
-        }
-    };
-    // It is necessary to do it this way to ensure a non-overlapping set of logs
-    for (let i = 0; i < config_1.LOCAL_REPOS.length; i++) {
-        await handle_one_repo(config_1.LOCAL_REPOS[i]);
-    }
-}
-exports.local_repos = local_repos;
+exports.process_minutes = process_minutes;
 //# sourceMappingURL=repos.js.map

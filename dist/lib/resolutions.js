@@ -7,8 +7,8 @@
  * @packageDocumentation
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.collect_resolutions = exports.filter_resolutions = void 0;
-const config_1 = require("./config");
+exports.collect_resolutions = void 0;
+const utils_1 = require("./utils");
 const showdown = require("showdown");
 const converter = new showdown.Converter({
     omitExtraWLInCodeBlocks: true,
@@ -20,38 +20,6 @@ const converter = new showdown.Converter({
     ghMentions: true,
 });
 converter.setFlavor('github');
-/**
- * Extract the schema.org data from the minutes' preamble, and turn it into a bona fide
- * Javascript object.
- *
- * @param lines - The minutes, broken into an array of individual strings
- */
-function get_schema(lines) {
-    // try to get the start of the json-ld part
-    let index = -1;
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].startsWith('json-ld: |')) {
-            index = i + 1;
-            break;
-        }
-    }
-    if (index > 0) {
-        // we found the start section!
-        let json_data = '';
-        for (; index < lines.length; index++) {
-            if (lines[index].startsWith('---')) {
-                break;
-            }
-            else {
-                json_data = `${json_data}\n${lines[index]}`;
-            }
-        }
-        return JSON.parse(json_data);
-    }
-    else {
-        return null;
-    }
-}
 /**
  * Compare resolution objects; to be used in a “sort” method on the array of Resolutions.
  *
@@ -78,19 +46,6 @@ function sort_resolutions(a, b) {
     }
 }
 /**
- * Check whether the resolutions for minutes have already been handled in a previous run. Used to avoid unnecessary regeneration of data.
- *
- * @param refs - Array of minute references (i.e., file names)
- * @param current  - Array of current resolution data objects
- * @return - Array of minute references that must be handled
- */
-function filter_resolutions(refs, current) {
-    return refs.filter((ref) => {
-        return !current.short_names.includes(ref);
-    });
-}
-exports.filter_resolutions = filter_resolutions;
-/**
  * Get the resolution for a minute text (in markdown) of one call.
  * The function relies upon the scribejs format. It:
  *
@@ -105,16 +60,16 @@ exports.filter_resolutions = filter_resolutions;
 function get_resolutions(minutes) {
     try {
         const lines = minutes.split('\n');
-        const schema = get_schema(lines);
+        const schema = utils_1.get_schema(lines);
         if (schema === null) {
-            config_1.DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
+            utils_1.DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
         }
-        config_1.DEBUG("schema: ", schema);
+        utils_1.DEBUG("schema: ", schema);
         const url = schema.url;
         const date = schema.dateCreated;
         if (date === undefined) {
-            config_1.DEBUG(`For some reasons the date is missing`);
+            utils_1.DEBUG(`For some reasons the date is missing`);
             return [];
         }
         const year = date.split('-')[0];
@@ -137,7 +92,7 @@ function get_resolutions(minutes) {
         return resolutions;
     }
     catch (e) {
-        config_1.DEBUG("Exception: ", e);
+        utils_1.DEBUG("Exception in resolution extraction: ", e);
         return [];
     }
 }
@@ -147,7 +102,7 @@ function get_resolutions(minutes) {
  * and flattens all such resolutions into a single large resolution. The set of resolution is also sorted (using [[sort_resolutions]]).
  *
  * @param file_names - List of the minute file names, i.e., the base name of the minute file in its repository
- * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called from [[local_repos]] or [[github_repos]], respectively.
+ * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.
  * @returns  - List of resolutions
  *
  * @async
@@ -168,11 +123,11 @@ async function collect_resolutions(file_names, get_data) {
         });
     })
         // turn array of arrays into a single array
-        .reduce((accumulator, currentValue) => [...accumulator, ...currentValue], [])
+        .reduce(utils_1.flatten, [])
         // sort the resolution.
         .sort(sort_resolutions);
     return {
-        short_names: file_names,
+        file_names: file_names,
         resolutions,
     };
 }

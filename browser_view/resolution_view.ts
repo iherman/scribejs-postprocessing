@@ -38,7 +38,7 @@ interface Resolution {
 /**
  * The collection of all the Resolutions, as stored as an asset on the repository
  */
-interface Resolutions_Structure {
+interface MinuteProcessing {
     /**
      * List of minutes that have been processed (the items are simply the base names of the full URLs or path names)
      */
@@ -162,7 +162,7 @@ async function display_resolutions(target_id: string, resolution_asset: string, 
     }
 
     const target: HTMLElement   = document.getElementById(target_id);
-    const resolution_structures: Resolutions_Structure = (await (await fetch(resolution_asset)).json()) as Resolutions_Structure;
+    const resolution_structures: MinuteProcessing = (await (await fetch(resolution_asset)).json()) as MinuteProcessing;
     // eslint-disable-next-line max-len
     const resolutions: Resolution[] = (call !== null) ? resolution_structures.resolutions.filter((resolution: Resolution): boolean => resolution.call === call) : resolution_structures.resolutions;
  

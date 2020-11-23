@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
-	<meta name="description" content="Documentation for Collecting WG resolutions from scribejs generated minutes - v1.0.0">
+	<title>Post-processing scribejs generated minutes - v2.0.0</title>
+	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">Collecting WG resolutions from scribejs generated minutes - v1.0.0</a>
+					<a href="index.html" class="title">Post-processing scribejs generated minutes - v2.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -54,7 +54,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1>Collecting WG resolutions from scribejs generated minutes - v1.0.0</h1>
+			<h1>Post-processing scribejs generated minutes - v2.0.0</h1>
 		</div>
 	</div>
 </header>
@@ -62,13 +62,19 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#extract-wg-resolutions" id="extract-wg-resolutions" style="color: inherit; text-decoration: none;">
-					<h1>Extract WG resolutions</h1>
+				<a href="#processing-wgig-minutes-produced-by-scribejs" id="processing-wgig-minutes-produced-by-scribejs" style="color: inherit; text-decoration: none;">
+					<h1>Processing WG/IG minutes produced by scribejs</h1>
 				</a>
-				<p>The goal is to extract the resolutions from meeting minutes generated as markdown files by <a href="https://github.com/w3c/scribejs">scribejs</a>, and to create a JSON file in the repository (typically in the <code>assets</code> directory, but that can be configured) listing the resolutions and the pointers to the minutes. This is done by the</p>
-				<pre><code><span class="hljs-keyword">node</span> <span class="hljs-title">dist</span>/main.js</code></pre>
-				<p>command, using the list of repositories in <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a>. An example for the generated JSON file is
-				<a href="https://github.com/iherman/scribejs-resolutions/assets/resolutions.js"><code>assets/resolutions.js</code></a>. Its structure is as follows:</p>
+				<p>This script is post-processing minutes that have been produced by <a href="https://github.com/w3c/scribejs">scribejs</a>. The goal is usually to extract information from the minutes that may make the life of Working Groups easier…</p>
+				<p>At this moment, there are two such post-processing steps: extract the resolutions into a separate file, and add a notice to each issue that was discussed during a call. See the details below.</p>
+				<p>The script is using <code>node.js</code>, and can be run by:</p>
+				<pre><code><span class="hljs-keyword">node</span> <span class="hljs-title">[--local</span>] dist/main.js</code></pre>
+				<p>See the section on extracting resolution for the effect of the <code>--local</code> files. At the moment, the configuration for the various repositories are in the <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> file; this can be modified and the js files regenerated using <code>tsc</code>. (A later version will separate these files into a separate configuration file.)</p>
+				<a href="#extracting-resolutions" id="extracting-resolutions" style="color: inherit; text-decoration: none;">
+					<h2>Extracting resolutions</h2>
+				</a>
+				<p>The goal is to extract the resolutions from meeting minutes generated as markdown files by <a href="https://github.com/w3c/scribejs">scribejs</a>, and to create a JSON file in the repository (typically in the <code>assets</code> directory, but that can be configured) listing the resolutions and the pointers to the minutes.  An example for the generated JSON file is
+				<a href="https://github.com/iherman/scribejs-resolutions/assets/minute_processing.js"><code>assets/minute_processing.js</code></a>. Its structure is as follows:</p>
 				<pre><code class="language-text">{
     &quot;date&quot; : // Date of the last generation,
     &quot;short_names&quot; : [
@@ -86,9 +92,16 @@
         ... // etc. (and entry for each resolution)
     ]
 }</code></pre>
-				<p>The script avoids unnecessary network access by only generating the entries for <em>new</em> (i.e., not yet processed) meetings.</p>
-				<p>The <a href="https://github.com/iherman/scribejs-resolutions/assets/resolutions.js"><code>assets/resolutions.js</code></a> file can be used by a client-side script to display the list of resolutions. See, for example, the <a href="https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html"><code>browser_view/resolutions.html</code></a> file, with the corresponding <a href="(https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html)"><code>browser_view/resolution_view.js</code></a> script.</p>
+				<p>The script avoids unnecessary network access by only generating the entries for <em>new</em> (i.e., not yet processed) meetings; hence this file is stored in the group&#39;s repository. That file is updated at each run.</p>
+				<p>By default, the script looks for the <code>minute_processing.js</code> files, as well for the minutes themselves, in Github repositories. The <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> may also contain local “equivalents”, referring to cloned repositories on the user&#39;s local disc (which then can be accessed through the file system API). Using these, instead of the Github repository, is controlled by the <code>--local</code> flag when running the script. </p>
+				<p>The <a href="https://github.com/iherman/scribejs-resolutions/assets/minute_processing.js"><code>assets/minute_processing.js</code></a> file can be used by a client-side script to display the list of resolutions. See, for example, the <a href="https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html"><code>browser_view/resolutions.html</code></a> file, with the corresponding <a href="(https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html)"><code>browser_view/resolution_view.js</code></a> script.</p>
 				<p>(The local <code>_minutes</code> and <code>_assets</code> directories in the repository are only for testing purposes. See also the <a href="https://iherman.github.io/scribejs-resolutions/modules/_src_main_.html">API documentation</a> for further details.)</p>
+				<a href="#extracting-issue-comments" id="extracting-issue-comments" style="color: inherit; text-decoration: none;">
+					<h2>Extracting issue comments</h2>
+				</a>
+				<p><a href="https://github.com/w3c/scribejs">scribejs</a> adds special “directives” into the minutes (relying on a scribe feature) when a section (or subsection) discusses specific issues or pull requests. These directives are of the form:</p>
+				<pre><code><span class="hljs-comment">&lt;!-- scribe owner/repo/issuenumbers owner/repo/issuenumber2 --&gt;</span></code></pre>
+				<p>The postprocessing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue. This, effectively, “binds” the WG discussions to the issues and vice versa. The <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which makes this processing step meaningless…)</p>
 				<hr>
 				<p>Maintainer: <a href="https://github.com/iherman">@iherman</a></p>
 			</div>
@@ -101,6 +114,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_lib_config_.html">&quot;src/lib/config&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_lib_issues_.html">&quot;src/lib/issues&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_lib_js_githubapi_.html">&quot;src/lib/js/githubapi&quot;</a>
@@ -116,6 +132,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_lib_types_.html">&quot;src/lib/types&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_main_.html">&quot;src/main&quot;</a>
@@ -136,6 +155,7 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">

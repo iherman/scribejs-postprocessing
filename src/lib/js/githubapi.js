@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 'use strict';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const Octokat = require('octokat');
 
 const base64_to_string = (data) => Buffer.from(data,'base64').toString('utf-8');
@@ -19,7 +20,9 @@ class Github {
      * @param {string} repo - Repository
      */
     constructor(token, owner, repo) {
-        this.repo = new Octokat({token: token}).repos(owner, repo);
+        this.repo_access = new Octokat({token: token}).repos(owner, repo);
+        this.owner = owner;
+        this.repo = repo;
     }
 
     /**
@@ -29,10 +32,10 @@ class Github {
      * @async
      */
     async get_json(path) {
-        const content_gh_data = await this.repo.contents(path).fetch(); 
+        const content_gh_data = await this.repo_access.contents(path).fetch(); 
         return {
             content : JSON.parse(base64_to_string(content_gh_data.content)),
-            sha     : content_gh_data.sha
+            sha     : content_gh_data.sha,
         }
     }
 
@@ -45,7 +48,7 @@ class Github {
      * @async 
      */
     async get_listing(path, page_size = null) {
-        return page_size !== null ? this.repo.contents(path).fetch({per_page: page_size}) : this.repo.contents(path).fetch(); 
+        return page_size !== null ? this.repo_access.contents(path).fetch({per_page: page_size}) : this.repo_access.contents(path).fetch(); 
     }
 
     /**
@@ -57,7 +60,7 @@ class Github {
      * @async
      */
     async get_file(path, file_name) {
-        return this.repo.contents(path, file_name).read(); 
+        return this.repo_access.contents(path, file_name).read(); 
     }
 
     /**
@@ -70,11 +73,22 @@ class Github {
      */
     async update(path, message, new_content, sha = undefined) {
         const new_gh_data = {
-            message: message,
-            content: string_to_base64(JSON.stringify(new_content,null,4))
+            message : message, 
+            content : string_to_base64(JSON.stringify(new_content,null,4)),
         }
         if (sha !== undefined) new_gh_data.sha = sha;
-        await this.repo.contents(path).add(new_gh_data);
+        await this.repo_access.contents(path).add(new_gh_data);
+        return;
+    }
+
+    async comment(issue_number, body) {
+        const new_gh_data = {
+            owner        : this.owner,
+            repo         : this.repo,
+            issue_number : issue_number,
+            body         : body,
+        }
+        await this.repo_access.issues(issue_number).comments.create(new_gh_data);
         return;
     }
 }

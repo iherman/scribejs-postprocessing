@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/lib/repos&quot; | Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
-	<meta name="description" content="Documentation for Collecting WG resolutions from scribejs generated minutes - v1.0.0">
+	<title>&quot;src/lib/repos&quot; | Post-processing scribejs generated minutes - v2.0.0</title>
+	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Collecting WG resolutions from scribejs generated minutes - v1.0.0</a>
+					<a href="../index.html" class="title">Post-processing scribejs generated minutes - v2.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -64,101 +64,81 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<a href="#handling-repositories" id="handling-repositories" style="color: inherit; text-decoration: none;">
-							<h2>Handling repositories.</h2>
-						</a>
-					</div>
-					<p>The module handles each repository, by collecting the resolutions for all (new) minutes and update resolution file for each.</p>
-					<p>The module has two entry points:</p>
-					<ol>
-						<li><a href="_src_lib_repos_.html#github_repos">github_repos</a> to handle repositories directly from GitHub</li>
-						<li><a href="_src_lib_repos_.html#local_repos">local_repos</a> to handle locally cloned repositories</li>
-					</ol>
-					<p>The data about the repositories to be updated are defined in <a href="_src_lib_config_.html#github_repos">GITHUB_REPOS</a> and <a href="_src_lib_config_.html#local_repos">LOCAL_REPOS</a>, respectively.</p>
-				</div>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.githubrepoprocessing.html" class="tsd-kind-icon">Github<wbr>Repo<wbr>Processing</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.localrepoprocessing.html" class="tsd-kind-icon">Local<wbr>Repo<wbr>Processing</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.repoprocessing.html" class="tsd-kind-icon">Repo<wbr>Processing</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_repos_.html#now" class="tsd-kind-icon">now</a></li>
+							</ul>
+						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_repos_.html#github_repos" class="tsd-kind-icon">github_<wbr>repos</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_repos_.html#local_repos" class="tsd-kind-icon">local_<wbr>repos</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_repos_.html#process_minutes" class="tsd-kind-icon">process_<wbr>minutes</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+					<a name="now" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> now</h3>
+					<div class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = (new Date()).toISOString()</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/repos.ts#L16">src/lib/repos.ts:16</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Current date, used to annotate the generated minute processing logs</p>
+						</div>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="github_repos" class="tsd-anchor"></a>
-					<h3>github_<wbr>repos</h3>
+					<a name="process_minutes" class="tsd-anchor"></a>
+					<h3>process_<wbr>minutes</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">github_<wbr>repos<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process_<wbr>minutes<span class="tsd-signature-symbol">(</span>local<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/repos.ts#L43">src/lib/repos.ts:43</a></li>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/repos.ts#L236">src/lib/repos.ts:236</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>The main processing for github repositories: for each repo in <a href="_src_lib_config_.html#github_repos">GITHUB_REPOS</a>:</p>
+									<p>Control the minute postprocessing cycle. Depending on the value of [[local]], either the repos in <a href="_src_lib_config_.html#local_repos">LOCAL_REPOS</a> or <a href="_src_lib_config_.html#github_repos">GITHUB_REPOS</a> are handled, by
+									creating an appropriate subclass instance of [[Repo_Processing]] and run the respective <code>handle_one_repo</code> method.</p>
 								</div>
-								<ol>
-									<li>get the “current” list of resolution from the repo,</li>
-									<li>compare them to the list of minutes in the folder marked to contain the minutes</li>
-									<li>generate the missing set of resolutions by invoking <a href="_src_lib_resolutions_.html#collect_resolutions">collect_resolutions</a> function on the list of minute references</li>
-									<li>merge the results with the “current” list</li>
-									<li>commit a new “current” list of resolution on the repo (making use of the user’s API token)</li>
-								</ol>
-								<p>Access to the github repository (i.e., step 5 above) is based on the user’s API token, stored in the local configuration file (see <a href="_src_lib_config_.html#user_config_name">USER_CONFIG_NAME</a>)</p>
-								<dl class="tsd-comment-tags">
-									<dt>async</dt>
-									<dd></dd>
-								</dl>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="local_repos" class="tsd-anchor"></a>
-					<h3>local_<wbr>repos</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">local_<wbr>repos<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/repos.ts#L149">src/lib/repos.ts:149</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The main processing for local repositories: for each repo in <a href="_src_lib_config_.html#local_repos">LOCAL_REPOS</a>:</p>
-								</div>
-								<ol>
-									<li>get the “current” list of resolution from the local repo,</li>
-									<li>compare them to the list of minutes in the folder marked to contain the minutes</li>
-									<li>generate the missing set of resolutions by invoking <a href="_src_lib_resolutions_.html#collect_resolutions">collect_resolutions</a> function on the list of minute references</li>
-									<li>merge the results with the “current” list</li>
-									<li>overwrite the “current” list of resolution with the new content</li>
-								</ol>
-								<dl class="tsd-comment-tags">
-									<dt>async</dt>
-									<dd></dd>
-								</dl>
-							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>local: <span class="tsd-signature-type">boolean</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>whether the local clones or the Github repository should be used.</p>
+									</div>
+								</li>
+							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -173,6 +153,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="_src_lib_config_.html">&quot;src/lib/config&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_src_lib_issues_.html">&quot;src/lib/issues&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="_src_lib_js_githubapi_.html">&quot;src/lib/js/githubapi&quot;</a>
@@ -190,17 +173,29 @@
 						<a href="_src_lib_types_.html">&quot;src/lib/types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="_src_main_.html">&quot;src/main&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_lib_repos_.html#github_repos" class="tsd-kind-icon">github_<wbr>repos</a>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../classes/_src_lib_repos_.githubrepoprocessing.html" class="tsd-kind-icon">Github<wbr>Repo<wbr>Processing</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../classes/_src_lib_repos_.localrepoprocessing.html" class="tsd-kind-icon">Local<wbr>Repo<wbr>Processing</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
+						<a href="../classes/_src_lib_repos_.repoprocessing.html" class="tsd-kind-icon">Repo<wbr>Processing</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_src_lib_repos_.html#now" class="tsd-kind-icon">now</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_lib_repos_.html#local_repos" class="tsd-kind-icon">local_<wbr>repos</a>
+						<a href="_src_lib_repos_.html#process_minutes" class="tsd-kind-icon">process_<wbr>minutes</a>
 					</li>
 				</ul>
 			</nav>
@@ -214,6 +209,7 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">

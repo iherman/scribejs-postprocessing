@@ -1,4 +1,3 @@
-
 /**
  * ## Gathering the resolutions
  * 
@@ -7,8 +6,8 @@
  * @packageDocumentation
 */
 
-import { Resolution, Resolutions, GetDataCallback } from './types';
-import { DEBUG } from './config';
+import { Resolution, MinuteProcessing, GetDataCallback } from './types';
+import { get_schema, flatten, DEBUG }                    from './utils';
 
 import * as showdown from 'showdown';
 const converter = new showdown.Converter({
@@ -19,41 +18,8 @@ const converter = new showdown.Converter({
     literalMidWordAsterisks            : true,
     strikethrough                      : true,
     ghMentions                         : true,
-
 });
 converter.setFlavor('github');
-
-
-/**
- * Extract the schema.org data from the minutes' preamble, and turn it into a bona fide 
- * Javascript object.
- * 
- * @param lines - The minutes, broken into an array of individual strings
- */
-function get_schema(lines: string[]): any {
-    // try to get the start of the json-ld part
-    let index = -1;
-    for (let i = 0; i < lines.length; i++) {
-        if (lines[i].startsWith('json-ld: |')) {
-            index = i + 1;
-            break;
-        }
-    } 
-    if (index > 0) {
-        // we found the start section!
-        let json_data = '';
-        for ( ; index < lines.length; index++) {
-            if (lines[index].startsWith('---')) {
-                break;
-            } else {
-                json_data = `${json_data}\n${lines[index]}`;
-            }
-        }
-        return JSON.parse(json_data);
-    } else {
-        return null;
-    }
-}
 
 
 /**
@@ -81,20 +47,6 @@ function sort_resolutions(a: Resolution, b: Resolution): number {
 
 
 /**
- * Check whether the resolutions for minutes have already been handled in a previous run. Used to avoid unnecessary regeneration of data.
- * 
- * @param refs - Array of minute references (i.e., file names) 
- * @param current  - Array of current resolution data objects
- * @return - Array of minute references that must be handled
- */
-export function filter_resolutions(refs: string[], current: Resolutions): string[] {
-    return refs.filter((ref) => {
-        return !current.short_names.includes(ref);
-    });
-}
-
-
-/**
  * Get the resolution for a minute text (in markdown) of one call.
  * The function relies upon the scribejs format. It:
  *
@@ -109,7 +61,7 @@ export function filter_resolutions(refs: string[], current: Resolutions): string
 function get_resolutions(minutes: string): Resolution[] {
     try {
         const lines: string[] = minutes.split('\n');
-        const schema: any  = get_schema(lines);
+        const schema: any     = get_schema(lines);
         if (schema === null) {
             DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
@@ -142,7 +94,7 @@ function get_resolutions(minutes: string): Resolution[] {
             });
         return resolutions;    
     } catch (e) {
-        DEBUG("Exception: ",e)
+        DEBUG("Exception in resolution extraction: ",e)
         return [];
     }
 }
@@ -154,15 +106,15 @@ function get_resolutions(minutes: string): Resolution[] {
  * and flattens all such resolutions into a single large resolution. The set of resolution is also sorted (using [[sort_resolutions]]).
  * 
  * @param file_names - List of the minute file names, i.e., the base name of the minute file in its repository
- * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called from [[local_repos]] or [[github_repos]], respectively.
+ * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.
  * @returns  - List of resolutions 
  * 
  * @async
  */
-export async function collect_resolutions(file_names: string[], get_data: GetDataCallback): Promise<Resolutions> {
+export async function collect_resolutions(file_names: string[], get_data: GetDataCallback): Promise<MinuteProcessing> {
     const minutes_promises: Promise<string>[] = file_names.map((file_name) => get_data(file_name));
     const minutes: string[]                   = await Promise.all(minutes_promises);
-    const resolutions      = minutes
+    const resolutions = minutes
         // extract all resolutions from the markdown text, returning an array of resolution objects
         .map(get_resolutions)
         // add the group name to each resolution, based on the file name
@@ -175,12 +127,12 @@ export async function collect_resolutions(file_names: string[], get_data: GetDat
             });
         })
         // turn array of arrays into a single array
-        .reduce((accumulator: Resolution[], currentValue: Resolution[]): Resolution[] => [...accumulator, ...currentValue],[])
+        .reduce(flatten,[])
         // sort the resolution.
         .sort(sort_resolutions);
 
     return {
-        short_names : file_names,
+        file_names : file_names,
         resolutions,
     }
 }

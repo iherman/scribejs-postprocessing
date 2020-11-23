@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Repo | Collecting WG resolutions from scribejs generated minutes - v1.0.0</title>
-	<meta name="description" content="Documentation for Collecting WG resolutions from scribejs generated minutes - v1.0.0">
+	<title>Repo | Post-processing scribejs generated minutes - v2.0.0</title>
+	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">Collecting WG resolutions from scribejs generated minutes - v1.0.0</a>
+					<a href="../index.html" class="title">Post-processing scribejs generated minutes - v2.0.0</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -81,10 +81,10 @@
 						<span class="target">Repo</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<a href="_src_lib_types_.local_repo.html" class="tsd-signature-type">Local_Repo</a>
+								<a href="_src_lib_types_.localrepo.html" class="tsd-signature-type">LocalRepo</a>
 							</li>
 							<li>
-								<a href="_src_lib_types_.github_repo.html" class="tsd-signature-type">Github_Repo</a>
+								<a href="_src_lib_types_.githubrepo.html" class="tsd-signature-type">GithubRepo</a>
 							</li>
 						</ul>
 					</li>
@@ -94,25 +94,26 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_src_lib_types_.repo.html#current" class="tsd-kind-icon">current</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported"><a href="_src_lib_types_.repo.html#minutes" class="tsd-kind-icon">minutes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.repo.html#current" class="tsd-kind-icon">current</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.repo.html#handle_issues" class="tsd-kind-icon">handle_<wbr>issues</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_src_lib_types_.repo.html#minutes" class="tsd-kind-icon">minutes</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="current" class="tsd-anchor"></a>
 					<h3>current</h3>
 					<div class="tsd-signature tsd-kind-icon">current<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/types.ts#L15">src/lib/types.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L17">src/lib/types.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -121,13 +122,28 @@
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="handle_issues" class="tsd-anchor"></a>
+					<h3>handle_<wbr>issues</h3>
+					<div class="tsd-signature tsd-kind-icon">handle_<wbr>issues<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L20">src/lib/types.ts:20</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Whether the issues should also be treated and commented upon</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="minutes" class="tsd-anchor"></a>
 					<h3>minutes</h3>
 					<div class="tsd-signature tsd-kind-icon">minutes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/1470b7b/src/lib/types.ts#L13">src/lib/types.ts:13</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/types.ts#L14">src/lib/types.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -148,6 +164,9 @@
 						<a href="../modules/_src_lib_config_.html">&quot;src/lib/config&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/_src_lib_issues_.html">&quot;src/lib/issues&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/_src_lib_js_githubapi_.html">&quot;src/lib/js/githubapi&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -163,6 +182,9 @@
 						<a href="../modules/_src_lib_types_.html">&quot;src/lib/types&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/_src_lib_utils_.html">&quot;src/lib/utils&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/_src_main_.html">&quot;src/main&quot;</a>
 					</li>
 				</ul>
@@ -170,23 +192,35 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.github_credentials.html" class="tsd-kind-icon">Github_<wbr><wbr>Credentials</a>
+						<a href="_src_lib_types_.githubcredentials.html" class="tsd-kind-icon">Github<wbr>Credentials</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.github_repo.html" class="tsd-kind-icon">Github_<wbr><wbr>Repo</a>
+						<a href="_src_lib_types_.githubrepo.html" class="tsd-kind-icon">Github<wbr>Repo</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.local_repo.html" class="tsd-kind-icon">Local_<wbr><wbr>Repo</a>
+						<a href="_src_lib_types_.issuediscussion.html" class="tsd-kind-icon">Issue<wbr>Discussion</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_src_lib_types_.issuehandler.html" class="tsd-kind-icon">Issue<wbr>Handler</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_src_lib_types_.localrepo.html" class="tsd-kind-icon">Local<wbr>Repo</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="_src_lib_types_.minuteprocessing.html" class="tsd-kind-icon">Minute<wbr>Processing</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-is-not-exported">
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.repo.html" class="tsd-kind-icon">Repo</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_src_lib_types_.repo.html#current" class="tsd-kind-icon">current</a>
 							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-not-exported">
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_src_lib_types_.repo.html#handle_issues" class="tsd-kind-icon">handle_<wbr>issues</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
 								<a href="_src_lib_types_.repo.html#minutes" class="tsd-kind-icon">minutes</a>
 							</li>
 						</ul>
@@ -196,11 +230,11 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="_src_lib_types_.resolution.html" class="tsd-kind-icon">Resolution</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="_src_lib_types_.resolutions.html" class="tsd-kind-icon">Resolutions</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="../modules/_src_lib_types_.html#getdatacallback" class="tsd-kind-icon">Get<wbr>Data<wbr>Callback</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="../modules/_src_lib_types_.html#writedatacallback" class="tsd-kind-icon">Write<wbr>Data<wbr>Callback</a>
 					</li>
 				</ul>
 			</nav>
@@ -214,6 +248,7 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">

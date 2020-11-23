@@ -1,6 +1,6 @@
 "use strict";
 /**
- * ## Gathering the issues
+ * ## Gathering the issue comments and add these comments to the relevant issues on github
  *
  * See [[collect_resolutions]] for the essential entry point.
  *
@@ -16,10 +16,20 @@ const utils_1 = require("./utils");
  * for every occurrence of a comment...)
  */
 class GithubCache {
+    /**
+     *
+     * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
+     */
     constructor(gh_credentials) {
         this.values = {};
         this.gh_token = gh_credentials.ghtoken;
     }
+    /**
+     * Return a [[Github]] object to access the repository via the Github API. If this object has already been created it will return it; if not, it will be created first and stored.
+     *
+     * @param owner - github repository owner
+     * @param repo - github repository name
+     */
     gh(owner, repo) {
         const key = `${owner}/${repo}`;
         if (this.values[key] === undefined) {
@@ -59,7 +69,7 @@ class IssueHandler_Impl {
     }
 }
 /**
- * Discussion on specific issues, extracted from the minutes and used to add comments to specific issues
+ * Discussion on specific issues, extracted from the minutes and used to add comments to specific issues.
  */
 class IssueDiscussion_Impl {
     constructor(date) {
@@ -201,13 +211,14 @@ function get_issue_comments(github_cache, minutes) {
 }
 /**
  *
- * Collect all the issues. The function calls out, for each minute file, to the [[get_issues]] function
+ * Collect all the issues. The function calls out, for each minute file, to the [[get_issue_comments]] function, and then add these comments to the issues themselves,
+ * using the methods provided in the [[IssueDiscussion]] instances.
  *
  * @param gh_credentials - the user's Github credentials
  * @param file_names - List of the minute file names, i.e., the base name of the minute file in its repository
  * @param get_data - A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.
  * @returns  - List of resolutions
- *
+ * @async
  */
 async function collect_issue_comments(gh_credentials, file_names, get_data) {
     const minutes_promises = file_names.map((file_name) => get_data(file_name));

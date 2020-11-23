@@ -21,7 +21,7 @@ export const LOCAL_REPOS: LocalRepo[] = [
         dir           : '/Users/ivan/W3C/github/EPUB/epub-wg',
         minutes       : '_minutes',
         current       : 'assets/minute_processing.json',
-        handle_issues : false,
+        handle_issues : true,
     },
 ]
 
@@ -44,7 +44,7 @@ export const GITHUB_REPOS: GithubRepo[] = [
         repo          : 'did-wg',
         minutes       : '_minutes',
         current       : 'assets/minute_processing.json',
-        handle_issues : true,
+        handle_issues : false,
     },
     {
         owner         : 'w3c',

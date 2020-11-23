@@ -7,7 +7,7 @@
 */
 
 import { Resolution, MinuteProcessing, GetDataCallback } from './types';
-import { get_schema, DEBUG }                             from './utils';
+import { get_schema, flatten, DEBUG }                    from './utils';
 
 import * as showdown from 'showdown';
 const converter = new showdown.Converter({
@@ -127,7 +127,7 @@ export async function collect_resolutions(file_names: string[], get_data: GetDat
             });
         })
         // turn array of arrays into a single array
-        .reduce((accumulator: Resolution[], currentValue: Resolution[]): Resolution[] => [...accumulator, ...currentValue],[])
+        .reduce(flatten,[])
         // sort the resolution.
         .sort(sort_resolutions);
 

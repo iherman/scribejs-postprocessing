@@ -133,9 +133,9 @@ export interface GithubCredentials {
 }
 
 /**
- * Issue handling: the relevant github access and the issue number
+ * Issue handling: the relevant github access and the issue number; can be used to add a comment to that specific issue.
  */
-export interface IssueData {
+export interface IssueHandler {
     /**
      * Issue number
      */
@@ -153,13 +153,13 @@ export interface IssueData {
 }
 
 /**
- * Comments on specific issues, extracted from the minutes and used to add comments to specific issues
+ * Discussion on specific issues, extracted from the minutes and used to add comments to specific issues
  */
-export interface IssueComments {
+export interface IssueDiscussion {
     /**
-     * List of relevant issues (URL-s)
+     * The same discussion may be relevant to several issues, hence the usage of an array.
      */
-    issues: IssueData[];
+    issues: IssueHandler[];
 
     /**
      * List of corresponding resolutions (list of markdown text)
@@ -177,12 +177,17 @@ export interface IssueComments {
     date: string;
 
     /**
-     * Extract of the minutes: the list of markdown statements
+     * Extract of the minutes: the list of minutes text lines in markdown.
      */
     minute_extract: string[];
 
     /**
-     * Function to turn the content for the minutes into the code to be added to the issue comment
+     * Turn the content for the minutes into the code to be added to the issue comment
      */
     create_comment(): string;
+
+    /**
+     * Initiate all the issue generation threads
+     */
+    add_comments (): Promise<void>[];
 }

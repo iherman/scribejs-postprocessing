@@ -59,6 +59,16 @@ export function get_schema(lines: string[]): any {
     }
 }
 
+/**
+ * Helper function to "flatten" arrays of arrays into a single array. This method should be used as the callback
+ * for a `reduce`.
+ *   
+ * @param accumulator - Accumulated array in a reduce
+ * @param currentValue - The next array to be considered
+ */
+export function flatten<T>(accumulator: T[], currentValue: T[]): T[] {
+    return [...accumulator, ...currentValue];
+}
 
 /**
  * Print a debug statement if the [[DO_DEBUG]] flag is set to `true`.
@@ -84,8 +94,8 @@ export function DEBUG(preamble: string, obj: any = undefined): void {
 export function LOG(preamble: string, obj: any = undefined): void { 
     if (DO_LOG) {
         if (obj)
-            console.log(`---Scribejs post processing--- ${preamble} ${JSON.stringify(obj)}`)
+            console.log(`--- Scribejs post processing --- ${preamble} ${JSON.stringify(obj)}`)
         else 
-            console.log(`---Scribejs post processing --- ${preamble}`)
+            console.log(`--- Scribejs post processing --- ${preamble}`)
     }
 }

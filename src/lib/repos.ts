@@ -81,9 +81,13 @@ abstract class RepoProcessing {
                 new_asset = new_resolutions;
             }
 
-            if (DO_UPDATE) await write_data(new_asset);
             DEBUG('New asset:', new_asset);
-            LOG('Updated');    
+            if (DO_UPDATE) {
+                await write_data(new_asset);
+                LOG('Updated');    
+            } else {
+                LOG('Update skipped to ease debugging!');
+            }
         }
     }
 

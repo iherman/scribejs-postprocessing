@@ -5,7 +5,7 @@ const fsp = fs.promises;
 
 import { Github }                                                                                               from "./js/githubapi";
 import { MinuteProcessing, GithubCredentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
-import { USER_CONFIG_NAME, LOCAL_REPOS, GITHUB_REPOS, DO_UPDATE }                                               from './config';
+import { USER_CONFIG_NAME, DO_UPDATE }                                                                          from './config';
 import { collect_resolutions }                                                                                  from './resolutions';
 import { collect_issue_comments }                                                                               from './issues';
 import { filter_resolutions, LOG, DEBUG }                                                                       from './utils';
@@ -175,7 +175,6 @@ class GithubRepoProcessing extends RepoProcessing {
 /**
  * Repository management for a local copy of a repository. The necessary information are gathered via the filesystem API of node.js.
  */
-
 class LocalRepoProcessing extends RepoProcessing {
     constructor(the_repo: LocalRepo, credentials: GithubCredentials) {
         super(the_repo, credentials);
@@ -228,12 +227,13 @@ class LocalRepoProcessing extends RepoProcessing {
 }
 
 /**
- * Control the minute postprocessing cycle. Depending on the value of [[local]], either the repos in [[LOCAL_REPOS]] or [[GITHUB_REPOS]] are handled, by
- * creating an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ * Switch between the local and global repository handling. 
+ * 
+ * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
  * 
  * @param local - whether the local clones or the Github repository should be used.
  */
-export async function process_minutes(local: boolean): Promise<void> {
+export async function process_minutes(local: boolean, config: Repo): Promise<void> {
     let github_credentials: GithubCredentials;
     try {
         const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
@@ -244,17 +244,7 @@ export async function process_minutes(local: boolean): Promise<void> {
         process.exit(-1);
     }
 
-    if (local) {
-        // It is necessary to do it this way to ensure a non-overlapping set of logs.
-        for (let i = 0; i < LOCAL_REPOS.length; i++) {
-            const processing = new LocalRepoProcessing(LOCAL_REPOS[i], github_credentials);
-            await processing.handle_one_repo();
-        }
-    } else {        
-        // It is necessary to do it this way to ensure a non-overlapping set of logs
-        for (let i = 0; i < GITHUB_REPOS.length; i++) {
-            const processing = new GithubRepoProcessing(GITHUB_REPOS[i], github_credentials);
-            await processing.handle_one_repo();
-        }
-    }
+    const processing = local ? 
+        new LocalRepoProcessing(config as LocalRepo, github_credentials) : new GithubRepoProcessing(config as GithubRepo, github_credentials);
+    await processing.handle_one_repo();
 }

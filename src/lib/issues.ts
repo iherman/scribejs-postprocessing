@@ -6,9 +6,9 @@
  * @packageDocumentation
 */
 
-import { Github }                                            from "./js/githubapi";
+import { Github }                                                            from './js/githubapi';
 import { GetDataCallback, IssueDiscussion, GithubCredentials, IssueHandler } from './types';
-import { get_schema, flatten, DEBUG, LOG }                            from './utils';
+import { get_schema, flatten, DEBUG, LOG }                                   from './utils';
 
 interface gh_cache {
     [key:string]: Github

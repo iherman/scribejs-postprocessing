@@ -27,7 +27,9 @@
   ],
   "license": "W3C-20150513",
   "devDependencies": {
+    "@types/commander": "^2.12.2",
     "@types/node": "^14.6.4",
+    "@types/node-fetch": "^2.5.7",
     "@types/showdown": "^1.9.3",
     "typedoc": "^0.19.1",
     "typedoc-plugin-nojekyll": "^1.0.1",
@@ -36,8 +38,10 @@
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
+    "commander": "^6.2.0",
     "eslint": "^7.13.0",
     "fs": "0.0.1-security",
+    "node-fetch": "^2.6.1",
     "octocat": "^1.2.1",
     "showdown": "^1.9.1"
   }

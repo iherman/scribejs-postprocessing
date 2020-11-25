@@ -53,8 +53,9 @@ class IssueHandler_Impl {
         this.repo = repo;
         this.issue = Number.parseInt(issue);
         if (this.issue === undefined || Number.isNaN(this.issue)) {
-            utils_1.LOG(`Illegal issue number :`, issue);
-            this.issue = 0;
+            utils_1.LOG(`Illegal issue identifier :`, args);
+            // This handler will be filtered out from the overall results
+            this.issue = undefined;
         }
         this.github_access = github_cache.gh(owner, repo);
     }
@@ -186,7 +187,9 @@ function get_issue_comments(github_cache, minutes) {
                     else {
                         // Add the issues' URLs to the current comment set
                         // Create a set of issue handler objects:
-                        const issue_handlers = issue_ids.map((id) => new IssueHandler_Impl(github_cache, id));
+                        const issue_handlers = issue_ids
+                            .map((id) => new IssueHandler_Impl(github_cache, id))
+                            .filter((issue_handler) => issue_handler.issue !== undefined);
                         current_issue.issues = [...current_issue.issues, ...issue_handlers];
                     }
                 }
@@ -235,16 +238,6 @@ async function collect_issue_comments(gh_credentials, file_names, get_data) {
             .reduce(utils_1.flatten, []);
         await Promise.all(all_promises);
     }
-    // // Gather all the discussion results into one large array 
-    // const all_discussions: IssueDiscussion[] = all_minutes
-    //     .map((minutes: string): IssueDiscussion[] => get_issue_comments(github_cache, minutes))
-    //     // flatten the arrays of arrays into one single array
-    //     .reduce(flatten,[]);
-    // // Instead of issuing the comments in a rigid cycle, all the Promises are "collected" into one Array to handle them more efficiently:
-    // const comment_promises: Promise<void>[] = all_discussions
-    //     .map((discussion: IssueDiscussion): Promise<void>[] => discussion.add_comments())
-    //     .reduce(flatten,[]);
-    // await Promise.all(comment_promises);
     return;
 }
 exports.collect_issue_comments = collect_issue_comments;

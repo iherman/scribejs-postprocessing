@@ -80,8 +80,6 @@
 						<section class="tsd-index-section ">
 							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_lib_config_.html#github_repos" class="tsd-kind-icon">GITHUB_<wbr>REPOS</a></li>
-								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_lib_config_.html#local_repos" class="tsd-kind-icon">LOCAL_<wbr>REPOS</a></li>
 								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="_src_lib_config_.html#user_config_name" class="tsd-kind-icon">USER_<wbr>CONFIG_<wbr>NAME</a></li>
 							</ul>
 						</section>
@@ -91,42 +89,12 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
-					<a name="github_repos" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> GITHUB_<wbr>REPOS</h3>
-					<div class="tsd-signature tsd-kind-icon">GITHUB_<wbr>REPOS<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_src_lib_types_.githubrepo.html" class="tsd-signature-type">GithubRepo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [{owner         : &#x27;w3c&#x27;,repo          : &#x27;did-wg&#x27;,minutes       : &#x27;_minutes&#x27;,current       : &#x27;assets/minute_processing.json&#x27;,handle_issues : true,},{owner         : &#x27;w3c&#x27;,repo          : &#x27;epub-wg&#x27;,minutes       : &#x27;_minutes&#x27;,current       : &#x27;assets/minute_processing.json&#x27;,handle_issues : true,},]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/config.ts#L41">src/lib/config.ts:41</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>List of github repos to process when running the {@link github_repos} function: each object has a field for the repository (<code>owner</code> and <code>repo</code>), the folder used for the minutes themselves (<code>minutes</code>) and the reference to the current resolution file (<code>current</code>).</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
-					<a name="local_repos" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> LOCAL_<wbr>REPOS</h3>
-					<div class="tsd-signature tsd-kind-icon">LOCAL_<wbr>REPOS<span class="tsd-signature-symbol">:</span> <a href="../interfaces/_src_lib_types_.localrepo.html" class="tsd-signature-type">LocalRepo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = [{dir           : &#x27;/Users/ivan/W3C/github/DID/did-wg&#x27;,minutes       : &#x27;_minutes&#x27;,current       : &#x27;assets/minute_processing.json&#x27;,handle_issues : false,},{dir           : &#x27;/Users/ivan/W3C/github/EPUB/epub-wg&#x27;,minutes       : &#x27;_minutes&#x27;,current       : &#x27;assets/minute_processing.json&#x27;,handle_issues : false,},]</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/config.ts#L13">src/lib/config.ts:13</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>List of local repos to process when running the {@link local_repos} function: each object has a field for the directory (<code>dir</code>), the folder used for the minutes themselves (<code>minutes</code>) and the reference to the current resolution file (<code>current</code>).</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
 					<a name="user_config_name" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> USER_<wbr>CONFIG_<wbr>NAME</h3>
 					<div class="tsd-signature tsd-kind-icon">USER_<wbr>CONFIG_<wbr>NAME<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">".ghid.json"</span><span class="tsd-signature-symbol"> = &quot;.ghid.json&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-resolutions/blob/f293935/src/lib/config.ts#L73">src/lib/config.ts:73</a></li>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/88c110d/src/lib/config.ts#L12">src/lib/config.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -143,6 +111,9 @@
 				<ul>
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="_src_index_.html">&quot;src/index&quot;</a>
 					</li>
 					<li class="current tsd-kind-module">
 						<a href="_src_lib_config_.html">&quot;src/lib/config&quot;</a>
@@ -171,16 +142,13 @@
 					<li class=" tsd-kind-module">
 						<a href="_src_main_.html">&quot;src/main&quot;</a>
 					</li>
+					<li class=" tsd-kind-module">
+						<a href="_src_post_process_.html">&quot;src/post-<wbr>process&quot;</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-variable tsd-parent-kind-module">
-						<a href="_src_lib_config_.html#github_repos" class="tsd-kind-icon">GITHUB_<wbr>REPOS</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-parent-kind-module">
-						<a href="_src_lib_config_.html#local_repos" class="tsd-kind-icon">LOCAL_<wbr>REPOS</a>
-					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module">
 						<a href="_src_lib_config_.html#user_config_name" class="tsd-kind-icon">USER_<wbr>CONFIG_<wbr>NAME</a>
 					</li>

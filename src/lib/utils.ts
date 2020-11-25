@@ -99,3 +99,5 @@ export function LOG(preamble: string, obj: any = undefined): void {
             console.log(`--- Scribejs post processing --- ${preamble}`)
     }
 }
+
+

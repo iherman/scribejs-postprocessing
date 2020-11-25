@@ -18,6 +18,9 @@ export interface Repo {
 
     /** Whether the issues should also be treated and commented upon */
     handle_issues: boolean;
+
+    /** Whether this is to handle local repositories on the user's disc, or directly on github */
+    local: boolean;
 }
 
 /**

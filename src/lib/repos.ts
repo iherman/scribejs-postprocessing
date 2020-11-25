@@ -50,6 +50,7 @@ abstract class RepoProcessing {
     async process_minutes(current: MinuteProcessing, get_data: GetDataCallback, write_data: WriteDataCallback): Promise<void> {
         // Filter out minutes files that have already been treated in a previous run
         const missing_files = filter_resolutions(this.list_of_minutes, current);
+
         DEBUG('To be used for new processing', missing_files);    
         if (missing_files.length === 0) {
             LOG('No new minutes to process');
@@ -64,8 +65,12 @@ abstract class RepoProcessing {
             const new_resolutions: MinuteProcessing = await collect_resolutions(missing_files, get_data);
             DEBUG('New set of resolutions', new_resolutions);
 
-            await collect_issue_comments(this.gh_credentials, missing_files, get_data);
-            DEBUG('Collected the issue comments');
+            if (this.repo.handle_issues) {
+                await collect_issue_comments(this.gh_credentials, missing_files, get_data);
+                LOG('Collected the issue comments');
+            } else {
+                LOG('No issue collection required');
+            }
         
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
             // before uploading it

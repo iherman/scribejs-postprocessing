@@ -1,4 +1,4 @@
-#!/usr/bin/env ts-node-script
+#!/usr/bin/env node
 "use strict";
 /**
  * ## Main entry point
@@ -8,17 +8,11 @@
  * @packageDocumentation
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-const repos_1 = require("./lib/repos");
-/**
- * Entry point: a simple switch between handling local repos (see [[local_repos]]) and github repos (see [[github_repos]]).
- *
- * The switch between local and github is based on the presence or not of the `-l` (or `--local`) flag.
- *
- * @async
- */
-async function main() {
-    const flag = process.argv.pop();
-    await repos_1.process_minutes(flag === '-l' || flag === '--local');
+const index_1 = require("./index");
+if (process.argv.length < 3) {
+    console.error('No configuration file provided');
 }
-main();
+else {
+    index_1.main(process.argv[2]);
+}
 //# sourceMappingURL=main.js.map

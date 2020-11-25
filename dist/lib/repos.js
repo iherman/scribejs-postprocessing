@@ -56,8 +56,13 @@ class RepoProcessing {
             // the repository (see below)
             const new_resolutions = await resolutions_1.collect_resolutions(missing_files, get_data);
             utils_1.DEBUG('New set of resolutions', new_resolutions);
-            await issues_1.collect_issue_comments(this.gh_credentials, missing_files, get_data);
-            utils_1.DEBUG('Collected the issue comments');
+            if (this.repo.handle_issues) {
+                await issues_1.collect_issue_comments(this.gh_credentials, missing_files, get_data);
+                utils_1.LOG('Collected the issue comments');
+            }
+            else {
+                utils_1.LOG('No issue collection required');
+            }
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
             // before uploading it
             let new_asset;
@@ -193,12 +198,13 @@ class LocalRepoProcessing extends RepoProcessing {
     }
 }
 /**
- * Control the minute postprocessing cycle. Depending on the value of [[local]], either the repos in [[LOCAL_REPOS]] or [[GITHUB_REPOS]] are handled, by
- * creating an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ * Switch between the local and global repository handling.
  *
- * @param local - whether the local clones or the Github repository should be used.
+ * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ *
+ * @param config - The configuration file.
  */
-async function process_minutes(local) {
+async function process_minutes(config) {
     let github_credentials;
     try {
         const fname = path.join(process.env.HOME, config_1.USER_CONFIG_NAME);
@@ -209,20 +215,9 @@ async function process_minutes(local) {
         console.log(`Could not get hold of the github credentials: ${e}`);
         process.exit(-1);
     }
-    if (local) {
-        // It is necessary to do it this way to ensure a non-overlapping set of logs.
-        for (let i = 0; i < config_1.LOCAL_REPOS.length; i++) {
-            const processing = new LocalRepoProcessing(config_1.LOCAL_REPOS[i], github_credentials);
-            await processing.handle_one_repo();
-        }
-    }
-    else {
-        // It is necessary to do it this way to ensure a non-overlapping set of logs
-        for (let i = 0; i < config_1.GITHUB_REPOS.length; i++) {
-            const processing = new GithubRepoProcessing(config_1.GITHUB_REPOS[i], github_credentials);
-            await processing.handle_one_repo();
-        }
-    }
+    const processing = config.local ?
+        new LocalRepoProcessing(config, github_credentials) : new GithubRepoProcessing(config, github_credentials);
+    await processing.handle_one_repo();
 }
 exports.process_minutes = process_minutes;
 //# sourceMappingURL=repos.js.map

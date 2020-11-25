@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/lib/repos&quot; | Post-processing scribejs generated minutes - v2.0.0</title>
+	<title>&quot;src/post-process&quot; | Post-processing scribejs generated minutes - v2.0.0</title>
 	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.0">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,38 +54,41 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_src_lib_repos_.html">&quot;src/lib/repos&quot;</a>
+					<a href="_src_post_process_.html">&quot;src/post-process&quot;</a>
 				</li>
 			</ul>
-			<h1>Module &quot;src/lib/repos&quot;</h1>
+			<h1>Module &quot;src/post-process&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<a href="#main-entry-point" id="main-entry-point" style="color: inherit; text-decoration: none;">
+							<h2>Main entry point</h2>
+						</a>
+					</div>
+					<p>See <a href="_src_index_.html#main">main</a> for details.</p>
+				</div>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Classes</h3>
+							<h3>Variables</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.githubrepoprocessing.html" class="tsd-kind-icon">Github<wbr>Repo<wbr>Processing</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.localrepoprocessing.html" class="tsd-kind-icon">Local<wbr>Repo<wbr>Processing</a></li>
-								<li class="tsd-kind-class tsd-parent-kind-module tsd-is-not-exported"><a href="../classes/_src_lib_repos_.repoprocessing.html" class="tsd-kind-icon">Repo<wbr>Processing</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported"><a href="_src_post_process_.html#github_configs" class="tsd-kind-icon">GITHUB_<wbr>CONFIGS</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported"><a href="_src_post_process_.html#local_configs" class="tsd-kind-icon">LOCAL_<wbr>CONFIGS</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Variables</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_repos_.html#now" class="tsd-kind-icon">now</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_repos_.html#process_minutes" class="tsd-kind-icon">process_<wbr>minutes</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_post_process_.html#run" class="tsd-kind-icon">run</a></li>
 							</ul>
 						</section>
 					</div>
@@ -94,51 +97,62 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Variables</h2>
 				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-					<a name="now" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> now</h3>
-					<div class="tsd-signature tsd-kind-icon">now<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = (new Date()).toISOString()</span></div>
+					<a name="github_configs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> GITHUB_<wbr>CONFIGS</h3>
+					<div class="tsd-signature tsd-kind-icon">GITHUB_<wbr>CONFIGS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/"</span><span class="tsd-signature-symbol"> = &quot;https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/&quot;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/88c110d/src/lib/repos.ts#L16">src/lib/repos.ts:16</a></li>
+							<li>Defined in src/post-process.ts:23</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Current date, used to annotate the generated minute processing logs</p>
+							<p>(Github) URL where the configuration files are available locally</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+					<a name="local_configs" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> LOCAL_<wbr>CONFIGS</h3>
+					<div class="tsd-signature tsd-kind-icon">LOCAL_<wbr>CONFIGS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"/Users/ivan/W3C/github/Tools/scribejs/BrowserView/Groups/postprocessing/"</span><span class="tsd-signature-symbol"> = &quot;/Users/ivan/W3C/github/Tools/scribejs/BrowserView/Groups/postprocessing/&quot;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in src/post-process.ts:18</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Directory collecting the local configuration files</p>
 						</div>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
 				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="process_minutes" class="tsd-anchor"></a>
-					<h3>process_<wbr>minutes</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">process_<wbr>minutes<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_types_.repo.html" class="tsd-signature-type">Repo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+					<a name="run" class="tsd-anchor"></a>
+					<h3>run</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/88c110d/src/lib/repos.ts#L241">src/lib/repos.ts:241</a></li>
+									<li>Defined in src/post-process.ts:33</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Switch between the local and global repository handling.</p>
+									<p>Extra utility: define a simple top level interface to post-process based on a particular configuration: the configuration is extracted from the
+										<code>scribejs</code> repository and a local version of each is extracted using a simple naming scheme: adding a <code>_local</code> to the &#39;global&#39; configuration file name.
+									The [[LOCAL_CONFIG]] variable can be adapted to local usage.</p>
 								</div>
-								<p>Depending on the value of <a href="../interfaces/_src_lib_types_.repo.html#local">local</a> create an appropriate subclass instance of [[Repo_Processing]] and run the respective <code>handle_one_repo</code> method.</p>
+								<dl class="tsd-comment-tags">
+									<dt>async</dt>
+									<dd></dd>
+								</dl>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="../interfaces/_src_lib_types_.repo.html" class="tsd-signature-type">Repo</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The configuration file.</p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
@@ -166,7 +180,7 @@
 					<li class=" tsd-kind-module">
 						<a href="_src_lib_js_githubapi_d_.html">&quot;src/lib/js/githubapi.d&quot;</a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="_src_lib_repos_.html">&quot;src/lib/repos&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -181,27 +195,21 @@
 					<li class=" tsd-kind-module">
 						<a href="_src_main_.html">&quot;src/main&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="_src_post_process_.html">&quot;src/post-<wbr>process&quot;</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../classes/_src_lib_repos_.githubrepoprocessing.html" class="tsd-kind-icon">Github<wbr>Repo<wbr>Processing</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../classes/_src_lib_repos_.localrepoprocessing.html" class="tsd-kind-icon">Local<wbr>Repo<wbr>Processing</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-is-not-exported">
-						<a href="../classes/_src_lib_repos_.repoprocessing.html" class="tsd-kind-icon">Repo<wbr>Processing</a>
+					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_src_post_process_.html#github_configs" class="tsd-kind-icon">GITHUB_<wbr>CONFIGS</a>
 					</li>
 					<li class=" tsd-kind-variable tsd-parent-kind-module tsd-is-not-exported">
-						<a href="_src_lib_repos_.html#now" class="tsd-kind-icon">now</a>
+						<a href="_src_post_process_.html#local_configs" class="tsd-kind-icon">LOCAL_<wbr>CONFIGS</a>
 					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_lib_repos_.html#process_minutes" class="tsd-kind-icon">process_<wbr>minutes</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_src_post_process_.html#run" class="tsd-kind-icon">run</a>
 					</li>
 				</ul>
 			</nav>

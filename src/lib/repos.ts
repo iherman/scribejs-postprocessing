@@ -236,9 +236,9 @@ class LocalRepoProcessing extends RepoProcessing {
  * 
  * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
  * 
- * @param local - whether the local clones or the Github repository should be used.
+ * @param config - The configuration file.
  */
-export async function process_minutes(local: boolean, config: Repo): Promise<void> {
+export async function process_minutes(config: Repo): Promise<void> {
     let github_credentials: GithubCredentials;
     try {
         const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
@@ -249,7 +249,7 @@ export async function process_minutes(local: boolean, config: Repo): Promise<voi
         process.exit(-1);
     }
 
-    const processing = local ? 
+    const processing = config.local ? 
         new LocalRepoProcessing(config as LocalRepo, github_credentials) : new GithubRepoProcessing(config as GithubRepo, github_credentials);
     await processing.handle_one_repo();
 }

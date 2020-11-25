@@ -66,8 +66,9 @@ class IssueHandler_Impl implements IssueHandler {
         this.repo = repo;
         this.issue = Number.parseInt(issue);
         if (this.issue === undefined || Number.isNaN(this.issue)) {
-            LOG(`Illegal issue number :`, issue);
-            this.issue = 0;
+            LOG(`Illegal issue identifier :`, args);
+            // This handler will be filtered out from the overall results
+            this.issue = undefined;
         }
         this.github_access = github_cache.gh(owner, repo);
     }
@@ -212,7 +213,9 @@ function get_issue_comments(github_cache: GithubCache, minutes: string): IssueDi
                     } else {
                         // Add the issues' URLs to the current comment set
                         // Create a set of issue handler objects:
-                        const issue_handlers = issue_ids.map((id) => new IssueHandler_Impl(github_cache, id))
+                        const issue_handlers = issue_ids
+                            .map((id: string) => new IssueHandler_Impl(github_cache, id))
+                            .filter((issue_handler: IssueHandler): boolean => issue_handler.issue !== undefined);
                         current_issue.issues = [...current_issue.issues, ...issue_handlers];
                     }
                 }

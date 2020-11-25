@@ -68,16 +68,22 @@
 				<p>This script is post-processing minutes that have been produced by <a href="https://github.com/w3c/scribejs">scribejs</a>. The goal is usually to extract information from the minutes that may make the life of Working Groups easier…</p>
 				<p>At this moment, there are two such post-processing steps: extract the resolutions into a separate file, and add a notice to each issue that was discussed during a call. See the details below.</p>
 				<p>The script is using <code>node.js</code>, and can be run by:</p>
-				<pre><code><span class="hljs-keyword">node</span> <span class="hljs-title">[--local</span>] dist/main.js</code></pre>
-				<p>See the section on extracting resolution for the effect of the <code>--local</code> files. At the moment, the configuration for the various repositories are in the <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> file; this can be modified and the js files regenerated using <code>tsc</code>. (A later version will separate these files into a separate configuration file.)</p>
+				<pre><code><span class="hljs-selector-tag">Usage</span>: <span class="hljs-selector-tag">post-process</span> <span class="hljs-selector-attr">[options]</span> <span class="hljs-selector-attr">[configuration_file]</span></code></pre>
+				<p>Configuration files may come in two flavors:</p>
+				<ul>
+					<li>Configurations to handle minutes on a github repository, see the <a href="https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.githubrepo.html">documentation of the configuration type</a> for the details;</li>
+					<li>Configurations to handle minutes on a local repository clone (i.e., on the user&#39;s local file system), see the <a href="https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.localrepo.html">documentation of the configuration type</a> for the details.</li>
+				</ul>
+				<p>The (common) <code>local</code> flag in the configuration file indicates the choice between the two.</p>
+				<p>There are a number of <a href="https://w3c.github.io/scribejs/BrowserView/Groups/">predefined configuration files</a> for some of the active Working Groups using this tool.</p>
 				<a href="#extracting-resolutions" id="extracting-resolutions" style="color: inherit; text-decoration: none;">
 					<h2>Extracting resolutions</h2>
 				</a>
 				<p>The goal is to extract the resolutions from meeting minutes generated as markdown files by <a href="https://github.com/w3c/scribejs">scribejs</a>, and to create a JSON file in the repository (typically in the <code>assets</code> directory, but that can be configured) listing the resolutions and the pointers to the minutes.  An example for the generated JSON file is
-				<a href="https://github.com/iherman/scribejs-resolutions/assets/minute_processing.js"><code>assets/minute_processing.js</code></a>. Its structure is as follows:</p>
+				<a href="https://github.com/iherman/scribejs-postprocessing/assets/minute_processing.js"><code>assets/minute_processing.js</code></a>. Its structure is as follows:</p>
 				<pre><code class="language-text">{
     &quot;date&quot; : // Date of the last generation,
-    &quot;short_names&quot; : [
+    &quot;file_names&quot; : [
         // Array of the file names for the minutes that have already been processed
     ],
     &quot;resolutions&quot; : [
@@ -92,16 +98,15 @@
         ... // etc. (and entry for each resolution)
     ]
 }</code></pre>
-				<p>The script avoids unnecessary network access by only generating the entries for <em>new</em> (i.e., not yet processed) meetings; hence this file is stored in the group&#39;s repository. That file is updated at each run.</p>
-				<p>By default, the script looks for the <code>minute_processing.js</code> files, as well for the minutes themselves, in Github repositories. The <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> may also contain local “equivalents”, referring to cloned repositories on the user&#39;s local disc (which then can be accessed through the file system API). Using these, instead of the Github repository, is controlled by the <code>--local</code> flag when running the script. </p>
-				<p>The <a href="https://github.com/iherman/scribejs-resolutions/assets/minute_processing.js"><code>assets/minute_processing.js</code></a> file can be used by a client-side script to display the list of resolutions. See, for example, the <a href="https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html"><code>browser_view/resolutions.html</code></a> file, with the corresponding <a href="(https://github.com/iherman/scribejs-resolutions/browser_view/resolutions.html)"><code>browser_view/resolution_view.js</code></a> script.</p>
-				<p>(The local <code>_minutes</code> and <code>_assets</code> directories in the repository are only for testing purposes. See also the <a href="https://iherman.github.io/scribejs-resolutions/modules/_src_main_.html">API documentation</a> for further details.)</p>
+				<p>The script avoids unnecessary network access by only generating the entries for <em>new</em> (i.e., not yet processed) meetings; hence this file is stored in the group&#39;s repository. That file is updated at each run. The location of that file is part of the configuration.</p>
+				<p>The <a href="https://github.com/iherman/scribejs-postprocessing/assets/minute_processing.js"><code>assets/minute_processing.js</code></a> file can be used by a client-side script to display the list of resolutions. See, for example, the <a href="https://github.com/iherman/scribejs-postprocessing/browser_view/resolutions.html"><code>browser_view/resolutions.html</code></a> file, with the corresponding <a href="(https://github.com/iherman/scribejs-postprocessing/browser_view/resolutions.html)"><code>browser_view/resolution_view.js</code></a> script.</p>
+				<p>(The local <code>_minutes</code> and <code>_assets</code> directories in this repository are only for testing purposes. See also the <a href="https://iherman.github.io/scribejs-postprocessing/modules/_src_main_.html">API documentation</a> for further details.)</p>
 				<a href="#extracting-issue-comments" id="extracting-issue-comments" style="color: inherit; text-decoration: none;">
 					<h2>Extracting issue comments</h2>
 				</a>
 				<p><a href="https://github.com/w3c/scribejs">scribejs</a> adds special “directives” into the minutes (relying on a scribe feature) when a section (or subsection) discusses specific issues or pull requests. These directives are of the form:</p>
 				<pre><code><span class="hljs-comment">&lt;!-- scribe owner/repo/issuenumbers owner/repo/issuenumber2 --&gt;</span></code></pre>
-				<p>The postprocessing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue. This, effectively, “binds” the WG discussions to the issues and vice versa. The <a href="https://github.com/iherman/scribejs-resolutions/src/lib/config.ts"><code>src/lib/config.ts</code></a> file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which makes this processing step meaningless…)</p>
+				<p>The post-processing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue. This, effectively, “binds” the WG discussions to the issues and vice versa. configuration file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which would make this processing step meaningless…)</p>
 				<hr>
 				<p>Maintainer: <a href="https://github.com/iherman">@iherman</a></p>
 			</div>
@@ -111,6 +116,9 @@
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_index_.html">&quot;src/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_lib_config_.html">&quot;src/lib/config&quot;</a>
@@ -138,6 +146,9 @@
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_src_main_.html">&quot;src/main&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_src_post_process_.html">&quot;src/post-<wbr>process&quot;</a>
 					</li>
 				</ul>
 			</nav>

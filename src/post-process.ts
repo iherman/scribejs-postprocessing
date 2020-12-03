@@ -6,8 +6,7 @@
  *
  * @packageDocumentation
 */
-import { main }                          from './index';
-
+import { main }    from './index';
 import { Command } from 'commander';
 /** @internal */
 const program = new Command();

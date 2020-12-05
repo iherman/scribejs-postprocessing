@@ -15,6 +15,12 @@ interface gh_cache {
 }
 
 /**
+ * Regular expression to extract the resolution number.
+ * @internal
+ */
+const res_regex = /> \*\*\*Resolution #([0-9]+):(.*$)/;
+
+/**
  * Caching the existing github access objects, using the 'owner/repo' values as key
  * in the cache. (It is not necessary to create a new instance of such an object
  * for every occurrence of a comment...)
@@ -223,7 +229,13 @@ function get_issue_comments(github_cache: GithubCache, minutes: string): IssueDi
                 continue;
             } else if (line.startsWith('> ***Resolution')) {
                 if (current_issue !== undefined) {
-                    current_issue.resolutions.push(line)
+                    // 1. Removing the starting 'quote' markdown sign
+                    // 2. Exchanging the '#' character because, combined with a number, github interprets it as a pointer to another issue.
+                    // 3. Add a link to the minute's resolution
+                    const final_line = line.replace(res_regex, (match: string, p1: string, p2: string): string => {
+                        return `***[Resolution No. ${p1}](${url}#resolution${p1}): ${p2}`
+                    });
+                    current_issue.resolutions.push(final_line);
                 }
             }
 

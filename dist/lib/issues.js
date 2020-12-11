@@ -111,7 +111,7 @@ class IssueDiscussion_Impl {
         }
         else {
             retval += 'List of resolutions:\n\n';
-            retval += this.resolutions.map((res) => `- ${res}`).join('/n') + '\n\n';
+            retval += this.resolutions.map((res) => `- ${res}`).join('\n') + '\n\n';
         }
         retval += '<details><summary><i>View the transcript</i></summary>\n\n';
         retval += this.minute_extract.join('\n');

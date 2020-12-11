@@ -105,7 +105,7 @@ class IssueDiscussion_Impl {
      * Collects all the data to produce a proper comment text, to be added to the issue(s).
      */
     create_comment() {
-        let retval = `The issue was discussed in a [meeting](${this.section}) on ${this.date})\n\n`;
+        let retval = `The issue was discussed in a [meeting](${this.section}) on ${this.date}\n\n`;
         if (this.resolutions.length === 0) {
             retval += '- no resolutions were taken\n\n';
         }

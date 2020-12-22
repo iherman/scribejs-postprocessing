@@ -111,7 +111,7 @@ abstract class RepoProcessing {
      * Access to the github repository (i.e., step 6 above) is based on the user’s API token, stored in the local configuration file (see [[USER_CONFIG_NAME]])
      * 
      */
-    abstract async handle_one_repo(): Promise<void>;
+    abstract handle_one_repo(): Promise<void>;
 }
 
 /**

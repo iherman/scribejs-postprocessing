@@ -268,7 +268,7 @@ export async function collect_issue_comments(gh_credentials: GithubCredentials, 
     const github_cache = new GithubCache(gh_credentials);
 
     // This is, in theory, suboptimal, because all async steps could be handled in one giant "Promise.all()". However, this ensures a proper
-    // log output which, otherwise may look messy
+    // log output which, otherwise, may look messy
     for (let i = 0; i < all_minutes.length; i++) {
         const minutes: string = all_minutes[i];
         // collect the issue related discussions for the minutes

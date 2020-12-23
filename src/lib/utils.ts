@@ -6,8 +6,9 @@
  * @packageDocumentation
 */
 
-import { MinuteProcessing } from './types';
+import { MinuteProcessing, GithubCredentials } from './types';
 import { DO_DEBUG, DO_LOG } from './config';
+import { Github }           from './js/githubapi';
 
 
 /**
@@ -58,6 +59,44 @@ export function get_schema(lines: string[]): any {
         return null;
     }
 }
+
+/** @internal */
+interface gh_cache {
+    [key:string]: Github
+}
+
+/**
+ * Caching the existing github access objects, using the 'owner/repo' values as key
+ * in the cache. (It is not necessary to create a new instance of such an object
+ * for every occurrence of a comment...)
+ */
+export class GithubCache {
+    private gh_token: string;
+    private values: gh_cache = {};
+
+    /**
+     * 
+     * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
+     */
+    constructor(gh_credentials: GithubCredentials) {
+        this.gh_token = gh_credentials.ghtoken;
+    }
+
+    /**
+     * Return a [[Github]] object to access the repository via the Github API. If this object has already been created it will return it; if not, it will be created first and stored.
+     * 
+     * @param owner - github repository owner
+     * @param repo - github repository name
+     */
+    gh(owner: string, repo: string): Github {
+        const key = `${owner}/${repo}`;
+        if (this.values[key] === undefined) {
+            this.values[key] = new Github(this.gh_token, owner, repo);
+        }
+        return this.values[key];
+    }
+}
+
 
 /**
  * Helper function to "flatten" arrays of arrays into a single array. This method should be used as the callback

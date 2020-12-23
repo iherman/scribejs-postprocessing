@@ -1,6 +1,6 @@
-import { Github }                                                            from './js/githubapi';
+import { Github }                             from './js/githubapi';
 import { GetDataCallback, GithubCredentials } from './types';
-import { get_schema, DEBUG }                                   from './utils';
+import { get_schema, GithubCache, DEBUG, LOG }     from './utils';
 
 
 /**
@@ -15,8 +15,12 @@ export interface Action {
     assignee: string;
 }
 
-
-async function raise_action_issues(gh_credentials: GithubCredentials, minutes: string): Promise<void> {
+/**
+ * 
+ * @param github_cache - a wrapper around Github access objects 
+ * @param minutes - the minutes (the only item that is relevant is the JSON-LD preamble)
+ */
+async function raise_action_issues(github_cache: GithubCache, minutes: string): Promise<void> {
     try {
         const lines: string[] = minutes.split('\n');
         const schema: any     = get_schema(lines);
@@ -28,17 +32,31 @@ async function raise_action_issues(gh_credentials: GithubCredentials, minutes: s
 
         if (schema.recordedAt.potentialAction && schema.recordedAt.potentialAction.length !== 0) {
             // 1. extract the action repository id; it is the same for all actions
-            const repo_name: string     = schema.recordedAt.potentialAction[0].location.identifier;
-            const action_list: Action[] = schema.recordedAt.potentialAction.map( (action: any): Action => {
-                return {
-                    gh_action_id : action.identifier,
-                    body         : action.object,
-                    title        : action.title,
-                    assignee     : action.agent.name,
+            const repo_name: string = schema.recordedAt.potentialAction[0].location.identifier;
+            const [owner, repo] = repo_name.split('/');
+            const github_access = github_cache.gh(owner, repo);
+
+            // To avoid github issues: collect the github id-s of those that cat be assigned to anything in this repo
+            const possible_assignees: string[] = await github_access.get_assignees();
+
+            // 2. Raise an issue for each action. This collects a series of promises and they will be 'awaited' in parallel in the next step.
+            const action_promises: Promise<void>[] = schema.recordedAt.potentialAction.map( (action: any): Promise<void> => {
+                const issue: Github.IssueData = {
+                    title  : action.name,
+                    body   : action.object,
+                    labels : ['action'],
                 }
+                // Check whether a valid assignee has been added...
+                if (action.agent.name && possible_assignees.includes(action.agent.name)) {
+                    issue.assignee = action.agent.name
+                }
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const [id, body] = issue.title.split(':');
+                LOG(`Recording action "${body.trim()}" as an issue on repo`, `${owner}/${repo}`);
+                return github_access.create_issue(issue);
             });
-            console.log( repo_name );
-            console.log( JSON.stringify(action_list, null, 4);
+            await Promise.all(action_promises);
+            return;
         } else {
             DEBUG("No actions to process")
             return;
@@ -64,12 +82,13 @@ async function raise_action_issues(gh_credentials: GithubCredentials, minutes: s
 export async function process_actions(gh_credentials: GithubCredentials, file_names: string[], get_data: GetDataCallback): Promise<void> {
     const minutes_promises: Promise<string>[] = file_names.map((file_name) => get_data(file_name));
     const all_minutes: string[]               = await Promise.all(minutes_promises);
+    const github_cache = new GithubCache(gh_credentials);
 
     // This is, in theory, suboptimal, because all async steps could be handled in one giant "Promise.all()". However, this ensures a proper
     // log output which, otherwise, may look messy
     for (let i = 0; i < all_minutes.length; i++) {
         const minutes: string = all_minutes[i];
-        await raise_action_issues(gh_credentials, minutes);
+        await raise_action_issues(github_cache, minutes);
     }
     return;
 }

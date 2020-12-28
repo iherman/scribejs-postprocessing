@@ -44,6 +44,22 @@ export interface GithubRepo extends Repo {
     repo: string;
 }
 
+
+/**
+ * Used to structure the resolution data stored in the JSON-LD header
+ */
+export interface JSONLDResolution {
+    /** The type is a fixed value that does not have an importance here */
+    "@type": string,
+
+    /** The number of the resolution */
+    resolution_number: number,
+
+    /** The text of the resolution */
+    resolution_text: string
+}
+
+
 /**
  * Data describing a single resolution
  */

@@ -136,15 +136,15 @@ class IssueDiscussion_Impl implements IssueDiscussion {
 function get_issue_comments(github_cache: GithubCache, minutes: string): IssueDiscussion[] {
     try {
         const lines: string[] = minutes.split('\n');
-        const schema: any     = get_schema(lines);
-        if (schema === null) {
+        const metadata: any     = get_schema(lines);
+        if (metadata === null) {
             DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
         }
-        DEBUG("schema: ", schema);
+        DEBUG("schema: ", metadata);
 
-        const url: string  = schema.url;
-        const date: string = schema.dateCreated;
+        const url: string  = metadata.url;
+        const date: string = metadata.dateCreated;
 
         LOG(`Collecting issue comments for ${url}`)
 

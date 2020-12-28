@@ -23,16 +23,16 @@ export interface Action {
 async function raise_action_issues(github_cache: GithubCache, minutes: string): Promise<void> {
     try {
         const lines: string[] = minutes.split('\n');
-        const schema: any     = get_schema(lines);
-        if (schema === null) {
+        const metadata: any     = get_schema(lines);
+        if (metadata === null) {
             DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return;
         }
-        DEBUG("schema: ", schema);
+        DEBUG("schema: ", metadata);
 
-        if (schema.recordedAt.potentialAction && schema.recordedAt.potentialAction.length !== 0) {
+        if (metadata.recordedAt.potentialAction && metadata.recordedAt.potentialAction.length !== 0) {
             // 1. extract the action repository id; it is the same for all actions
-            const repo_name: string = schema.recordedAt.potentialAction[0].location.identifier;
+            const repo_name: string = metadata.recordedAt.potentialAction[0].location.identifier;
             const [owner, repo] = repo_name.split('/');
             const github_access = github_cache.gh(owner, repo);
 
@@ -40,7 +40,7 @@ async function raise_action_issues(github_cache: GithubCache, minutes: string): 
             const possible_assignees: string[] = await github_access.get_assignees();
 
             // 2. Raise an issue for each action. This collects a series of promises and they will be 'awaited' in parallel in the next step.
-            const action_promises: Promise<void>[] = schema.recordedAt.potentialAction.map( (action: any): Promise<void> => {
+            const action_promises: Promise<void>[] = metadata.recordedAt.potentialAction.map( (action: any): Promise<void> => {
                 const issue: Github.IssueData = {
                     title  : action.name,
                     body   : action.object,

@@ -77,7 +77,6 @@ abstract class RepoProcessing {
                 await process_actions(this.gh_credentials, missing_files, get_data);
                 LOG('Raised the action issues');
             } else {
-                console.log(this.repo);
                 LOG('No action management required');
             }
         

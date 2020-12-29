@@ -26,10 +26,11 @@
     ],
     "include": [
         "src/**/*"
-, "Attic/main.ts"    ],
+    ],
     "exclude": [
         "dist/**/*",
-        "lib/**/*"
+        "lib/**/*",
+        "Attic/**/*"
     ],
     "typedocOptions" : {
         "mode": "module",

@@ -7,8 +7,9 @@
  * @packageDocumentation
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LOG = exports.DEBUG = exports.flatten = exports.get_schema = exports.filter_resolutions = void 0;
+exports.LOG = exports.DEBUG = exports.flatten = exports.GithubCache = exports.get_schema = exports.filter_resolutions = void 0;
 const config_1 = require("./config");
+const githubapi_1 = require("./js/githubapi");
 /**
  * Check whether the resolutions for minutes have already been handled in a previous run. Used to avoid unnecessary regeneration of data.
  *
@@ -60,6 +61,35 @@ function get_schema(lines) {
     }
 }
 exports.get_schema = get_schema;
+/**
+ * Caching the existing github access objects, using the 'owner/repo' values as key
+ * in the cache. (It is not necessary to create a new instance of such an object
+ * for every occurrence of a comment...)
+ */
+class GithubCache {
+    /**
+     *
+     * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
+     */
+    constructor(gh_credentials) {
+        this.values = {};
+        this.gh_token = gh_credentials.ghtoken;
+    }
+    /**
+     * Return a [[Github]] object to access the repository via the Github API. If this object has already been created it will return it; if not, it will be created first and stored.
+     *
+     * @param owner - github repository owner
+     * @param repo - github repository name
+     */
+    gh(owner, repo) {
+        const key = `${owner}/${repo}`;
+        if (this.values[key] === undefined) {
+            this.values[key] = new githubapi_1.Github(this.gh_token, owner, repo);
+        }
+        return this.values[key];
+    }
+}
+exports.GithubCache = GithubCache;
 /**
  * Helper function to "flatten" arrays of arrays into a single array. This method should be used as the callback
  * for a `reduce`.

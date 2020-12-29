@@ -1,28 +1,47 @@
 # Processing WG/IG minutes produced by scribejs
 
+## Overview
+
 This script is post-processing minutes that have been produced by [scribejs](https://github.com/w3c/scribejs). The goal is usually to extract information from the minutes that may make the life of Working Groups easier…
 
 At this moment, there are two such post-processing steps: extract the resolutions into a separate file, and add a notice to each issue that was discussed during a call. See the details below.
 
-The script is using `node.js`, and can be run by:
+The script has been developed in TypeScript; the “compiled” files are in the `./dist` directory. The script can be run by:
 
 ```
-Usage: post-process [options] [configuration_file]
+Usage: node dist/main.js [configuration_file]
 ```
 
 Configuration files may come in two flavors:
 
-- Configurations to handle minutes on a github repository, see the [documentation of the configuration type](https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.githubrepo.html) for the details;
+- Configurations to handle minutes on a github repository, see a [documentation of the configuration type](https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.githubrepo.html) for the details;
 - Configurations to handle minutes on a local repository clone (i.e., on the user's local file system), see the [documentation of the configuration type](https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.localrepo.html) for the details.
 
 The (common) `local` flag in the configuration file indicates the choice between the two.
 
-There are a number of [predefined configuration files](https://w3c.github.io/scribejs/BrowserView/Groups/) for some of the active Working Groups using this tool.
+There are a number of [predefined configuration files](https://w3c.github.io/scribejs/BrowserView/Groups/) for some of the active Working Groups using this tool. See, for example, the [github repository configuration](https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/epub.json), respectively the [local close configuration](https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/epub_local.json), for the EPUB 3 Working Group.
 
-## Extracting resolutions
+The processing steps may depend on the metadata header (stored in JSON-LD) of the minute file. This means that the latest release (i.e., 2.0.0 or higher) of the [scribejs](https://github.com/w3c/scribejs) must be used to generate the minutes themselves.
 
-The goal is to extract the resolutions from meeting minutes generated as markdown files by [scribejs](https://github.com/w3c/scribejs), and to create a JSON file in the repository (typically in the `assets` directory, but that can be configured) listing the resolutions and the pointers to the minutes.  An example for the generated JSON file is
-[`assets/minute_processing.js`](https://github.com/iherman/scribejs-postprocessing/assets/minute_processing.js). Its structure is as follows:
+The script avoids unnecessary GitHub access, and duplication of data or issues, by looking at a specific file (whose location is in the configuration file) that lists the minutes already “processed”. That JSON file is of the form:
+
+```text
+{
+    "date" : // Date of the last generation,
+    "file_names" : [
+        // Array of the file names for the minutes that have already been processed
+    ],
+    // other types of data
+}
+```
+
+and is updated at each run after adding the new minutes that have been processed, if applicable. An example for the generated JSON file is [on the EPUB WG’s site](https://www.w3.org//publishing/groups/epub-wg/assets/minute_processing.json).
+
+## Different post-processing steps
+
+### Extracting resolutions
+
+[scribejs](https://github.com/w3c/scribejs) adds the references to resolutions accepted during the call into the JSON-LD metadata. This steps extracts these data and adds them to the generated processing file (see the example above). The resulting file structure is as follows:
 
 ```text
 {
@@ -44,13 +63,15 @@ The goal is to extract the resolutions from meeting minutes generated as markdow
 }
 ```
 
-The script avoids unnecessary network access by only generating the entries for _new_ (i.e., not yet processed) meetings; hence this file is stored in the group's repository. That file is updated at each run. The location of that file is part of the configuration.
+The resulting file can be used by a client-side script to display the list of resolutions. See, for example, the [EPUB WG deployment](https://www.w3.org/publishing/groups/epub-wg/Meetings/Minutes/resolutions), which uses the [client-side script](https://github.com/w3c/scribejs/blob/master/BrowserView/js/scribejs.js) generated from the separate [Typescript module](https://github.com/w3c/scribejs/tree/master/BrowserView/lib) in this repository.
 
-The [`assets/minute_processing.js`](https://github.com/iherman/scribejs-postprocessing/assets/minute_processing.js) file can be used by a client-side script to display the list of resolutions. See, for example, the [`browser_view/resolutions.html`](https://github.com/iherman/scribejs-postprocessing/browser_view/resolutions.html) file, with the corresponding [`browser_view/resolution_view.js`]((https://github.com/iherman/scribejs-postprocessing/browser_view/resolutions.html)) script.
+### Extracting and processing actions
 
-(The local `_minutes` and `_assets` directories in this repository are only for testing purposes. See also the [API documentation](https://iherman.github.io/scribejs-postprocessing/modules/_src_main_.html) for further details.)
+[scribejs](https://github.com/w3c/scribejs) adds the references to actions raised on the call into the JSON-LD metadata. This step extracts those actions and raises special issues on GitHub (the information stored in the metadata includes the reference to the GitHub repository).  
 
-## Extracting issue comments
+The configuration file contains a separate flag to switch this behavior on and off for each repository.
+
+### Extracting and processing issue comments
 
 [scribejs](https://github.com/w3c/scribejs) adds special “directives” into the minutes (relying on a scribe feature) when a section (or subsection) discusses specific issues or pull requests. These directives are of the form:
 
@@ -58,7 +79,8 @@ The [`assets/minute_processing.js`](https://github.com/iherman/scribejs-postproc
 <!-- scribe owner/repo/issuenumbers owner/repo/issuenumber2 -->
 ```
 
-The post-processing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue. This, effectively, “binds” the WG discussions to the issues and vice versa. configuration file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which would make this processing step meaningless…)
+The post-processing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue on GitHub. This, effectively, “binds” the WG discussions to the issues and vice versa. The configuration file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which would make this processing step meaningless…).
+
 
 ---
 

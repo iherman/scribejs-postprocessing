@@ -8,7 +8,6 @@
 */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.collect_issue_comments = void 0;
-const githubapi_1 = require("./js/githubapi");
 const utils_1 = require("./utils");
 /**
  * Regular expression to extract the resolution number.
@@ -16,40 +15,12 @@ const utils_1 = require("./utils");
  */
 const res_regex = /> \*\*\*Resolution #([0-9]+):(.*$)/;
 /**
- * Caching the existing github access objects, using the 'owner/repo' values as key
- * in the cache. (It is not necessary to create a new instance of such an object
- * for every occurrence of a comment...)
- */
-class GithubCache {
-    /**
-     *
-     * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
-     */
-    constructor(gh_credentials) {
-        this.values = {};
-        this.gh_token = gh_credentials.ghtoken;
-    }
-    /**
-     * Return a [[Github]] object to access the repository via the Github API. If this object has already been created it will return it; if not, it will be created first and stored.
-     *
-     * @param owner - github repository owner
-     * @param repo - github repository name
-     */
-    gh(owner, repo) {
-        const key = `${owner}/${repo}`;
-        if (this.values[key] === undefined) {
-            this.values[key] = new githubapi_1.Github(this.gh_token, owner, repo);
-        }
-        return this.values[key];
-    }
-}
-/**
  * Issue handling: the relevant github access and the issue number; can be used to add a comment to that specific issue.
  */
 class IssueHandler_Impl {
     /**
      *
-     * @param github_cache - the only value that is important is the OAuth token, used to initialize a [[GithubCache]] objects
+     * @param github_cache - a wrapper around Github access objects
      * @param args - strings of the form `owner/repo/number`, generated (as comment) into the markdown minutes by `scribejs`
      */
     constructor(github_cache, args) {
@@ -147,14 +118,14 @@ class IssueDiscussion_Impl {
 function get_issue_comments(github_cache, minutes) {
     try {
         const lines = minutes.split('\n');
-        const schema = utils_1.get_schema(lines);
-        if (schema === null) {
+        const metadata = utils_1.get_schema(lines);
+        if (metadata === null) {
             utils_1.DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
         }
-        utils_1.DEBUG("schema: ", schema);
-        const url = schema.url;
-        const date = schema.dateCreated;
+        utils_1.DEBUG("schema: ", metadata);
+        const url = metadata.url;
+        const date = metadata.dateCreated;
         utils_1.LOG(`Collecting issue comments for ${url}`);
         const retval = [];
         let current_issue = undefined;
@@ -237,9 +208,9 @@ function get_issue_comments(github_cache, minutes) {
 async function collect_issue_comments(gh_credentials, file_names, get_data) {
     const minutes_promises = file_names.map((file_name) => get_data(file_name));
     const all_minutes = await Promise.all(minutes_promises);
-    const github_cache = new GithubCache(gh_credentials);
-    // This is, in theory, suboptimal, because all async steps could be handled in one giant "Promise.all()". However, this ensures a proper
-    // log output which, otherwise may look messy
+    const github_cache = new utils_1.GithubCache(gh_credentials);
+    // This is, in theory, suboptimal, because all async steps could be handled in one large "Promise.all()". However, this ensures a proper
+    // log output which, otherwise, may look messy
     for (let i = 0; i < all_minutes.length; i++) {
         const minutes = all_minutes[i];
         // collect the issue related discussions for the minutes

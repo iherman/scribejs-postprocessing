@@ -1,5 +1,5 @@
 /**
- * ## Main entry point
+ * ## Main entry point.
  * 
  * See [[main]] for details.
  *
@@ -18,6 +18,8 @@ const fsp = fs.promises;
 
 /**
  * Entry point: get hold of the configuration file, and start processing via [[process_minutes]].
+ * 
+ * @param name - reference to the configuration file
  * 
  * @async
  */

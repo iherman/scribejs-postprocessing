@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&quot;src/index&quot; | Post-processing scribejs generated minutes - v2.0.1</title>
+	<title>&quot;src/lib/actions&quot; | Post-processing scribejs generated minutes - v2.0.1</title>
 	<meta name="description" content="Documentation for Post-processing scribejs generated minutes - v2.0.1">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,26 +54,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="_src_index_.html">&quot;src/index&quot;</a>
+					<a href="_src_lib_actions_.html">&quot;src/lib/actions&quot;</a>
 				</li>
 			</ul>
-			<h1>Module &quot;src/index&quot;</h1>
+			<h1>Module &quot;src/lib/actions&quot;</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<a href="#main-entry-point" id="main-entry-point" style="color: inherit; text-decoration: none;">
-							<h2>Main entry point.</h2>
-						</a>
-					</div>
-					<p>See <a href="_src_index_.html#main">main</a> for details.</p>
-				</div>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
@@ -81,7 +71,8 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_index_.html#main" class="tsd-kind-icon">main</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="_src_lib_actions_.html#process_actions" class="tsd-kind-icon">process_<wbr>actions</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module tsd-is-not-exported"><a href="_src_lib_actions_.html#raise_action_issues" class="tsd-kind-icon">raise_<wbr>action_<wbr>issues</a></li>
 							</ul>
 						</section>
 					</div>
@@ -90,21 +81,22 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="main" class="tsd-anchor"></a>
-					<h3>main</h3>
+					<a name="process_actions" class="tsd-anchor"></a>
+					<h3>process_<wbr>actions</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">main<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">process_<wbr>actions<span class="tsd-signature-symbol">(</span>gh_credentials<span class="tsd-signature-symbol">: </span><a href="../interfaces/_src_lib_types_.githubcredentials.html" class="tsd-signature-type">GithubCredentials</a>, file_names<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, get_data<span class="tsd-signature-symbol">: </span><a href="_src_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/f875e91/src/index.ts#L26">src/index.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/f875e91/src/lib/actions.ts#L82">src/lib/actions.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Entry point: get hold of the configuration file, and start processing via <a href="../classes/_src_lib_repos_.repoprocessing.html#process_minutes">process_minutes</a>.</p>
+									<p>Collect all the issues. The function calls out, for each minute file, to the <a href="_src_lib_issues_.html#get_issue_comments">get_issue_comments</a> function, and then add these comments to the issues themselves,
+									using the methods provided in the <a href="../interfaces/_src_lib_types_.issuediscussion.html">IssueDiscussion</a> instances.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>async</dt>
@@ -114,9 +106,58 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>gh_credentials: <a href="../interfaces/_src_lib_types_.githubcredentials.html" class="tsd-signature-type">GithubCredentials</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>reference to the configuration file</p>
+										<p>the user&#39;s Github credentials</p>
+									</div>
+								</li>
+								<li>
+									<h5>file_names: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>List of the minute file names, i.e., the base name of the minute file in its repository</p>
+									</div>
+								</li>
+								<li>
+									<h5>get_data: <a href="_src_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<ul>
+								<li>List of resolutions</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+					<a name="raise_action_issues" class="tsd-anchor"></a>
+					<h3>raise_<wbr>action_<wbr>issues</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">raise_<wbr>action_<wbr>issues<span class="tsd-signature-symbol">(</span>github_cache<span class="tsd-signature-symbol">: </span><a href="../classes/_src_lib_utils_.githubcache.html" class="tsd-signature-type">GithubCache</a>, minutes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/f875e91/src/lib/actions.ts#L23">src/lib/actions.ts:23</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>github_cache: <a href="../classes/_src_lib_utils_.githubcache.html" class="tsd-signature-type">GithubCache</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a wrapper around Github access objects</p>
+									</div>
+								</li>
+								<li>
+									<h5>minutes: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the minutes (the only item that is relevant is the JSON-LD preamble)</p>
 									</div>
 								</li>
 							</ul>
@@ -132,10 +173,10 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
-					<li class="current tsd-kind-module">
+					<li class=" tsd-kind-module">
 						<a href="_src_index_.html">&quot;src/index&quot;</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="_src_lib_actions_.html">&quot;src/lib/actions&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -173,7 +214,10 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="_src_index_.html#main" class="tsd-kind-icon">main</a>
+						<a href="_src_lib_actions_.html#process_actions" class="tsd-kind-icon">process_<wbr>actions</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module tsd-is-not-exported">
+						<a href="_src_lib_actions_.html#raise_action_issues" class="tsd-kind-icon">raise_<wbr>action_<wbr>issues</a>
 					</li>
 				</ul>
 			</nav>

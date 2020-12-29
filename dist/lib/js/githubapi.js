@@ -73,6 +73,37 @@ class Github {
         await this.repo_access.contents(path).add(new_gh_data);
         return;
     }
+    /**
+     * Get the list of assignees' logins. The method takes care of paging.
+     *
+     * @return - list of github login names for the assignees
+     * @async
+     */
+    async get_assignees() {
+        let collaborators;
+        let retval = [];
+        let page_number = 1;
+        do {
+            collaborators = await this.repo_access.collaborators.fetch({ per_page: 100, page: page_number });
+            page_number += 1;
+            retval = [...retval, ...collaborators.items];
+        } while (collaborators.nextPageUrl);
+        return retval.map((person) => person.login);
+    }
+    /**
+     * Create a new issue
+     *
+     * @param {string} issue
+     */
+    async create_issue(issue) {
+        return this.repo_access.issues.create(issue);
+    }
+    /**
+     * Add a comment to an (existing) issue
+     *
+     * @param {number} issue_number - the number of the issue
+     * @param {string} body - the comment
+     */
     async comment(issue_number, body) {
         const new_gh_data = {
             owner: this.owner,

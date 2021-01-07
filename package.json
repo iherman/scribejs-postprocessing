@@ -5,8 +5,7 @@
   "main": "dist/main.js",
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "github": "ts-node src/main.ts",
-    "local": "ts-node src/main.ts --local",
+    "test": "ts-node src/post-process.ts --local -g test",
     "docs": "./node_modules/typedoc/bin/typedoc",
     "browser": "(cd browser_view; tsc --target ES2019 resolution_view.ts)",
     "dist": "tsc; (cd browser_view; tsc --target ES2019 resolution_view.ts) ; ./node_modules/typedoc/bin/typedoc"

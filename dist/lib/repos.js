@@ -10,6 +10,7 @@ const config_1 = require("./config");
 const resolutions_1 = require("./resolutions");
 const issues_1 = require("./issues");
 const utils_1 = require("./utils");
+const actions_1 = require("./actions");
 /**
  * Current date, used to annotate the generated minute processing logs
  */
@@ -62,6 +63,13 @@ class RepoProcessing {
             }
             else {
                 utils_1.LOG('No issue collection required');
+            }
+            if (this.repo.handle_actions) {
+                await actions_1.process_actions(this.gh_credentials, missing_files, get_data);
+                utils_1.LOG('Raised the action issues');
+            }
+            else {
+                utils_1.LOG('No action management required');
             }
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one
             // before uploading it

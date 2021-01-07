@@ -29,7 +29,8 @@ export class Github {
     private owner: string;
 
     /**
-     * Get the JSON content of a repository content
+     * Get the JSON content of a repository content.
+     * 
      * @param {string} path - Path to the content
      * @returns {Promise<any>} - JSON content turned into an object
      * @async
@@ -37,7 +38,7 @@ export class Github {
     get_json(path: string): Promise<Github.JSONContent>;
 
     /**
-     * Get the listing of a directory in the repository
+     * Get the listing of a directory in the repository.
      *
      * @param {string} path - Path to the directory
      * @param {number} page_size - Page size (defaults to null, ie, no page size set)
@@ -47,7 +48,7 @@ export class Github {
     get_listing(path: string, page_size?: number): Promise<any>;
 
     /**
-     * Get (markdown) file
+     * Get (markdown) file.
      *
      * @param {string} path - Path to the directory containing the file
      * @param {string} file_name - the file name within the directory
@@ -57,7 +58,7 @@ export class Github {
     get_file(path: string, file_name: string): Promise<string>;
 
     /**
-     * Update a (JSON) content
+     * Update a (JSON) content.
      *
      * @param {string} path - Path to the directory containing the file
      * @param {string} message - Message for the commit
@@ -68,7 +69,22 @@ export class Github {
     update(path: string, message: string, new_content: any, sha?: string): Promise<void>;
 
     /**
-     * Add a comment to an issue
+     * Get the list of assignees' logins. The method takes care of paging.
+     *
+     * @return - list of github login names for the assignees
+     * @async
+     */
+    get_assignees(): Promise<string[]>;
+
+    /**
+     * Create a new issue.
+     * 
+     * @param {string} issue 
+     */
+    create_issue(issue: Github.IssueData): Promise<void>;
+
+    /**
+     * Add a comment to an issue.
      * 
      * @param issue_number - Issue number on the repository
      * @param body - The comment text itself
@@ -84,5 +100,19 @@ declare namespace Github {
     export interface JSONContent {
         content: any;
         sha: string;
+    }
+
+    /**
+     * Data needed to raise an issue on github
+     */
+    export interface IssueData {
+        /** Title of the issue */
+        title: string;
+        /** Text of the issue */
+        body: string;
+        /** Labels to be assigned to the issue */
+        labels: string[];
+        /** Person to assign the issue to */
+        assignee?: string;
     }
 }

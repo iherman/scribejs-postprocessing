@@ -9,6 +9,7 @@ import { USER_CONFIG_NAME, DO_UPDATE }                                          
 import { collect_resolutions }                                                                                  from './resolutions';
 import { collect_issue_comments }                                                                               from './issues';
 import { filter_resolutions, LOG, DEBUG }                                                                       from './utils';
+import { process_actions }                                                                                      from './actions';
 
 /**
  * Current date, used to annotate the generated minute processing logs
@@ -70,6 +71,13 @@ abstract class RepoProcessing {
                 LOG('Collected the issue comments');
             } else {
                 LOG('No issue collection required');
+            }
+
+            if (this.repo.handle_actions) {
+                await process_actions(this.gh_credentials, missing_files, get_data);
+                LOG('Raised the action issues');
+            } else {
+                LOG('No action management required');
             }
         
             // "Merge" the MinuteProcessing structure of the resolution gathering with the current one

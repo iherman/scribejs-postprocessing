@@ -19,6 +19,9 @@ export interface Repo {
     /** Whether the issues should also be treated and commented upon */
     handle_issues: boolean;
 
+    /** Whether actions should also be treated and commented upon */
+    handle_actions: boolean;
+
     /** Whether this is to handle local repositories on the user's disc, or directly on github */
     local: boolean;
 }
@@ -40,6 +43,22 @@ export interface GithubRepo extends Repo {
     /** "Repo", ie, repository name, in Github jargon */
     repo: string;
 }
+
+
+/**
+ * Used to structure the resolution data stored in the JSON-LD header
+ */
+export interface JSONLDResolution {
+    /** The type is a fixed value that does not have an importance here */
+    "@type": string,
+
+    /** The number of the resolution */
+    resolution_number: number,
+
+    /** The text of the resolution */
+    resolution_text: string
+}
+
 
 /**
  * Data describing a single resolution

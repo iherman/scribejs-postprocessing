@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * ## Main entry point
+ * ## Specific entry point for local run, relying on some local for finding the configuration file.
  * 
  * See [[main]] for details.
  *

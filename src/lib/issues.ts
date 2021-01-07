@@ -8,11 +8,8 @@
 
 import { Github }                                                            from './js/githubapi';
 import { GetDataCallback, IssueDiscussion, GithubCredentials, IssueHandler } from './types';
-import { get_schema, flatten, DEBUG, LOG }                                   from './utils';
+import { get_schema, flatten, GithubCache, DEBUG, LOG }                      from './utils';
 
-interface gh_cache {
-    [key:string]: Github
-}
 
 /**
  * Regular expression to extract the resolution number.
@@ -20,37 +17,6 @@ interface gh_cache {
  */
 const res_regex = /> \*\*\*Resolution #([0-9]+):(.*$)/;
 
-/**
- * Caching the existing github access objects, using the 'owner/repo' values as key
- * in the cache. (It is not necessary to create a new instance of such an object
- * for every occurrence of a comment...)
- */
-class GithubCache {
-    private gh_token: string;
-    private values: gh_cache = {};
-
-    /**
-     * 
-     * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
-     */
-    constructor(gh_credentials: GithubCredentials) {
-        this.gh_token = gh_credentials.ghtoken;
-    }
-
-    /**
-     * Return a [[Github]] object to access the repository via the Github API. If this object has already been created it will return it; if not, it will be created first and stored.
-     * 
-     * @param owner - github repository owner
-     * @param repo - github repository name
-     */
-    gh(owner: string, repo: string): Github {
-        const key = `${owner}/${repo}`;
-        if (this.values[key] === undefined) {
-            this.values[key] = new Github(this.gh_token, owner, repo);
-        }
-        return this.values[key];
-    }
-}
 
 /**
  * Issue handling: the relevant github access and the issue number; can be used to add a comment to that specific issue.
@@ -63,7 +29,7 @@ class IssueHandler_Impl implements IssueHandler {
 
     /**
      * 
-     * @param github_cache - the only value that is important is the OAuth token, used to initialize a [[GithubCache]] objects
+     * @param github_cache - a wrapper around Github access objects
      * @param args - strings of the form `owner/repo/number`, generated (as comment) into the markdown minutes by `scribejs`
      */
     constructor(github_cache: GithubCache, args: string) {
@@ -170,15 +136,15 @@ class IssueDiscussion_Impl implements IssueDiscussion {
 function get_issue_comments(github_cache: GithubCache, minutes: string): IssueDiscussion[] {
     try {
         const lines: string[] = minutes.split('\n');
-        const schema: any     = get_schema(lines);
-        if (schema === null) {
+        const metadata: any     = get_schema(lines);
+        if (metadata === null) {
             DEBUG(`The JSON-LD preamble is missing or could not be extracted`);
             return [];
         }
-        DEBUG("schema: ", schema);
+        DEBUG("schema: ", metadata);
 
-        const url: string  = schema.url;
-        const date: string = schema.dateCreated;
+        const url: string  = metadata.url;
+        const date: string = metadata.dateCreated;
 
         LOG(`Collecting issue comments for ${url}`)
 
@@ -267,8 +233,8 @@ export async function collect_issue_comments(gh_credentials: GithubCredentials, 
     const all_minutes: string[]               = await Promise.all(minutes_promises);
     const github_cache = new GithubCache(gh_credentials);
 
-    // This is, in theory, suboptimal, because all async steps could be handled in one giant "Promise.all()". However, this ensures a proper
-    // log output which, otherwise may look messy
+    // This is, in theory, suboptimal, because all async steps could be handled in one large "Promise.all()". However, this ensures a proper
+    // log output which, otherwise, may look messy
     for (let i = 0; i < all_minutes.length; i++) {
         const minutes: string = all_minutes[i];
         // collect the issue related discussions for the minutes

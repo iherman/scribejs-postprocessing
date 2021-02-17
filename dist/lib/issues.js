@@ -116,6 +116,11 @@ class IssueDiscussion_Impl {
  * @param minutes - the minutes as a series of markdown lines.
  */
 function get_issue_comments(github_cache, minutes) {
+    const conditional_push_issue = (issue, all_issues) => {
+        if (issue !== undefined && issue.issues.length !== 0) {
+            all_issues.push(issue);
+        }
+    };
     try {
         const lines = minutes.split('\n');
         const metadata = utils_1.get_schema(lines);
@@ -138,9 +143,7 @@ function get_issue_comments(github_cache, minutes) {
             else if (line.startsWith('##')) {
                 // this is a new header!
                 // 1. if there was a valid issue comments in the previous block, store it
-                if (current_issue !== undefined && current_issue.issues.length !== 0) {
-                    retval.push(current_issue);
-                }
+                conditional_push_issue(current_issue, retval);
                 // 2. start fresh with the comments
                 current_issue = new IssueDiscussion_Impl(date);
                 // 3. find the identifier of the session and use it to define a full URL to the section
@@ -187,6 +190,8 @@ function get_issue_comments(github_cache, minutes) {
                 current_issue.minute_extract.push(line);
             }
         }
+        // The latest issue has not yet been pushed on retval; it would have been if there was yet another issue to handle
+        conditional_push_issue(current_issue, retval);
         return retval;
     }
     catch (e) {

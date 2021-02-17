@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 /**
- * ## Main entry point
+ * ## Main entry point for command line run
  *
  * See [[main]] for details.
  *

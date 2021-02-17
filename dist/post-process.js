@@ -2,7 +2,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * ## Main entry point
+ * ## Specific entry point for local run, relying on some local for finding the configuration file.
  *
  * See [[main]] for details.
  *

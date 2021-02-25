@@ -17,5 +17,4 @@ exports.DO_DEBUG = false;
 exports.DO_LOG = true;
 /** @internal */
 exports.DO_UPDATE = true;
-/* ------------------------------------------------------------------------------------------------- */
 //# sourceMappingURL=config.js.map

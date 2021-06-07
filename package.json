@@ -16,8 +16,8 @@
     "url": "https://www.w3.org/People/Ivan/"
   },
   "engines": {
-    "node": "14x",
-    "npm": "6x"
+    "node": "16x",
+    "npm": "7x"
   },
   "keywords": [
     "W3C",
@@ -29,10 +29,11 @@
     "@types/commander": "^2.12.2",
     "@types/node": "^14.6.4",
     "@types/node-fetch": "^2.5.7",
+    "@types/nodemailer": "^6.4.2",
     "@types/showdown": "^1.9.3",
     "@typescript-eslint/eslint-plugin": "^4.7.0",
     "@typescript-eslint/parser": "^4.7.0",
-    "typedoc": "^0.19.1",
+    "typedoc": "^0.20.36",
     "typedoc-plugin-nojekyll": "^1.0.1",
     "typescript": "^4.0.2"
   },
@@ -41,7 +42,8 @@
     "eslint": "^7.13.0",
     "fs": "0.0.1-security",
     "node-fetch": "^2.6.1",
-    "octocat": "^1.2.1",
+    "nodemailer": "^6.6.1",
+    "octocat": "^1.0.0",
     "showdown": "^1.9.1"
   }
 }

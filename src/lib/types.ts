@@ -137,7 +137,7 @@ export type WriteDataCallback = (content: MinuteProcessing) => Promise<void>;
  * and is used by the script. Note that it contains more data than what is used by the
  * script; the reason is that the same configuration file can be reused by other scripts, too.
  */
-export interface GithubCredentials {
+export interface Credentials {
     /**
      * User name
      */
@@ -151,7 +151,37 @@ export interface GithubCredentials {
     /**
      * User's GitHub api token
      */
-    ghtoken?: string
+    ghtoken?: string;
+
+    /**
+     * SMTP server user name
+     */
+    smtp_user?: string;
+
+    /**
+     * SMTP server password
+     */
+    smtp_pwd?: string;
+
+    /**
+     * Email address to be used
+     */
+    smtp_from?: string;
+
+    /**
+     * smtp server
+     */
+    smtp_server?: string;
+
+     /**
+      * SMTP port 
+      */
+    smtp_port?: number,
+
+    /**
+     * SMTP secure (yes/no)
+     */
+    smtp_secure?: boolean,
 }
 
 /**

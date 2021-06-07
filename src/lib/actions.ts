@@ -1,5 +1,5 @@
 import { Github }                             from './js/githubapi';
-import { GetDataCallback, GithubCredentials } from './types';
+import { GetDataCallback, Credentials } from './types';
 import { get_schema, GithubCache, DEBUG, LOG }     from './utils';
 
 
@@ -79,7 +79,7 @@ async function raise_action_issues(github_cache: GithubCache, minutes: string): 
  * @returns  - List of resolutions 
  * @async
  */
-export async function process_actions(gh_credentials: GithubCredentials, file_names: string[], get_data: GetDataCallback): Promise<void> {
+export async function process_actions(gh_credentials: Credentials, file_names: string[], get_data: GetDataCallback): Promise<void> {
     const minutes_promises: Promise<string>[] = file_names.map((file_name) => get_data(file_name));
     const all_minutes: string[]               = await Promise.all(minutes_promises);
     const github_cache = new GithubCache(gh_credentials);

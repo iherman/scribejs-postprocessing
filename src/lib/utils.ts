@@ -6,7 +6,7 @@
  * @packageDocumentation
 */
 
-import { MinuteProcessing, GithubCredentials } from './types';
+import { MinuteProcessing, Credentials } from './types';
 import { DO_DEBUG, DO_LOG } from './config';
 import { Github }           from './js/githubapi';
 
@@ -78,7 +78,7 @@ export class GithubCache {
      * 
      * @param gh_credentials - the user's necessary credential data. Only the OAUth token is used.
      */
-    constructor(gh_credentials: GithubCredentials) {
+    constructor(gh_credentials: Credentials) {
         this.gh_token = gh_credentials.ghtoken;
     }
 

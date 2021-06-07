@@ -24,6 +24,16 @@ export interface Repo {
 
     /** Whether this is to handle local repositories on the user's disc, or directly on github */
     is_local: boolean;
+
+    /** The mailing list used by the group for announcements */
+    group_mail: string;
+
+    /**  Reference text to the WG, to appear in the mail header */
+    mail_subject: string;
+
+    /** URL pattern used to refer the minutes. */
+    acurlpattern?: string;
+
 }
 
 /**

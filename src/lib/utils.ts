@@ -20,6 +20,9 @@ import * as fs from 'fs';
 /** @internal */
 const fsp = fs.promises;
 
+/** (Calculated) constant for today's date in ISO format */
+export const today: string = new Date().toISOString().split('T')[0];
+
 /**
 * Read a configuration file and generate the final combination.
 *

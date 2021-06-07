@@ -5,10 +5,10 @@ const fsp = fs.promises;
 
 import { Github }                                                                                         from "./js/githubapi";
 import { MinuteProcessing, Credentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
-import { USER_CONFIG_NAME, DO_UPDATE }                                                                    from './config';
+import { DO_UPDATE }                                                                                      from './config';
 import { collect_resolutions }                                                                            from './resolutions';
 import { collect_issue_comments }                                                                         from './issues';
-import { filter_resolutions, LOG, DEBUG }                                                                 from './utils';
+import { filter_resolutions,  LOG, DEBUG }                                                from './utils';
 import { process_actions }                                                                                from './actions';
 
 /**
@@ -246,18 +246,8 @@ class LocalRepoProcessing extends RepoProcessing {
  * 
  * @param config - The configuration file.
  */
-export async function process_minutes(config: Repo): Promise<void> {
-    let credentials: Credentials;
-    try {
-        const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
-        const config_content: string = await fsp.readFile(fname, 'utf-8');
-        credentials = JSON.parse(config_content) as Credentials;
-    } catch (e) {
-        console.log(`Could not get hold of the github credentials: ${e}`);
-        process.exit(-1);
-    }
-
-    const processing = config.local ? 
-        new LocalRepoProcessing(config as LocalRepo, credentials) : new GithubRepoProcessing(config as GithubRepo, credentials);
+export async function process_minutes(config: Repo, credentials: Credentials): Promise<void> {
+    // eslint-disable-next-line max-len
+    const processing = config.is_local ? new LocalRepoProcessing(config as LocalRepo, credentials) : new GithubRepoProcessing(config as GithubRepo, credentials);
     await processing.handle_one_repo();
 }

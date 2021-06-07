@@ -6,9 +6,82 @@
  * @packageDocumentation
 */
 
-import { MinuteProcessing, Credentials } from './types';
-import { DO_DEBUG, DO_LOG } from './config';
-import { Github }           from './js/githubapi';
+import { MinuteProcessing, Credentials, Repo } from './types';
+import { DO_DEBUG, DO_LOG, USER_CONFIG_NAME }  from './config';
+import { Github }                              from './js/githubapi';
+
+import * as path from 'path';
+
+import * as node_fetch from 'node-fetch';
+/** @internal */
+const fetch = node_fetch.default;
+
+import * as fs from 'fs';
+/** @internal */
+const fsp = fs.promises;
+
+/**
+* Read a configuration file and generate the final combination.
+*
+* The full configuration file may have optional parts for extra calls and may also be used to refer to "local" (as opposed to be on the Web) versions
+* of such files like the nickname collection. The function access the full configuration file and generates a version based on the core values, possibly modified
+* by the information in the optional parts.
+*
+* @param file_name - file name
+* @param local - whether certain files are to be extracted from the local repository (as opposed to be retrieved from github)
+* @param group - group name (necessary if the call is an extra call rather than the 'base' one)
+* @returns the parsed JSON content
+* @throws - not-found error
+*/
+export async function json_conf_file(file_name: string, local: boolean, group: string = undefined): Promise<Repo> {
+    const get_config = async (name: string, is_local: boolean): Promise<any> => {
+        if (is_local) {
+            const data = await fsp.readFile(name, 'utf-8');
+            return JSON.parse(data);
+        } else {
+            return await fetch(name).then((res) => res.json());
+        }
+    }
+
+    try {
+        // Get hold of the (full) configuration file
+        let js_conf = await get_config(file_name, local);
+
+        if (local && js_conf.local) {
+            js_conf = {...js_conf, ...js_conf.local}
+        }
+
+        if (js_conf.extra_calls && js_conf.extra_calls[group]) {
+            js_conf = {...js_conf, ...js_conf.extra_calls[group]}
+        }
+
+        // Clean the result to avoid confusion with debugging later:
+        if (js_conf.extra_calls) delete js_conf.extra_calls;
+        if (js_conf.local) delete js_conf.local;
+
+        // This flag is need for processing further
+        js_conf.is_local = local;
+
+        return js_conf as Repo;
+    } catch (e) {
+        throw new Error(`Problem with the configuration file: ${file_name} (${e})!`);
+    }
+}
+
+
+/**
+ * 
+ * Get the credential structure from the local file system (ie, github id, SMTP data, etc)
+ */
+export async function get_credentials(): Promise<Credentials> {
+    try {
+        const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
+        const config_content: string = await fsp.readFile(fname, 'utf-8');
+        return JSON.parse(config_content) as Credentials;
+    } catch (e) {
+        throw new Error(`Could not get hold of the github credentials: ${e}`);
+    }
+}
 
 
 /**

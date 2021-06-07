@@ -23,7 +23,7 @@ export interface Repo {
     handle_actions: boolean;
 
     /** Whether this is to handle local repositories on the user's disc, or directly on github */
-    local: boolean;
+    is_local: boolean;
 }
 
 /**

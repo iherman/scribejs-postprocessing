@@ -14,12 +14,12 @@ const program = new Command();
 /**
  * Directory collecting the local configuration files
  */
-const LOCAL_CONFIGS  = '/Users/ivan/W3C/github/Tools/scribejs/BrowserView/Groups/postprocessing/';
+const LOCAL_CONFIGS  = '/Users/ivan/W3C/github/Tools/scribejs/BrowserView/Groups/configurations/';
 
 /**
  * (Github) URL where the configuration files are available locally
  */
-const GITHUB_CONFIGS = 'https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/';
+const GITHUB_CONFIGS = 'https://w3c.github.io/scribejs/BrowserView/Groups/configurations/';
 
 
 /**
@@ -43,14 +43,15 @@ async function run() {
         let name: string;
         if (program.args.length === 0) {
             if (program.group) {
-                name = (program.local) ? `${LOCAL_CONFIGS}${program.group}_local.json`: `${GITHUB_CONFIGS}${program.group}.json`;
+                const wg = program.group.split('-')[0];
+                name = (program.local) ? `${LOCAL_CONFIGS}${wg}.json`: `${GITHUB_CONFIGS}${wg}.json`;
             } else {
                 process.exit(-1);    
             }
         } else {
             name = program.args[0];
         }
-        await main(name);
+        await main(name, program.local, program.group);
     } catch (e) {
         console.error(`${e.stack}`);
     }

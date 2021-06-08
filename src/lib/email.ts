@@ -13,10 +13,10 @@ export async function send_mail(config: Repo, credentials: Credentials, date: st
             },
         })
 
-        await transporter.sendMail({
+        const mailinfo = await transporter.sendMail({
             from    : credentials.smtp_from,
-            // to      : config.group_mail,
-            to      : "ivan.herman@me.com",
+            to      : config.group_mail,
+            // to      : "ivan@ivan-herman.net",
             subject : `[Minutes] ${config.mail_subject} ${date}`,
             text    : `
 Minutes are available at:
@@ -27,7 +27,8 @@ Cheers
 
 Ivan
 `,
-        })
+        });
+        console.log(`Message sent to ${config.group_mail}, see https://www.w3.irg/mid/${mailinfo.messageId.slice(1,-1)}`);
     } catch (e) {
         console.log(`Error in sending email access: ${e}`)
     }

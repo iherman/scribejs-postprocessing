@@ -6,9 +6,8 @@
  *
  * @packageDocumentation
 */
-import { main }    from './index';
-import { today }   from './lib/utils';
-import { Command } from 'commander';
+import { main, Arguments } from './main';
+import { Command }         from 'commander';
 /** @internal */
 const program = new Command();
 
@@ -54,7 +53,7 @@ async function run() {
         } else {
             name = program.args[0];
         }
-        await main(name, program);
+        await main(name, program as Arguments);
     } catch (e) {
         console.error(`${e.stack}`);
     }

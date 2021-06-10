@@ -242,7 +242,7 @@ class LocalRepoProcessing extends RepoProcessing {
 /**
  * Switch between the local and global repository handling. 
  * 
- * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ * Depending on whether the processing is local create an appropriate subclass instance of [[RepoProcessing]] and run the respective `handle_one_repo` method.
  * 
  * @param config - The configuration file.
  */

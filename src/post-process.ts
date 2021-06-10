@@ -25,7 +25,6 @@ const GITHUB_CONFIGS = 'https://w3c.github.io/scribejs/BrowserView/Groups/config
 /**
  * Extra utility: define a simple top level interface to post-process based on a particular configuration: the configuration is extracted from the
  * `scribejs` repository and a local version of each is extracted using a simple naming scheme: adding a `_local` to the 'global' configuration file name. 
- * The [[LOCAL_CONFIG]] variable can be adapted to local usage.
  * 
  * @async
  */

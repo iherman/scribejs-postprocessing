@@ -1,0 +1,349 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>&quot;lib/issues&quot; | Post-processing scribejs generated minutes</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.js" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">Post-processing scribejs generated minutes</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../globals.html">Globals</a>
+				</li>
+				<li>
+					<a href="_lib_issues_.html">&quot;lib/issues&quot;</a>
+				</li>
+			</ul>
+			<h1>External module &quot;lib/issues&quot;</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<a href="#gathering-the-issue-comments-and-add-these-comments-to-the-relevant-issues-on-github" id="gathering-the-issue-comments-and-add-these-comments-to-the-relevant-issues-on-github" style="color: inherit; text-decoration: none;">
+							<h2>Gathering the issue comments and add these comments to the relevant issues on github</h2>
+						</a>
+					</div>
+					<p>See <a href="_lib_resolutions_.html#collect_resolutions">collect_resolutions</a> for the essential entry point.</p>
+				</div>
+			</section>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_lib_issues_.issuediscussion_impl.html" class="tsd-kind-icon">Issue<wbr>Discussion_<wbr><wbr>Impl</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_lib_issues_.issuehandler_impl.html" class="tsd-kind-icon">Issue<wbr>Handler_<wbr><wbr>Impl</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section tsd-is-not-exported">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported"><a href="_lib_issues_.html#res_regex" class="tsd-kind-icon">res_<wbr>regex</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="_lib_issues_.html#collect_issue_comments" class="tsd-kind-icon">collect_<wbr>issue_<wbr>comments</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported"><a href="_lib_issues_.html#get_issue_comments" class="tsd-kind-icon">get_<wbr>issue_<wbr>comments</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="res_regex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> res_<wbr>regex</h3>
+					<div class="tsd-signature tsd-kind-icon">res_<wbr>regex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol"> =&nbsp;/&gt; \*\*\*Resolution #([0-9]+):(.*$)/</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/2af4ee4/src/lib/issues.ts#L18">lib/issues.ts:18</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Regular expression to extract the resolution number.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>internal</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="collect_issue_comments" class="tsd-anchor"></a>
+					<h3>collect_<wbr>issue_<wbr>comments</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">collect_<wbr>issue_<wbr>comments<span class="tsd-signature-symbol">(</span>gh_credentials<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_types_.credentials.html" class="tsd-signature-type">Credentials</a>, file_names<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, get_data<span class="tsd-signature-symbol">: </span><a href="_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/2af4ee4/src/lib/issues.ts#L238">lib/issues.ts:238</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Collect all the issues. The function calls out, for each minute file, to the <a href="_lib_issues_.html#get_issue_comments">get_issue_comments</a> function, and then add these comments to the issues themselves,
+									using the methods provided in the <a href="../interfaces/_lib_types_.issuediscussion.html">IssueDiscussion</a> instances.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>async</dt>
+									<dd></dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>gh_credentials: <a href="../interfaces/_lib_types_.credentials.html" class="tsd-signature-type">Credentials</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the user&#39;s Github credentials</p>
+									</div>
+								</li>
+								<li>
+									<h5>file_names: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>List of the minute file names, i.e., the base name of the minute file in its repository</p>
+									</div>
+								</li>
+								<li>
+									<h5>get_data: <a href="_lib_types_.html#getdatacallback" class="tsd-signature-type">GetDataCallback</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>A function returning the markdown content of the minutes in a Promise. The function itself either uses the local file system read or a fetch to the repository, depending on whether this function is called for a local or a github repository.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<ul>
+								<li>List of resolutions</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+					<a name="get_issue_comments" class="tsd-anchor"></a>
+					<h3>get_<wbr>issue_<wbr>comments</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<li class="tsd-signature tsd-kind-icon">get_<wbr>issue_<wbr>comments<span class="tsd-signature-symbol">(</span>github_cache<span class="tsd-signature-symbol">: </span><a href="../classes/_lib_utils_.githubcache.html" class="tsd-signature-type">GithubCache</a>, minutes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_types_.issuediscussion.html" class="tsd-signature-type">IssueDiscussion</a><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/iherman/scribejs-postprocessing/blob/2af4ee4/src/lib/issues.ts#L136">lib/issues.ts:136</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Extract the discussions around issues.</p>
+								</div>
+								<p>The process looks for section (or subsection) headings; if those headings include a reference to an issue (or PR) a new <a href="../interfaces/_lib_types_.issuediscussion.html">IssueDiscussion</a> is initiated.
+								This means collecting the markdown lines until the next (sub)heading, or an explicit line if the form:</p>
+								<pre><code><span class="hljs-comment">&lt;!-- issue - --&gt;</span></code></pre><p>The result is a list of issue discussion objects, each with its own associated issues; these can be used to
+								generate the issue comments themselves.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>github_cache: <a href="../classes/_lib_utils_.githubcache.html" class="tsd-signature-type">GithubCache</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the important item is to extract the OAUth token of the user</p>
+									</div>
+								</li>
+								<li>
+									<h5>minutes: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the minutes as a series of markdown lines.</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/_lib_types_.issuediscussion.html" class="tsd-signature-type">IssueDiscussion</a><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="../globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_actions_.html">&quot;lib/actions&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_config_.html">&quot;lib/config&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_email_.html">&quot;lib/email&quot;</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="_lib_issues_.html">&quot;lib/issues&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_js_githubapi_.html">&quot;lib/js/githubapi&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_repos_.html">&quot;lib/repos&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_resolutions_.html">&quot;lib/resolutions&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_types_.html">&quot;lib/types&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_lib_utils_.html">&quot;lib/utils&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_main_.html">&quot;main&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_post_process_.html">&quot;post-<wbr>process&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_lib_issues_.issuediscussion_impl.html" class="tsd-kind-icon">Issue<wbr>Discussion_<wbr><wbr>Impl</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="../classes/_lib_issues_.issuehandler_impl.html" class="tsd-kind-icon">Issue<wbr>Handler_<wbr><wbr>Impl</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_lib_issues_.html#res_regex" class="tsd-kind-icon">res_<wbr>regex</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="_lib_issues_.html#collect_issue_comments" class="tsd-kind-icon">collect_<wbr>issue_<wbr>comments</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-is-not-exported">
+						<a href="_lib_issues_.html#get_issue_comments" class="tsd-kind-icon">get_<wbr>issue_<wbr>comments</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer>
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>

@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "test": "ts-node src/post-process.ts --local -g test",
-    "docs": "./node_modules/typedoc/bin/typedoc",
+    "docs": "/usr/local/bin/typedoc",
     "browser": "(cd browser_view; tsc --target ES2019 resolution_view.ts)",
-    "dist": "tsc; (cd browser_view; tsc --target ES2019 resolution_view.ts) ; ./node_modules/typedoc/bin/typedoc"
+    "dist": "tsc; (cd browser_view; tsc --target ES2019 resolution_view.ts) ; ./usr/local//bin/typedoc"
   },
   "author": {
     "name": "Ivan Herman",

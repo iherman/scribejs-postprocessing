@@ -7,9 +7,79 @@
  * @packageDocumentation
 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LOG = exports.DEBUG = exports.flatten = exports.GithubCache = exports.get_schema = exports.filter_resolutions = void 0;
+exports.LOG = exports.DEBUG = exports.flatten = exports.GithubCache = exports.get_schema = exports.filter_resolutions = exports.get_credentials = exports.json_conf_file = exports.today = void 0;
 const config_1 = require("./config");
 const githubapi_1 = require("./js/githubapi");
+const path = require("path");
+const node_fetch = require("node-fetch");
+/** @internal */
+const fetch = node_fetch.default;
+const fs = require("fs");
+/** @internal */
+const fsp = fs.promises;
+/** (Calculated) constant for today's date in ISO format */
+exports.today = new Date().toISOString().split('T')[0];
+/**
+* Read a configuration file and generate the final combination.
+*
+* The full configuration file may have optional parts for extra calls and may also be used to refer to "local" (as opposed to be on the Web) versions
+* of such files like the nickname collection. The function access the full configuration file and generates a version based on the core values, possibly modified
+* by the information in the optional parts.
+*
+* @param file_name - file name
+* @param local - whether certain files are to be extracted from the local repository (as opposed to be retrieved from github)
+* @param group - group name (necessary if the call is an extra call rather than the 'base' one)
+* @returns the parsed JSON content
+* @throws - not-found error
+*/
+async function json_conf_file(file_name, local, group = undefined) {
+    const get_config = async (name, is_local) => {
+        if (is_local) {
+            const data = await fsp.readFile(name, 'utf-8');
+            return JSON.parse(data);
+        }
+        else {
+            return await fetch(name).then((res) => res.json());
+        }
+    };
+    try {
+        // Get hold of the (full) configuration file
+        let js_conf = await get_config(file_name, local);
+        if (local && js_conf.local) {
+            js_conf = { ...js_conf, ...js_conf.local };
+        }
+        if (js_conf.extra_calls && js_conf.extra_calls[group]) {
+            js_conf = { ...js_conf, ...js_conf.extra_calls[group] };
+        }
+        // Clean the result to avoid confusion with debugging later:
+        if (js_conf.extra_calls)
+            delete js_conf.extra_calls;
+        if (js_conf.local)
+            delete js_conf.local;
+        // This flag is need for processing further
+        js_conf.is_local = local;
+        return js_conf;
+    }
+    catch (e) {
+        throw new Error(`Problem with the configuration file: ${file_name} (${e})!`);
+    }
+}
+exports.json_conf_file = json_conf_file;
+/**
+ *
+ * Get the credential structure from the local file system (ie, github id, SMTP data, etc)
+ */
+async function get_credentials() {
+    try {
+        const fname = path.join(process.env.HOME, config_1.USER_CONFIG_NAME);
+        const config_content = await fsp.readFile(fname, 'utf-8');
+        return JSON.parse(config_content);
+    }
+    catch (e) {
+        throw new Error(`Could not get hold of the github credentials: ${e}`);
+    }
+}
+exports.get_credentials = get_credentials;
 /**
  * Check whether the resolutions for minutes have already been handled in a previous run. Used to avoid unnecessary regeneration of data.
  *

@@ -33,13 +33,9 @@
         "Attic/**/*"
     ],
     "typedocOptions" : {
-        "mode": "module",
-        "includeDeclarations": true,
         "excludeExternals": true,
         "excludePrivate" : true,
         "excludeProtected" : false,
-        "stripInternal" : true,
-        "ignoreCompilerErrors": true,
 
         "out" : "docs/",
         "theme": "default",
@@ -49,5 +45,6 @@
         "gitRemote": "origin",
         "hideGenerator": true,
         "disableOutputCheck": false,
+        "listInvalidSymbolLinks": true
     }
 }

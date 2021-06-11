@@ -25,7 +25,7 @@ class RepoProcessing {
         /** List of minute file names. This is set in the relevant subclasses. */
         this.list_of_minutes = [];
         this.repo = the_repo;
-        this.gh_credentials = credentials;
+        this.credentials = credentials;
     }
     /**
      * Processing the information for a single repository. This is mostly a shell around the real work done in other modules.
@@ -58,14 +58,14 @@ class RepoProcessing {
             const new_resolutions = await resolutions_1.collect_resolutions(missing_files, get_data);
             utils_1.DEBUG('New set of resolutions', new_resolutions);
             if (this.repo.handle_issues) {
-                await issues_1.collect_issue_comments(this.gh_credentials, missing_files, get_data);
+                await issues_1.collect_issue_comments(this.credentials, missing_files, get_data);
                 utils_1.LOG('Collected the issue comments');
             }
             else {
                 utils_1.LOG('No issue collection required');
             }
             if (this.repo.handle_actions) {
-                await actions_1.process_actions(this.gh_credentials, missing_files, get_data);
+                await actions_1.process_actions(this.credentials, missing_files, get_data);
                 utils_1.LOG('Raised the action issues');
             }
             else {
@@ -115,7 +115,7 @@ class GithubRepoProcessing extends RepoProcessing {
         try {
             utils_1.LOG(`=== ${now} (run on github repos)`);
             utils_1.LOG('Updating', repo_log);
-            const the_repo = new githubapi_1.Github(this.gh_credentials.ghtoken, repo.owner, repo.repo);
+            const the_repo = new githubapi_1.Github(this.credentials.ghtoken, repo.owner, repo.repo);
             // Get hold of the asset file to see what is there...
             let current_asset;
             let current_sha;
@@ -208,23 +208,13 @@ class LocalRepoProcessing extends RepoProcessing {
 /**
  * Switch between the local and global repository handling.
  *
- * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ * Depending on whether the processing is local create an appropriate subclass instance of [[RepoProcessing]] and run the respective `handle_one_repo` method.
  *
  * @param config - The configuration file.
  */
-async function process_minutes(config) {
-    let github_credentials;
-    try {
-        const fname = path.join(process.env.HOME, config_1.USER_CONFIG_NAME);
-        const config_content = await fsp.readFile(fname, 'utf-8');
-        github_credentials = JSON.parse(config_content);
-    }
-    catch (e) {
-        console.log(`Could not get hold of the github credentials: ${e}`);
-        process.exit(-1);
-    }
-    const processing = config.local ?
-        new LocalRepoProcessing(config, github_credentials) : new GithubRepoProcessing(config, github_credentials);
+async function process_minutes(config, credentials) {
+    // eslint-disable-next-line max-len
+    const processing = config.is_local ? new LocalRepoProcessing(config, credentials) : new GithubRepoProcessing(config, credentials);
     await processing.handle_one_repo();
 }
 exports.process_minutes = process_minutes;

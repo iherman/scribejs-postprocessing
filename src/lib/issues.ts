@@ -7,7 +7,7 @@
 */
 
 import { Github }                                                            from './js/githubapi';
-import { GetDataCallback, IssueDiscussion, GithubCredentials, IssueHandler } from './types';
+import { GetDataCallback, IssueDiscussion, Credentials, IssueHandler } from './types';
 import { get_schema, flatten, GithubCache, DEBUG, LOG }                      from './utils';
 
 
@@ -235,7 +235,7 @@ function get_issue_comments(github_cache: GithubCache, minutes: string): IssueDi
  * @returns  - List of resolutions 
  * @async
  */
-export async function collect_issue_comments(gh_credentials: GithubCredentials, file_names: string[], get_data: GetDataCallback): Promise<void> {
+export async function collect_issue_comments(gh_credentials: Credentials, file_names: string[], get_data: GetDataCallback): Promise<void> {
     const minutes_promises: Promise<string>[] = file_names.map((file_name) => get_data(file_name));
     const all_minutes: string[]               = await Promise.all(minutes_promises);
     const github_cache = new GithubCache(gh_credentials);

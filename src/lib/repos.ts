@@ -3,13 +3,13 @@ import * as fs from 'fs';
 /** @internal */
 const fsp = fs.promises;
 
-import { Github }                                                                                               from "./js/githubapi";
-import { MinuteProcessing, GithubCredentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
-import { USER_CONFIG_NAME, DO_UPDATE }                                                                          from './config';
-import { collect_resolutions }                                                                                  from './resolutions';
-import { collect_issue_comments }                                                                               from './issues';
-import { filter_resolutions, LOG, DEBUG }                                                                       from './utils';
-import { process_actions }                                                                                      from './actions';
+import { Github }                                                                                         from "./js/githubapi";
+import { MinuteProcessing, Credentials, Repo, GithubRepo, LocalRepo, GetDataCallback, WriteDataCallback } from './types';
+import { DO_UPDATE }                                                                                      from './config';
+import { collect_resolutions }                                                                            from './resolutions';
+import { collect_issue_comments }                                                                         from './issues';
+import { filter_resolutions,  LOG, DEBUG }                                                from './utils';
+import { process_actions }                                                                                from './actions';
 
 /**
  * Current date, used to annotate the generated minute processing logs
@@ -25,13 +25,13 @@ abstract class RepoProcessing {
     /** The repository being managed. Set at initialization time */
     repo: Repo;
     /** Github credentials, necessary for some steps. Set at initialization time */
-    gh_credentials: GithubCredentials;
+    credentials: Credentials;
     /** List of minute file names. This is set in the relevant subclasses. */
     list_of_minutes: string[] = [];
 
-    constructor(the_repo: Repo, credentials: GithubCredentials) {
+    constructor(the_repo: Repo, credentials: Credentials) {
         this.repo = the_repo;
-        this.gh_credentials = credentials;
+        this.credentials = credentials;
     }
 
     /**
@@ -67,14 +67,14 @@ abstract class RepoProcessing {
             DEBUG('New set of resolutions', new_resolutions);
 
             if (this.repo.handle_issues) {
-                await collect_issue_comments(this.gh_credentials, missing_files, get_data);
+                await collect_issue_comments(this.credentials, missing_files, get_data);
                 LOG('Collected the issue comments');
             } else {
                 LOG('No issue collection required');
             }
 
             if (this.repo.handle_actions) {
-                await process_actions(this.gh_credentials, missing_files, get_data);
+                await process_actions(this.credentials, missing_files, get_data);
                 LOG('Raised the action issues');
             } else {
                 LOG('No action management required');
@@ -126,7 +126,7 @@ abstract class RepoProcessing {
  * Repository management for a (remote) github repository. The necessary information are gathered via the Github API.
  */
 class GithubRepoProcessing extends RepoProcessing {
-    constructor(the_repo: GithubRepo, credentials: GithubCredentials) {
+    constructor(the_repo: GithubRepo, credentials: Credentials) {
         super(the_repo, credentials);
     }
 
@@ -142,7 +142,7 @@ class GithubRepoProcessing extends RepoProcessing {
         try {
             LOG(`=== ${now} (run on github repos)`);
             LOG('Updating', repo_log);
-            const the_repo: Github = new Github(this.gh_credentials.ghtoken, repo.owner, repo.repo)
+            const the_repo: Github = new Github(this.credentials.ghtoken, repo.owner, repo.repo)
 
             // Get hold of the asset file to see what is there...
             let current_asset: MinuteProcessing;
@@ -189,7 +189,7 @@ class GithubRepoProcessing extends RepoProcessing {
  * Repository management for a local copy of a repository. The necessary information are gathered via the filesystem API of node.js.
  */
 class LocalRepoProcessing extends RepoProcessing {
-    constructor(the_repo: LocalRepo, credentials: GithubCredentials) {
+    constructor(the_repo: LocalRepo, credentials: Credentials) {
         super(the_repo, credentials);
     }
 
@@ -242,22 +242,12 @@ class LocalRepoProcessing extends RepoProcessing {
 /**
  * Switch between the local and global repository handling. 
  * 
- * Depending on the value of [[local]] create an appropriate subclass instance of [[Repo_Processing]] and run the respective `handle_one_repo` method.
+ * Depending on whether the processing is local create an appropriate subclass instance of [[RepoProcessing]] and run the respective `handle_one_repo` method.
  * 
  * @param config - The configuration file.
  */
-export async function process_minutes(config: Repo): Promise<void> {
-    let github_credentials: GithubCredentials;
-    try {
-        const fname: string          = path.join(process.env.HOME, USER_CONFIG_NAME);
-        const config_content: string = await fsp.readFile(fname, 'utf-8');
-        github_credentials = JSON.parse(config_content) as GithubCredentials;
-    } catch (e) {
-        console.log(`Could not get hold of the github credentials: ${e}`);
-        process.exit(-1);
-    }
-
-    const processing = config.local ? 
-        new LocalRepoProcessing(config as LocalRepo, github_credentials) : new GithubRepoProcessing(config as GithubRepo, github_credentials);
+export async function process_minutes(config: Repo, credentials: Credentials): Promise<void> {
+    // eslint-disable-next-line max-len
+    const processing = config.is_local ? new LocalRepoProcessing(config as LocalRepo, credentials) : new GithubRepoProcessing(config as GithubRepo, credentials);
     await processing.handle_one_repo();
 }

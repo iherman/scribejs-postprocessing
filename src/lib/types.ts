@@ -23,7 +23,17 @@ export interface Repo {
     handle_actions: boolean;
 
     /** Whether this is to handle local repositories on the user's disc, or directly on github */
-    local: boolean;
+    is_local: boolean;
+
+    /** The mailing list used by the group for announcements */
+    group_mail: string;
+
+    /**  Reference text to the WG, to appear in the mail header */
+    mail_subject: string;
+
+    /** URL pattern used to refer the minutes. */
+    acurlpattern?: string;
+
 }
 
 /**
@@ -137,7 +147,7 @@ export type WriteDataCallback = (content: MinuteProcessing) => Promise<void>;
  * and is used by the script. Note that it contains more data than what is used by the
  * script; the reason is that the same configuration file can be reused by other scripts, too.
  */
-export interface GithubCredentials {
+export interface Credentials {
     /**
      * User name
      */
@@ -151,7 +161,37 @@ export interface GithubCredentials {
     /**
      * User's GitHub api token
      */
-    ghtoken?: string
+    ghtoken?: string;
+
+    /**
+     * SMTP server user name
+     */
+    smtp_user?: string;
+
+    /**
+     * SMTP server password
+     */
+    smtp_pwd?: string;
+
+    /**
+     * Email address to be used
+     */
+    smtp_from?: string;
+
+    /**
+     * smtp server
+     */
+    smtp_server?: string;
+
+     /**
+      * SMTP port 
+      */
+    smtp_port?: number,
+
+    /**
+     * SMTP secure (yes/no)
+     */
+    smtp_secure?: boolean,
 }
 
 /**

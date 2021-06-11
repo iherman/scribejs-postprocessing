@@ -12,16 +12,7 @@ The script has been developed in TypeScript; the “compiled” files are in the
 Usage: node dist/main.js [configuration_file]
 ```
 
-Configuration files may come in two flavors:
-
-- Configurations to handle minutes on a github repository, see a [documentation of the configuration type](https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.githubrepo.html) for the details;
-- Configurations to handle minutes on a local repository clone (i.e., on the user's local file system), see the [documentation of the configuration type](https://iherman.github.io/scribejs-postprocessing/interfaces/_src_lib_types_.localrepo.html) for the details.
-
-The (common) `local` flag in the configuration file indicates the choice between the two.
-
-There are a number of [predefined configuration files](https://w3c.github.io/scribejs/BrowserView/Groups/) for some of the active Working Groups using this tool. See, for example, the [github repository configuration](https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/epub.json), respectively the [local close configuration](https://w3c.github.io/scribejs/BrowserView/Groups/postprocessing/epub_local.json), for the EPUB 3 Working Group.
-
-The processing steps may depend on the metadata header (stored in JSON-LD) of the minute file. This means that the latest release (i.e., 2.0.0 or higher) of the [scribejs](https://github.com/w3c/scribejs) must be used to generate the minutes themselves.
+The configuration files are shared with the ones used by [scribejs](https://github.com/w3c/scribejs) to avoid repeating the data, although many of the data in the configuration file is therefore ignored by the post-processing steps. See the [description configuration](https://w3c.github.io/scribejs/configuration.html) for more details.
 
 The script avoids unnecessary GitHub access, and duplication of data or issues, by looking at a specific file (whose location is in the configuration file) that lists the minutes already “processed”. That JSON file is of the form:
 
@@ -81,6 +72,9 @@ The configuration file contains a separate flag to switch this behavior on and o
 
 The post-processing steps extracts the (sub)sections that contain these directives, creates a notice referring to the minutes, and the possible resolutions, and finally adds a comment to the issue on GitHub. This, effectively, “binds” the WG discussions to the issues and vice versa. The configuration file contains a separate flag to switch this behavior on and off for each repository (some WG-s do not systematically separate the issues into subsections, which would make this processing step meaningless…).
 
+### Sending a notification mail to the group's public mailing list
+
+This post-processing step should be invoked using the `-m` flag, with a possible `-d date` (in ISO format; defaults to today's date). To avoid spamming mailing lists, this option means that _only the email action is executed_.
 
 ---
 

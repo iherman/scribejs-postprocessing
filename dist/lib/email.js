@@ -39,8 +39,10 @@ Cheers
 
 Ivan
 
-TESTING THE SOFTWARE, IGNORE!!!
-
+----
+Ivan Herman, W3C 
+Home: http://www.w3.org/People/Ivan/
+mobile: +33 6 52 46 00 43
 `,
         });
         console.log(`Message sent to ${config.group_mail}, see https://www.w3.org/mid/${mailinfo.messageId.slice(1, -1)}`);

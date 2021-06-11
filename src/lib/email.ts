@@ -28,8 +28,8 @@ export async function send_mail(config: Repo, credentials: Credentials, date: st
 
         const mailinfo = await transporter.sendMail({
             from    : credentials.smtp_from,
-            // to      : config.group_mail,
-            to      : "team-test@w3.org",
+            to      : config.group_mail,
+            // to      : "team-test@w3.org",
             subject : `[Minutes] ${config.mail_subject} ${date}`,
             text    : `
 Minutes are available at:
@@ -40,8 +40,10 @@ Cheers
 
 Ivan
 
-TESTING THE SOFTWARE, IGNORE!!!
-
+----
+Ivan Herman, W3C 
+Home: http://www.w3.org/People/Ivan/
+mobile: +33 6 52 46 00 43
 `,
         });
         console.log(`Message sent to ${config.group_mail}, see https://www.w3.org/mid/${mailinfo.messageId.slice(1,-1)}`);

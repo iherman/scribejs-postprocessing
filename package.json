@@ -8,7 +8,8 @@
     "test": "ts-node src/post-process.ts --local -g test",
     "docs": "/usr/local/bin/typedoc",
     "browser": "(cd browser_view; tsc --target ES2019 resolution_view.ts)",
-    "dist": "tsc; (cd browser_view; tsc --target ES2019 resolution_view.ts) ; ./usr/local//bin/typedoc"
+    "dist": "tsc",
+    "build": "tsc; (cd browser_view; tsc --target ES2019 resolution_view.ts) ; ./usr/local//bin/typedoc"
   },
   "author": {
     "name": "Ivan Herman",

@@ -6,9 +6,9 @@
  * @packageDocumentation
 */
 
-import { Github }                                                            from './js/githubapi';
+import { Github }                                                      from './js/githubapi';
 import { GetDataCallback, IssueDiscussion, Credentials, IssueHandler } from './types';
-import { get_schema, flatten, GithubCache, DEBUG, LOG }                      from './utils';
+import { get_schema, flatten, GithubCache, DEBUG, LOG }                from './utils';
 
 
 /**

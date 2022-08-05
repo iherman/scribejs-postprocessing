@@ -8,7 +8,7 @@ import { MinuteProcessing, Credentials, Repo, GithubRepo, LocalRepo, GetDataCall
 import { DO_UPDATE }                                                                                      from './config';
 import { collect_resolutions }                                                                            from './resolutions';
 import { collect_issue_comments }                                                                         from './issues';
-import { filter_resolutions,  LOG, DEBUG }                                                from './utils';
+import { filter_resolutions,  LOG, DEBUG }                                                                from './utils';
 import { process_actions }                                                                                from './actions';
 
 /**

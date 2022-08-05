@@ -1,6 +1,6 @@
-import { Github }                             from './js/githubapi';
-import { GetDataCallback, Credentials } from './types';
-import { get_schema, GithubCache, DEBUG, LOG }     from './utils';
+import { Github }                              from './js/githubapi';
+import { GetDataCallback, Credentials }        from './types';
+import { get_schema, GithubCache, DEBUG, LOG } from './utils';
 
 
 /**
